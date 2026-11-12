@@ -1,0 +1,136 @@
+# very similar to the DMD script: https://github.com/dlang/dmd/blob/master/.github/workflows/main.yml
+
+name: Main
+on:
+  - pull_request # without merge conflicts
+  - push # branch or tag
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  main:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Linux
+          - job_name: Ubuntu 22.04 x64
+            os: ubuntu-22.04
+          - job_name: Ubuntu 22.04 x86
+            os: ubuntu-22.04
+            model: 32
+          - job_name: Alpine 3.21 x64
+            os: ubuntu-latest
+            container_image: alpine:3.21
+            host_dmd: ldmd2
+          # macOS
+          - job_name: macOS x64
+            os: macos-14
+            timeout-minutes: 60
+          # Windows
+          - job_name: Windows x64
+            os: windows-2022
+          - job_name: Windows x86
+            os: windows-2022
+            model: 32
+          # FreeBSD (VM on Ubuntu)
+          - job_name: FreeBSD 14.4 x64
+            os: ubuntu-latest
+            vm_os: freebsd
+            vm_os_version: '14.4'
+    name: ${{ matrix.job_name }}
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container_image }}
+    timeout-minutes: ${{ matrix.timeout-minutes || 40 }}
+    env:
+      # for ci/run.sh:
+      OS_NAME: ${{ matrix.vm_os || (startsWith(matrix.os, 'ubuntu') && 'linux' || (startsWith(matrix.os, 'macos') && 'osx' || (startsWith(matrix.os, 'windows') && 'windows' || ''))) }}
+      MODEL: ${{ matrix.model || '64' }}
+      HOST_DMD: ${{ matrix.host_dmd || 'dmd' }}
+      # N is set dynamically below
+      FULL_BUILD: false
+      # work around https://issues.dlang.org/show_bug.cgi?id=23517
+      MACOSX_DEPLOYMENT_TARGET: '11'
+    defaults:
+      run:
+        # cpa.sh comes with cross-platform-actions and delegates to the VM.
+        # Use it by default for all `run` steps below, i.e., run them in the VM (with a bash shell).
+        shell: ${{ matrix.vm_os && 'cpa.sh {0} --sync-files runner-to-vm --environment-variables OS_NAME MODEL HOST_DMD CI_DFLAGS N FULL_BUILD' || 'bash' }}
+    steps:
+      - name: Start VM
+        if: matrix.vm_os
+        uses: cross-platform-actions/action@v1.5.0
+        with:
+          operating_system: ${{ matrix.vm_os }}
+          version: ${{ matrix.vm_os_version }}
+          shell: bash
+          memory: 12G
+          cpu_count: 4
+          sync_files: runner-to-vm
+
+      - name: 'Alpine container: Pre-install bash, git and sudo'
+        if: startsWith(matrix.container_image, 'alpine')
+        shell: sh
+        run: apk add bash git sudo
+      - name: 'FreeBSD VM: Pre-install git'
+        if: matrix.vm_os == 'freebsd'
+        run: sudo pkg install -y git
+
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 50
+      - name: Clone DMD
+        run: |
+          set -uexo pipefail
+
+          ref='${{ github.ref }}'
+          if [[ "$ref" =~ ^refs/pull/ ]]; then
+            # PR: clone the DMD head with the same name as this Phobos PR's target branch
+            # e.g., DMD stable when targeting Phobos stable
+            REPO_BRANCH="$GITHUB_BASE_REF"
+          elif [[ "$ref" =~ ^refs/(heads|tags)/(.*)$ ]]; then
+            # no PR: clone the DMD head with the same name as this Phobos head
+            # e.g., DMD stable for a push to Phobos stable, or DMD v2.105.2 for Phobos tag v2.105.2
+            REPO_BRANCH="${BASH_REMATCH[2]}"
+          else
+            echo "Error: unexpected GitHub ref '$ref'" >&2
+            exit 1
+          fi
+
+          git clone --branch "$REPO_BRANCH" --depth 1 https://github.com/Destiny-Org/destiny.git ../destiny_engine
+
+      - name: Set environment variable N (parallelism)
+        run: echo "N=$(${{ runner.os == 'macOS' && 'sysctl -n hw.logicalcpu' || 'nproc' }})" >> $GITHUB_ENV
+        shell: bash  # don't run in VM, but host runner (for exporting env var)
+
+      - name: 'Posix: Install prerequisites'
+        if: runner.os != 'Windows'
+        run: cd ../destiny_engine && ${{ runner.os == 'macOS' && 'ci/cirrusci.sh' || 'sudo -E ci/cirrusci.sh' }}
+      - name: 'Windows: Set up MSVC environment'
+        if: runner.os == 'Windows'
+        uses: seanmiddleditch/gha-setup-vsdevenv@v5
+        with:
+          arch: ${{ env.MODEL == '64' && 'x64' || 'x86' }}
+
+      - name: 'Posix: Install host compiler'
+        if: runner.os != 'Windows'
+        run: cd ../destiny_engine && ci/run.sh install_host_compiler
+      - name: 'Windows: Install host compiler'
+        if: runner.os == 'Windows'
+        uses: dlang-community/setup-dlang@v2
+        with:
+          compiler: ldc-latest
+
+      - name: Build
+        run: cd ../destiny_engine && ci/run.sh build
+      - name: Test dmd
+        run: cd ../destiny_engine && ci/run.sh test_dmd
+      - name: Test druntime
+        run: cd ../destiny_engine && ci/run.sh test_druntime
+      - name: 'Windows x86: Add 32-bit libcurl.dll to PATH (required for Phobos unittests)'
+        if: runner.os == 'Windows' && env.MODEL == '32'
+        run: echo "$(dirname "$DC")/../lib32" >> $GITHUB_PATH
+      - name: Test phobos
+        run: cd ../destiny_engine && ci/run.sh test_phobos
