@@ -216,7 +216,7 @@ interface RandomAccessInfinite(E) : ForwardRange!E {
     E opIndex(size_t);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=22608
+// upstream issue 22608
 @safe unittest
 {
     static assert(isRandomAccessRange!(RandomAccessInfinite!int));
@@ -266,7 +266,7 @@ interface OutputRange(E) {
     void put(E);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6973
+// upstream issue 6973
 @safe unittest
 {
     static assert(isOutputRange!(OutputRange!int, int));
@@ -604,7 +604,7 @@ class UnsupportedRangeMethod : Exception
     assert(equal(app.data, [1,2,3]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19544
+// upstream issue 19544
 @safe unittest
 {
     import std.range : repeat;

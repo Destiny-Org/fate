@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
  * Compress/decompress data using the $(HTTP www.zlib.net, zlib library).
@@ -43,12 +43,12 @@
  * References:
  *  $(HTTP en.wikipedia.org/wiki/Zlib, Wikipedia)
  *
- * Copyright: Copyright The D Language Foundation 2000 - 2011.
+ * Copyright: Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 Destiny contributors.
  * License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors:   $(HTTP digitalmars.com, Walter Bright)
  * Source:    $(PHOBOSSRC std/zlib.d)
  */
-/*          Copyright The D Language Foundation 2000 - 2011.
+/*          Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 Destiny contributors.
  * Distributed under the Boost Software License, Version 1.0.
  *    (See accompanying file LICENSE_1_0.txt or copy at
  *          http://www.boost.org/LICENSE_1_0.txt)
@@ -664,8 +664,8 @@ class UnCompress
         return destbuf;
     }
 
-    // Test for https://issues.dlang.org/show_bug.cgi?id=3191 and
-    // https://issues.dlang.org/show_bug.cgi?id=9505
+    // Test for upstream issue 3191 and
+    // upstream issue 9505
     @system unittest
     {
         import std.algorithm.comparison;
@@ -881,7 +881,7 @@ import std.stdio;
     assert( output[] == input[] );
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15457
+// upstream issue 15457
 @system unittest
 {
     static assert(__traits(compiles, etc.c.zlib.gzclose(null)));

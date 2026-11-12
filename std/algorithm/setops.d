@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 This is a submodule of $(MREF std, algorithm).
 It contains generic algorithms that implement set operations.
@@ -345,7 +345,7 @@ if (!allSatisfy!(isForwardRange, R1, R2) ||
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13091
+// upstream issue 13091
 pure nothrow @safe @nogc unittest
 {
     int[1] a = [1];
@@ -447,7 +447,7 @@ if (ranges.length >= 2 &&
     assert(cartesianProduct([1, 2], [3, 4], [5]).length == 4);
 }
 // cartesian product of empty ranges should be empty
-// https://issues.dlang.org/show_bug.cgi?id=10693
+// upstream issue 10693
 @safe unittest
 {
     int[] a, b, c, d, e;
@@ -471,7 +471,7 @@ if (ranges.length >= 2 &&
     assert(cprod.init.empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13393
+// upstream issue 13393
 @safe unittest
 {
     assert(!cartesianProduct([0],[0],[0]).save.empty);
@@ -532,7 +532,7 @@ if (!allSatisfy!(isForwardRange, R1, R2, RR) ||
     assert(canFind(N4, tuple(10, 3, 1, 2)));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9878
+// upstream issue 9878
 ///
 @safe unittest
 {
@@ -571,7 +571,7 @@ pure @safe nothrow @nogc unittest
     assert(D.front == front1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13935
+// upstream issue 13935
 @safe unittest
 {
     import std.algorithm.iteration : map;
@@ -1169,7 +1169,7 @@ SetDifference!(less, R1, R2) setDifference(alias less = "a < b", R1, R2)
     assert(setDifference(r, x).empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10460
+// upstream issue 10460
 @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -1490,7 +1490,7 @@ setSymmetricDifference(alias less = "a < b", R1, R2)
     assert(equal(setSymmetricDifference(c, d), [1, 1, 2, 5, 6, 7, 9]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10460
+// upstream issue 10460
 @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -1514,7 +1514,7 @@ setSymmetricDifference(alias less = "a < b", R1, R2)
 /++
 TODO: once SetUnion got deprecated we can provide the usual definition
 (= merge + filter after uniqs)
-See: https://github.com/dlang/phobos/pull/4249
+See: upstream phobos pull request 4249
 /**
 Lazily computes the union of two or more ranges `rs`. The ranges
 are assumed to be sorted by `less`. Elements in the output are

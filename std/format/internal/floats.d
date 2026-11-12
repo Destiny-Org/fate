@@ -1,9 +1,9 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /*
    Helper functions for formatting floating point numbers.
 
-   Copyright: Copyright The D Language Foundation 2019 -
+   Copyright: Copyright The D Language Foundation 2019 - 2026; Copyright (C) 2026 Destiny contributors
 
    License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 
@@ -1089,7 +1089,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(-float.infinity, f) == "-inf");
     assert(printFloat(0.0f, f) == "0.000000e+00");
     assert(printFloat(-0.0f, f) == "-0.000000e+00");
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "9.999946e-41");
     assert(printFloat(cast(float) -1e-40, f) == "-9.999946e-41");
     assert(printFloat(1e-30f, f) == "1.000000e-30");
@@ -1121,7 +1121,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(-float.infinity, f) == "                -inf");
     assert(printFloat(0.0f, f) == "    0.0000000000e+00");
     assert(printFloat(-0.0f, f) == "   -0.0000000000e+00");
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "    9.9999461011e-41");
     assert(printFloat(cast(float) -1e-40, f) == "   -9.9999461011e-41");
     assert(printFloat(1e-30f, f) == "    1.0000000032e-30");
@@ -1154,7 +1154,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(-float.infinity, f) == "-inf                ");
     assert(printFloat(0.0f, f) == "0.0000000000e+00    ");
     assert(printFloat(-0.0f, f) == "-0.0000000000e+00   ");
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "9.9999461011e-41    ");
     assert(printFloat(cast(float) -1e-40, f) == "-9.9999461011e-41   ");
     assert(printFloat(1e-30f, f) == "1.0000000032e-30    ");
@@ -1187,7 +1187,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(-float.infinity, f) == "                -inf");
     assert(printFloat(0.0f, f) == "00000.0000000000e+00");
     assert(printFloat(-0.0f, f) == "-0000.0000000000e+00");
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "00009.9999461011e-41");
     assert(printFloat(cast(float) -1e-40, f) == "-0009.9999461011e-41");
     assert(printFloat(1e-30f, f) == "00001.0000000032e-30");
@@ -1296,7 +1296,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(-double.infinity, f) == "-inf");
     assert(printFloat(0.0, f) == "0.000000e+00");
     assert(printFloat(-0.0, f) == "-0.000000e+00");
-    // / 1000 needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // / 1000 needed due to upstream issue 20361
     assert(printFloat(1e-307 / 1000, f) == "1.000000e-310");
     assert(printFloat(-1e-307 / 1000, f) == "-1.000000e-310");
     assert(printFloat(1e-30, f) == "1.000000e-30");
@@ -1455,7 +1455,7 @@ if (is(T == float) || is(T == double)
         assert(printFloat(-0.1L, f) == "-1.000000e-01");
         assert(printFloat(10.0L, f) == "1.000000e+01");
         assert(printFloat(-10.0L, f) == "-1.000000e+01");
-        version (Windows) {} // https://issues.dlang.org/show_bug.cgi?id=20972
+        version (Windows) {} // upstream issue 20972
         else
         {
             assert(printFloat(1e4000L, f) == "1.000000e+4000");
@@ -1480,7 +1480,7 @@ if (is(T == float) || is(T == double)
         {
             // log2 is broken for x87-reals on some computers in CTFE
             // the following tests excludes these computers from the tests
-            // (https://issues.dlang.org/show_bug.cgi?id=21757)
+            // (upstream issue 21757)
             enum test = cast(int) log2(3.05e2312L);
             static if (test == 7681)
             {
@@ -1865,7 +1865,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(-float.infinity, f) == "-inf");
     assert(printFloat(0.0f, f) == "0.000000");
     assert(printFloat(-0.0f, f) == "-0.000000");
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "0.000000");
     assert(printFloat(cast(float) -1e-40, f) == "-0.000000");
     assert(printFloat(1e-30f, f) == "0.000000");
@@ -1897,7 +1897,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(-float.infinity, f) == "                -inf");
     assert(printFloat(0.0f, f) == "        0.0000000000");
     assert(printFloat(-0.0f, f) == "       -0.0000000000");
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "        0.0000000000");
     assert(printFloat(cast(float) -1e-40, f) == "       -0.0000000000");
     assert(printFloat(1e-30f, f) == "        0.0000000000");
@@ -1930,7 +1930,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(-float.infinity, f) == "-inf                ");
     assert(printFloat(0.0f, f) == "0.0000000000        ");
     assert(printFloat(-0.0f, f) == "-0.0000000000       ");
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "0.0000000000        ");
     assert(printFloat(cast(float) -1e-40, f) == "-0.0000000000       ");
     assert(printFloat(1e-30f, f) == "0.0000000000        ");
@@ -1963,7 +1963,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(-float.infinity, f) == "                -inf");
     assert(printFloat(0.0f, f) == "000000000.0000000000");
     assert(printFloat(-0.0f, f) == "-00000000.0000000000");
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "000000000.0000000000");
     assert(printFloat(cast(float) -1e-40, f) == "-00000000.0000000000");
     assert(printFloat(1e-30f, f) == "000000000.0000000000");
@@ -2072,7 +2072,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(-double.infinity, f) == "-inf");
     assert(printFloat(0.0, f) == "0.000000");
     assert(printFloat(-0.0, f) == "-0.000000");
-    // / 1000 needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // / 1000 needed due to upstream issue 20361
     assert(printFloat(1e-307 / 1000, f) == "0.000000");
     assert(printFloat(-1e-307 / 1000, f) == "-0.000000");
     assert(printFloat(1e-30, f) == "0.000000");
@@ -2129,7 +2129,7 @@ if (is(T == float) || is(T == double)
         assert(printFloat(-0.1L, f) == "-0.100000");
         assert(printFloat(10.0L, f) == "10.000000");
         assert(printFloat(-10.0L, f) == "-10.000000");
-        version (Windows) {} // https://issues.dlang.org/show_bug.cgi?id=20972
+        version (Windows) {} // upstream issue 20972
         else
         {
             auto result1 = printFloat(1e4000L, f);
@@ -2156,7 +2156,7 @@ if (is(T == float) || is(T == double)
         {
             // log2 is broken for x87-reals on some computers in CTFE
             // the following tests excludes these computers from the tests
-            // (https://issues.dlang.org/show_bug.cgi?id=21757)
+            // (upstream issue 21757)
             enum test = cast(int) log2(3.05e2312L);
             static if (test == 7681)
             {
@@ -2430,7 +2430,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(0.0f, f) == "0");
     assert(printFloat(-0.0f, f) == "-0");
 
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "9.99995e-41");
     assert(printFloat(cast(float) -1e-40, f) == "-9.99995e-41");
     assert(printFloat(1e-30f, f) == "1e-30");
@@ -2462,7 +2462,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(-float.infinity, f) == "                -inf");
     assert(printFloat(0.0f, f) == "                   0");
     assert(printFloat(-0.0f, f) == "                  -0");
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "     9.999946101e-41");
     assert(printFloat(cast(float) -1e-40, f) == "    -9.999946101e-41");
     assert(printFloat(1e-30f, f) == "     1.000000003e-30");
@@ -2496,7 +2496,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(0.0f, f) == "0                   ");
     assert(printFloat(-0.0f, f) == "-0                  ");
 
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "9.999946101e-41     ");
     assert(printFloat(cast(float) -1e-40, f) == "-9.999946101e-41    ");
     assert(printFloat(1e-30f, f) == "1.000000003e-30     ");
@@ -2530,7 +2530,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(0.0f, f) == "00000000000000000000");
     assert(printFloat(-0.0f, f) == "-0000000000000000000");
 
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "000009.999946101e-41");
     assert(printFloat(cast(float) -1e-40, f) == "-00009.999946101e-41");
     assert(printFloat(1e-30f, f) == "000001.000000003e-30");
@@ -2563,7 +2563,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(0.0f, f) == "0.000000000");
     assert(printFloat(-0.0f, f) == "-0.000000000");
 
-    // cast needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // cast needed due to upstream issue 20361
     assert(printFloat(cast(float) 1e-40, f) == "9.999946101e-41");
     assert(printFloat(cast(float) -1e-40, f) == "-9.999946101e-41");
     assert(printFloat(1e-30f, f) == "1.000000003e-30");
@@ -2676,7 +2676,7 @@ if (is(T == float) || is(T == double)
     assert(printFloat(0.0, f) == "0");
     assert(printFloat(-0.0, f) == "-0");
 
-    // / 1000 needed due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // / 1000 needed due to upstream issue 20361
     assert(printFloat(1e-307 / 1000, f) == "1e-310");
     assert(printFloat(-1e-307 / 1000, f) == "-1e-310");
     assert(printFloat(1e-30, f) == "1e-30");
@@ -2815,7 +2815,7 @@ if (is(T == float) || is(T == double)
         assert(printFloat(-0.1L, f) == "-0.1");
         assert(printFloat(10.0L, f) == "10");
         assert(printFloat(-10.0L, f) == "-10");
-        version (Windows) {} // https://issues.dlang.org/show_bug.cgi?id=20972
+        version (Windows) {} // upstream issue 20972
         else
         {
             assert(printFloat(1e4000L, f) == "1e+4000");
@@ -2840,7 +2840,7 @@ if (is(T == float) || is(T == double)
         {
             // log2 is broken for x87-reals on some computers in CTFE
             // the following tests excludes these computers from the tests
-            // (https://issues.dlang.org/show_bug.cgi?id=21757)
+            // (upstream issue 21757)
             enum test = cast(int) log2(3.05e2312L);
             static if (test == 7681)
             {

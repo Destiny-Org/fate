@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 This is a submodule of $(MREF std, algorithm).
 It contains generic comparison algorithms.
@@ -529,7 +529,7 @@ auto castSwitch(choices...)(Object switchObject)
     ) == "derived from I");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=22384
+// upstream issue 22384
 @system unittest
 {
     // Use explicit methods to enforce return types
@@ -603,7 +603,7 @@ T1 clamp(T1, T2, T3)(T1 val, T2 lower, T3 upper)
     assert(!lower.greaterThan(upper), "Lower can't be greater than upper.");
 
     // `if (is(typeof(val.lessThan(lower) ? lower : val.greaterThan(upper) ? upper : val) : T1))
-    // because of https://issues.dlang.org/show_bug.cgi?id=16235.
+    // because of upstream issue 16235.
     // Once that is fixed, we can simply use the ternary in both the template constraint
     // and the template body
     if (val.lessThan(lower))
@@ -663,7 +663,7 @@ T1 clamp(T1, T2, T3)(T1 val, T2 lower, T3 upper)
     assert(x.clamp(lo, hi).y == 42);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23268
+// upstream issue 23268
 @safe pure nothrow @nogc unittest
 {
     static assert(__traits(compiles, clamp(short.init, short.init, cast(const) short.init)));
@@ -886,7 +886,7 @@ pure @safe unittest
 }
 
 // cmp for string with custom predicate fails if distinct chars can compare equal
-// https://issues.dlang.org/show_bug.cgi?id=18286
+// upstream issue 18286
 @nogc nothrow pure @safe unittest
 {
     static bool ltCi(dchar a, dchar b)// less than, case insensitive
@@ -902,7 +902,7 @@ pure @safe unittest
 }
 
 // for non-string ranges check that opCmp is evaluated only once per pair.
-// https://issues.dlang.org/show_bug.cgi?id=18280
+// upstream issue 18280
 @nogc nothrow @safe unittest
 {
     static int ctr = 0;

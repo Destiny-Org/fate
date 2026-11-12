@@ -32,7 +32,7 @@ CharMatcher[CodepointSet] matcherCache;
 @trusted CharMatcher getMatcher(CodepointSet set)
 {
     // almost all properties of AA are not @safe
-    // https://issues.dlang.org/show_bug.cgi?id=6357
+    // upstream issue 6357
     if (__ctfe || maxCachedMatchers == 0)
         return CharMatcher(set);
     else
@@ -283,7 +283,7 @@ struct Bytecode
     }
 
     // bit twiddling helpers
-    // 0-arg template due to https://issues.dlang.org/show_bug.cgi?id=10985
+    // 0-arg template due to upstream issue 10985
     @property uint data()() const { return raw & 0x003f_ffff; }
 
     @property void data()(uint val)
@@ -292,11 +292,11 @@ struct Bytecode
     }
 
     // ditto
-    // 0-arg template due to https://issues.dlang.org/show_bug.cgi?id=10985
+    // 0-arg template due to upstream issue 10985
     @property uint sequence()() const { return 2 + (raw >> 22 & 0x3); }
 
     // ditto
-    // 0-arg template due to https://issues.dlang.org/show_bug.cgi?id=10985
+    // 0-arg template due to upstream issue 10985
     @property IR code()() const { return cast(IR)(raw >> 24); }
 
     //ditto
@@ -954,14 +954,14 @@ template BackLooper(E)
 }
 
 // whether ch is one of unicode newline sequences
-// 0-arg template due to https://issues.dlang.org/show_bug.cgi?id=10985
+// 0-arg template due to upstream issue 10985
 bool endOfLine()(dchar front, bool seenCr)
 {
     return ((front == '\n') ^ seenCr) || front == '\r'
     || front == NEL || front == LS || front == PS;
 }
 
-// 0-arg template due to https://issues.dlang.org/show_bug.cgi?id=10985
+// 0-arg template due to upstream issue 10985
 bool startOfLine()(dchar back, bool seenNl)
 {
     return ((back == '\r') ^ seenNl) || back == '\n'

@@ -1,6 +1,6 @@
 #!/usr/bin/env rdmd
 /**
-Phobos V3 Build Script
+Fate V3 Build Script
 
 Usage:
   ./build_v3.d [debug,release,unittest]

@@ -54,7 +54,7 @@ import std.traits;
 private:
 
 // dipatchers to the right low-level primitives. Added to allow BigInt CTFE for
-// 32 bit systems (https://issues.dlang.org/show_bug.cgi?id=14767) although it's
+// 32 bit systems (upstream issue 14767) although it's
 // used by the other architectures too.
 // See comments below in case it has to be refactored.
 version (X86)
@@ -1249,17 +1249,17 @@ public:
     // ulong comparison test
     BigUint a = [1];
     assert(a == 1);
-    // https://issues.dlang.org/show_bug.cgi?id=9548
+    // upstream issue 9548
     assert(a < 0x8000_0000_0000_0000UL);
 
-    // https://issues.dlang.org/show_bug.cgi?id=12234
+    // upstream issue 12234
     BigUint z = [0];
     assert(z == 0UL);
     assert(!(z > 0UL));
     assert(!(z < 0UL));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16223
+// upstream issue 16223
 @system pure nothrow unittest
 {
     BigUint a = [3];
@@ -1819,7 +1819,7 @@ void mulInternal(BigDigit[] result, const(BigDigit)[] x, const(BigDigit)[] y)
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20493
+// upstream issue 20493
 @safe unittest
 {
     // the bug report has a testcase with very large numbers (~10^3800 and ~10^2300)
@@ -2374,7 +2374,7 @@ bool inplaceSub(BigDigit[] result, const(BigDigit)[] x, const(BigDigit)[] y)
 /* Determine how much space is required for the temporaries
  * when performing a Karatsuba multiplication.
  * TODO: determining a tight bound is non-trivial and depends on KARATSUBALIMIT, see:
- * https://issues.dlang.org/show_bug.cgi?id=20493
+ * upstream issue 20493
  */
 size_t karatsubaRequiredBuffSize(size_t xlen) pure nothrow @safe
 {

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 This is a submodule of $(MREF std, algorithm).
 It contains generic mutation algorithms.
@@ -337,7 +337,7 @@ if (isInputRange!InputRange && isForwardRange!ForwardRange)
         assert(equal(arr, [1, 2, 3, 4, 5, 6, 7]));
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=16959
+    // upstream issue 16959
     auto arr = ['4', '5', '6', '7', '1', '2', '3'];
     auto p = bringToFront(arr[0 .. 4], arr[4 .. $]);
 
@@ -515,14 +515,14 @@ $(LINK2 http://en.cppreference.com/w/cpp/algorithm/copy_backward, STL's `copy_ba
         assert(a[4 .. 9] == [6, 7, 8, 9, 10]);
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=21724
+    // upstream issue 21724
     {
         int[] a = [1, 2, 3, 4];
         copy(a[0 .. 2], a[1 .. 3]);
         assert(a == [1, 1, 2, 4]);
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=7898
+    // upstream issue 7898
     {
         enum v =
         {
@@ -536,7 +536,7 @@ $(LINK2 http://en.cppreference.com/w/cpp/algorithm/copy_backward, STL's `copy_ba
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13650
+// upstream issue 13650
 @safe unittest
 {
     import std.meta : AliasSeq;
@@ -550,7 +550,7 @@ $(LINK2 http://en.cppreference.com/w/cpp/algorithm/copy_backward, STL's `copy_ba
     }}
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18804
+// upstream issue 18804
 @safe unittest
 {
     static struct NullSink
@@ -625,7 +625,7 @@ if ((isInputRange!Range && is(typeof(range.front = value)) ||
 }
 
 // test fallback on mutable narrow strings
-// https://issues.dlang.org/show_bug.cgi?id=16342
+// upstream issue 16342
 @safe unittest
 {
     char[] chars = ['a', 'b'];
@@ -688,7 +688,7 @@ if ((isInputRange!Range && is(typeof(range.front = value)) ||
     chars[1 .. 3].fill(':');
     assert(chars == "a::d");
 }
-// end https://issues.dlang.org/show_bug.cgi?id=16342
+// end upstream issue 16342
 
 @safe unittest
 {
@@ -1041,7 +1041,7 @@ if (is(Range == char[]) || is(Range == wchar[]))
     assert(xs[1].x == 3);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=22105
+// upstream issue 22105
 @system unittest
 {
     struct NoDefaultCtor
@@ -1158,7 +1158,7 @@ pure nothrow @safe @nogc unittest
         move(s21, s22);
         assert(s21 == s22);
     });
-    // https://issues.dlang.org/show_bug.cgi?id=5661 test(1)
+    // upstream issue 5661 test(1)
     static struct S3
     {
         static struct X { int n = 0; ~this(){n = 0;} }
@@ -1171,7 +1171,7 @@ pure nothrow @safe @nogc unittest
     assert(s31.x.n == 0);
     assert(s32.x.n == 1);
 
-    // https://issues.dlang.org/show_bug.cgi?id=5661 test(2)
+    // upstream issue 5661 test(2)
     static struct S4
     {
         static struct X { int n = 0; this(this){n = 0;} }
@@ -1184,7 +1184,7 @@ pure nothrow @safe @nogc unittest
     assert(s41.x.n == 0);
     assert(s42.x.n == 1);
 
-    // https://issues.dlang.org/show_bug.cgi?id=13990 test
+    // upstream issue 13990 test
     class S5;
 
     S5 s51;
@@ -1247,7 +1247,7 @@ pure nothrow @safe @nogc unittest
     assert(s2.a == 42);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20869
+// upstream issue 20869
 // `move` should propagate the attributes of `opPostMove`
 @system unittest
 {
@@ -1318,7 +1318,7 @@ private T trustedMoveImpl(T)(ref return scope T source) @trusted
         assert(s21 == s22);
     });
 
-    // https://issues.dlang.org/show_bug.cgi?id=5661 test(1)
+    // upstream issue 5661 test(1)
     static struct S3
     {
         static struct X { int n = 0; ~this(){n = 0;} }
@@ -1331,7 +1331,7 @@ private T trustedMoveImpl(T)(ref return scope T source) @trusted
     assert(s31.x.n == 0);
     assert(s32.x.n == 1);
 
-    // https://issues.dlang.org/show_bug.cgi?id=5661 test(2)
+    // upstream issue 5661 test(2)
     static struct S4
     {
         static struct X { int n = 0; this(this){n = 0;} }
@@ -1344,7 +1344,7 @@ private T trustedMoveImpl(T)(ref return scope T source) @trusted
     assert(s41.x.n == 0);
     assert(s42.x.n == 1);
 
-    // https://issues.dlang.org/show_bug.cgi?id=13990 test
+    // upstream issue 13990 test
     class S5;
 
     S5 s51;
@@ -1368,7 +1368,7 @@ private T trustedMoveImpl(T)(ref return scope T source) @trusted
     assert(a.n == 0);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6217
+// upstream issue 6217
 @safe unittest
 {
     import std.algorithm.iteration : map;
@@ -1376,7 +1376,7 @@ private T trustedMoveImpl(T)(ref return scope T source) @trusted
     x = move(x);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8055
+// upstream issue 8055
 @safe unittest
 {
     static struct S
@@ -1397,7 +1397,7 @@ private T trustedMoveImpl(T)(ref return scope T source) @trusted
     assert(b.x == 0);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8057
+// upstream issue 8057
 @system unittest
 {
     int n = 10;
@@ -1420,7 +1420,7 @@ private T trustedMoveImpl(T)(ref return scope T source) @trusted
     auto b = foo(a);
     assert(b.x == 1);
 
-    // Regression https://issues.dlang.org/show_bug.cgi?id=8171
+    // Regression upstream issue 8171
     static struct Array(T)
     {
         // nested struct has no member
@@ -1530,7 +1530,7 @@ pure nothrow @nogc @system unittest
     assert(val == 0);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18913
+// upstream issue 18913
 @safe unittest
 {
     static struct NoCopy
@@ -2077,7 +2077,7 @@ private auto removeImpl(SwapStrategy s, Range, Offset...)(Range range, Offset of
     import std.exception : assertThrown;
     import std.range;
 
-    // https://issues.dlang.org/show_bug.cgi?id=10173
+    // upstream issue 10173
     int[] test = iota(0, 10).array();
     assertThrown(remove!(SwapStrategy.stable)(test, tuple(2, 4), tuple(1, 3)));
     assertThrown(remove!(SwapStrategy.unstable)(test, tuple(2, 4), tuple(1, 3)));
@@ -2100,7 +2100,7 @@ private auto removeImpl(SwapStrategy s, Range, Offset...)(Range range, Offset of
     a = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
     assert(remove!(SwapStrategy.unstable)(a, 0, tuple(9, 11)) ==
             [ 8, 1, 2, 3, 4, 5, 6, 7 ]);
-    // https://issues.dlang.org/show_bug.cgi?id=5224
+    // upstream issue 5224
     a = [ 1, 2, 3, 4 ];
     assert(remove!(SwapStrategy.unstable)(a, 2) ==
            [ 1, 2, 4 ]);
@@ -2121,7 +2121,7 @@ private auto removeImpl(SwapStrategy s, Range, Offset...)(Range range, Offset of
             == [0, 9, 8, 7, 4, 5]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11576
+// upstream issue 11576
 @safe unittest
 {
     auto arr = [1,2,3];
@@ -2130,7 +2130,7 @@ private auto removeImpl(SwapStrategy s, Range, Offset...)(Range range, Offset of
 
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12889
+// upstream issue 12889
 @safe unittest
 {
     import std.range;
@@ -2338,7 +2338,7 @@ private Range removeStableString(Range, Offset...)(Range range, Offset offsets)
 }
 
 // Use of dynamic arrays as offsets is too error-prone
-// https://issues.dlang.org/show_bug.cgi?id=12086
+// upstream issue 12086
 // Activate these tests once the deprecation period of remove with non-integral tuples is over
 @safe unittest
 {
@@ -3010,7 +3010,7 @@ if (isBlitAssignable!T && !is(typeof(lhs.proxySwap(rhs))))
     static assert(!__traits(compiles, swap(const1, const2)));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=4789
+// upstream issue 4789
 @safe unittest
 {
     int[1] s = [1];
@@ -3050,7 +3050,7 @@ if (isBlitAssignable!T && !is(typeof(lhs.proxySwap(rhs))))
     assert(s.i3 == 2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11853
+// upstream issue 11853
 @safe unittest
 {
     import std.traits : isAssignable;
@@ -3058,7 +3058,7 @@ if (isBlitAssignable!T && !is(typeof(lhs.proxySwap(rhs))))
     static assert(isAssignable!T);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12024
+// upstream issue 12024
 @safe unittest
 {
     import std.datetime;
@@ -3066,7 +3066,7 @@ if (isBlitAssignable!T && !is(typeof(lhs.proxySwap(rhs))))
     swap(a, b);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9975
+// upstream issue 9975
 @system unittest
 {
     import std.exception : doesPointTo, mayPointTo;
@@ -3112,7 +3112,7 @@ if (isBlitAssignable!T && !is(typeof(lhs.proxySwap(rhs))))
     swap(b1, b2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20732
+// upstream issue 20732
 @safe unittest
 {
     static struct A
@@ -3137,7 +3137,7 @@ if (isBlitAssignable!T && !is(typeof(lhs.proxySwap(rhs))))
     swap(a3, a4);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21429
+// upstream issue 21429
 @safe unittest
 {
     enum e = (){

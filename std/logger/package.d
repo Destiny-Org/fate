@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 Implements logging facilities.
 
@@ -86,10 +86,10 @@ void main() @system
 $(H5 Rationale)
 
 $(UL
-    $(LI $(LINK2 https://bugzilla-archive.dlang.org/bugs/22532/, Bugzilla Issue 22532 (archived)))
-    $(LI $(LINK2 https://github.com/dlang/phobos/pull/8336, GitHub: dlang/phobos Pull request #8336))
-    $(LI $(LINK2 https://github.com/dlang/phobos/pull/8406, GitHub: dlang/phobos Pull request #8406))
-    $(LI $(LINK2 https://github.com/dlang/phobos/issues/10858, GitHub: dlang/phobos Issue #10858))
+    $(LI upstream issue 22532 (archived))
+    $(LI upstream Phobos pull request #8336)
+    $(LI upstream Phobos pull request #8406)
+    $(LI upstream Phobos issue #10858)
 )
 
 $(H3 Advanced Usage)

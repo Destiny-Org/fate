@@ -1,4 +1,4 @@
-// Written in the D programming language
+// Written in the Destiny programming language
 /++
     Templates to manipulate
     $(DDSUBLINK spec/template, variadic-templates, template parameter sequences)
@@ -85,7 +85,7 @@
          Modern C++ Design),
        Andrei Alexandrescu (Addison-Wesley Professional, 2001)
 
-    Copyright: Copyright The D Language Foundation 2005 - 2024.
+    Copyright: Copyright The D Language Foundation 2005 - 2024; Copyright (C) 2026 Destiny contributors.
     License: $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
     Authors: $(HTTP digitalmars.com, Walter Bright),
              $(HTTP klickverbot.at, David Nadlinger)
@@ -142,7 +142,7 @@ alias AliasSeq(TList...) = TList;
         return str[i];
     }
 
-    alias vars = AliasSeq!(2, "dlang");
+    alias vars = AliasSeq!(2, "desti");
 
     assert(foo(vars) == 'a');
 }
@@ -489,7 +489,7 @@ template Map(alias Fun, Args...)
 }
 
 // @@@ BUG @@@ The test below exposes failure of the straightforward use.
-// See @adamdruppe's comment to https://github.com/dlang/phobos/pull/8039
+// See @adamdruppe's comment to upstream phobos pull request 8039
 @safe unittest
 {
     template id(alias what)
@@ -501,7 +501,7 @@ template Map(alias Fun, Args...)
     static assert(Map!(id, A.a) == AliasSeq!"a");
 }
 
-// regression test for https://issues.dlang.org/show_bug.cgi?id=21088
+// regression test for upstream issue 21088
 @system unittest // typeid opEquals is @system
 {
     enum getTypeId(T) = typeid(T);

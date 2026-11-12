@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
  * Read and write memory mapped files.
@@ -13,7 +13,7 @@
  * not handled as safely: when for example the disk that the file is on gets removed,
  * reading from it may result in a segfault.
  *
- * Copyright: Copyright The D Language Foundation 2004 - 2009.
+ * Copyright: Copyright The D Language Foundation 2004 - 2009; Copyright (C) 2026 Destiny contributors.
  * License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors:   $(HTTP digitalmars.com, Walter Bright),
  *            Matthew Wilson
@@ -22,7 +22,7 @@
  *
  * $(SCRIPT inhibitQuickIndex = 1;)
  */
-/*          Copyright The D Language Foundation 2004 - 2009.
+/*          Copyright The D Language Foundation 2004 - 2009; Copyright (C) 2026 Destiny contributors.
  * Distributed under the Boost Software License, Version 1.0.
  *    (See accompanying file LICENSE_1_0.txt or copy at
  *          http://www.boost.org/LICENSE_1_0.txt)
@@ -717,7 +717,7 @@ private:
 }
 
 version (linux)
-@system unittest // https://issues.dlang.org/show_bug.cgi?id=14868
+@system unittest // upstream issue 14868
 {
     import std.file : deleteme;
     import std.typecons : scoped;
@@ -740,8 +740,8 @@ version (linux)
     assert(.close(fd) == -1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14994
-// https://issues.dlang.org/show_bug.cgi?id=14995
+// upstream issue 14994
+// upstream issue 14995
 @system unittest
 {
     import std.file : deleteme;

@@ -1,4 +1,4 @@
-## Phobos 3 Package Map
+## Fate 3 Package Map
 
 `based` modules duplicated in `phobos` will contain a mix of wrapped `based` functions, new fuctions, and public imports of `based` symbols, depending on what ends up being the most effective solution.
 
@@ -6,7 +6,7 @@ Packages/Modules with an asterisk are new.
 
 ### Open Questions
 
-1. `std.container`: Does it belong in `sys` or it's own root? This likely hinges on the status of [DIP1000](https://github.com/dlang/DIPs/blob/master/DIPs/other/DIP1000.md) and whether or not it needs a ground up rewrite.
+1. `std.container`: Does it belong in `sys` or it's own root? This likely hinges on the status of [DIP1000](DIP1000) and whether or not it needs a ground up rewrite.
 2. `std.concurrency`: It is possible that not all platforms support Concurrency mechanics. Should `std.concurrency` be required in the core roots or moved to a non-core root?
 3. `std.parallelism`: It is possible that not all platforms support Task Parallelism mechanics. Should `std.parallelism` be required in the core roots or moved to a non-core root?
 4.  Which, if any, modules should be removed? This could be either a permanent removal or pending replacement with ground-up rewrites.

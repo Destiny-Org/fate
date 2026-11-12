@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 $(SCRIPT inhibitQuickIndex = 1;)
@@ -35,7 +35,7 @@ $(TR $(TD Misc) $(TD
 ))
 ))
 
-Standard I/O functions that extend $(LINK2 https://dlang.org/phobos/core_stdc_stdio.html, core.stdc.stdio).  $(B core.stdc.stdio)
+Standard I/O functions that extend $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/druntime/src/core/stdc/stdio.d, core.stdc.stdio).  $(B core.stdc.stdio)
 is $(D_PARAM public)ally imported when importing $(B std.stdio).
 
 There are three layers of I/O:
@@ -47,7 +47,7 @@ a high level package for D programs.)
 )
 
 Source: $(PHOBOSSRC std/stdio.d)
-Copyright: Copyright The D Language Foundation 2007-.
+Copyright: Copyright The D Language Foundation 2007-; Copyright (C) 2026 Destiny contributors.
 License:   $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP digitalmars.com, Walter Bright),
            $(HTTP erdani.org, Andrei Alexandrescu),
@@ -449,7 +449,7 @@ Throws: `ErrnoException` if the file could not be opened.
                                 stdioOpenmode, "'")),
                 name);
 
-        // MSVCRT workaround (https://issues.dlang.org/show_bug.cgi?id=14422)
+        // MSVCRT workaround (upstream issue 14422)
         version (CRuntime_Microsoft)
         {
             setAppendWin(stdioOpenmode);
@@ -508,7 +508,7 @@ file.
         return this;
     }
 
-     // https://issues.dlang.org/show_bug.cgi?id=20129
+     // upstream issue 20129
     @safe unittest
     {
         File[int] aa;
@@ -527,7 +527,7 @@ Throws: `ErrnoException` in case of error.
         resetFile(name, stdioOpenmode, false);
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=20585
+    // upstream issue 20585
     @system unittest
     {
         File f;
@@ -615,7 +615,7 @@ Throws: `ErrnoException` in case of error.
         {
             auto handle = _p.handle;
             _p.handle = null;
-            // fclose disassociates the FILE* even in case of error (https://issues.dlang.org/show_bug.cgi?id=19751)
+            // fclose disassociates the FILE* even in case of error (upstream issue 19751)
             errnoEnforce(.fclose(handle) == 0,
                     "Could not close file `"~_name~"'");
         }
@@ -858,7 +858,7 @@ $(CSTDIO ferror) for the file handle.
 
     @safe unittest
     {
-        // https://issues.dlang.org/show_bug.cgi?id=12349
+        // upstream issue 12349
         static import std.file;
         auto deleteme = testFilename();
         auto f = File(deleteme, "w");
@@ -957,7 +957,7 @@ Throws: `Exception` if the file is not opened or if the call to `fflush` fails.
 
     @safe unittest
     {
-        // https://issues.dlang.org/show_bug.cgi?id=12349
+        // upstream issue 12349
         import std.exception : assertThrown;
         static import std.file;
 
@@ -1059,10 +1059,10 @@ Throws: `ErrnoException` if the file is not opened or the call to `fread` fails.
         assert(buf == "\r\n\n\r\n");
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=24685
+    // upstream issue 24685
     static assert(!__traits(compiles, (File f) @safe { int*[1] bar; f.rawRead(bar[]); }));
 
-    // https://issues.dlang.org/show_bug.cgi?id=21729
+    // upstream issue 21729
     @system unittest
     {
         import std.exception : assertThrown;
@@ -1072,7 +1072,7 @@ Throws: `ErrnoException` if the file is not opened or the call to `fread` fails.
         assertThrown(f.rawRead(u));
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=21728
+    // upstream issue 21728
     @system unittest
     {
         static if (__traits(compiles, { import std.process : pipe; })) // not available for iOS
@@ -1087,7 +1087,7 @@ Throws: `ErrnoException` if the file is not opened or the call to `fread` fails.
         }
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=13893
+    // upstream issue 13893
     @system unittest
     {
         import std.exception : assertNotThrown;
@@ -1187,7 +1187,7 @@ Throws: `Exception` if the file is not opened.
         // e.g. Microsoft runtime crashes on an invalid origin,
         // and Musl additionally accept SEEK_DATA & SEEK_HOLE (Linux extension).
         // To provide a consistent behavior cross platform, we use the glibc check
-        // See also https://issues.dlang.org/show_bug.cgi?id=19797
+        // See also upstream issue 19797
         enforce(origin == SEEK_SET || origin == SEEK_CUR ||  origin == SEEK_END,
                 "Invalid `origin` argument passed to `seek`, must be one of: SEEK_SET, SEEK_CUR, SEEK_END");
 
@@ -1904,7 +1904,7 @@ is recommended if you want to process a complete file.
         assert(buffer[beyond] == 'a');
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=15293
+    // upstream issue 15293
     @safe unittest
     {
         // @system due to readln
@@ -2071,7 +2071,7 @@ $(CONSOLE
         f.readf("%s\n", &s);
         assert(s == "world", "["~s~"]");
 
-        // https://issues.dlang.org/show_bug.cgi?id=11698
+        // upstream issue 11698
         bool b1, b2;
         f.readf("%s\n%s\n", &b1, &b2);
         assert(b1 == true && b2 == false);
@@ -2092,14 +2092,14 @@ $(CONSOLE
         assert(s1 == "hello");
         assert(s2 == "world");
 
-        // https://issues.dlang.org/show_bug.cgi?id=11698
+        // upstream issue 11698
         bool b1, b2;
         f.readf("%s\n%s\n", &b1, b2);
         assert(b1 == true && b2 == false);
     }
 
     // Nice error of std.stdio.readf with newlines
-    // https://issues.dlang.org/show_bug.cgi?id=12260
+    // upstream issue 12260
     @system unittest
     {
         static import std.file;
@@ -2501,7 +2501,7 @@ void main()
         }}
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=19980
+    // upstream issue 19980
     @safe unittest
     {
         static import std.file;
@@ -2697,7 +2697,7 @@ $(REF readText, std,file)
             }
             assert(i == witness.length, text(i, " != ", witness.length));
 
-            // https://issues.dlang.org/show_bug.cgi?id=11830
+            // upstream issue 11830
             auto walkedLength = File(deleteme).byLine(kt, term).walkLength;
             assert(walkedLength == witness.length, text(walkedLength, " != ", witness.length));
 
@@ -2766,7 +2766,7 @@ $(REF readText, std,file)
             auto file = File.tmpfile();
         file.write("1\n2\n3\n");
 
-        // https://issues.dlang.org/show_bug.cgi?id=9599
+        // upstream issue 9599
         file.rewind();
         File.ByLineImpl!(char, char) fbl = file.byLine();
         auto fbl2 = fbl;
@@ -3746,9 +3746,9 @@ void main()
         writer.put("日本語"d);
         writer.put('日');
         writer.put(chain(only('本'), only('語')));
-        // https://issues.dlang.org/show_bug.cgi?id=11945
+        // upstream issue 11945
         writer.put(repeat('#', 12));
-        // https://issues.dlang.org/show_bug.cgi?id=17229
+        // upstream issue 17229
         writer.put(cast(immutable(ubyte)[])"日本語");
     }
     assert(File(deleteme).readln() == "日本語日本語日本語日本語############日本語");
@@ -3799,7 +3799,7 @@ void main()
     assert(std.file.readText!string(deleteme) == "y");
 }
 
-@safe unittest // https://issues.dlang.org/show_bug.cgi?id=18801
+@safe unittest // upstream issue 18801
 {
     static import std.file;
     import std.string : stripLeft;
@@ -3835,7 +3835,7 @@ void main()
         const(char)* p = setlocale(LC_CTYPE, null);
         // Subsequent calls to `setlocale` might invalidate this return value,
         // so duplicate it.
-        // See: https://github.com/dlang/phobos/pull/7660
+        // See: upstream phobos pull request 7660
         return p ? p[0 .. strlen(p) + 1].idup.ptr : null;
     }();
     const utf8 = ["en_US.UTF-8", "C.UTF-8", ".65001"].any!((loc) @trusted {
@@ -3860,7 +3860,7 @@ void main()
     assert(std.file.readText!string(deleteme).stripLeft("\uFEFF") ==
         text(strs));
 }
-@safe unittest // https://issues.dlang.org/show_bug.cgi?id=18789
+@safe unittest // upstream issue 18789
 {
     static import std.file;
     auto deleteme = testFilename();
@@ -3888,7 +3888,7 @@ void main()
     assert(e && e.msg == "Attempting to write to closed File");
 }
 
-// https://github.com/dlang/phobos/issues/11005
+// upstream phobos issue 11005
 // LockingTextWriter's per-character path used to discard fputc's return value.
 version (linux)
 @system unittest
@@ -3903,7 +3903,7 @@ version (linux)
     assertThrown!ErrnoException(w.put('x'));
 }
 
-// https://github.com/dlang/phobos/issues/11006
+// upstream phobos issue 11006
 // LockingTextWriter.put survives an EINTR from a signal without SA_RESTART.
 version (linux)
 @system unittest
@@ -3967,7 +3967,7 @@ version (linux)
         "LockingTextWriter.put threw on EINTR — retryShortIO not working");
 }
 
-@safe unittest // https://issues.dlang.org/show_bug.cgi?id=21592
+@safe unittest // upstream issue 21592
 {
     import std.exception : collectException;
     import std.utf : UTFException;
@@ -3981,7 +3981,7 @@ version (linux)
 
 version (StdStressTest)
 {
-    // https://issues.dlang.org/show_bug.cgi?id=15768
+    // upstream issue 15768
     @system unittest
     {
         import std.parallelism : parallel;
@@ -4116,7 +4116,7 @@ struct LockingTextReader
     assert(x == 3);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13686
+// upstream issue 13686
 @system unittest
 {
     import std.algorithm.comparison : equal;
@@ -4135,7 +4135,7 @@ struct LockingTextReader
     assert(equal(ltr, "Тест".byDchar));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12320
+// upstream issue 12320
 @system unittest
 {
     static import std.file;
@@ -4150,7 +4150,7 @@ struct LockingTextReader
     assert(ltr.empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14861
+// upstream issue 14861
 @system unittest
 {
     // @system due to readf
@@ -4312,11 +4312,11 @@ void writeln(T...)(T args)
 
     if (false) writeln("wyda");
 
-    // https://issues.dlang.org/show_bug.cgi?id=8040
+    // upstream issue 8040
     if (false) writeln(null);
     if (false) writeln(">", null, "<");
 
-    // https://issues.dlang.org/show_bug.cgi?id=14041
+    // upstream issue 14041
     if (false)
     {
         char[8] a;
@@ -4362,9 +4362,9 @@ void writeln(T...)(T args)
 
     stdout.open(deleteme, "w");
     writeln("Hello!"c);
-    writeln("Hello!"w);    // https://issues.dlang.org/show_bug.cgi?id=8386
-    writeln("Hello!"d);    // https://issues.dlang.org/show_bug.cgi?id=8386
-    writeln("embedded\0null"c); // https://issues.dlang.org/show_bug.cgi?id=8730
+    writeln("Hello!"w);    // upstream issue 8386
+    writeln("Hello!"d);    // upstream issue 8386
+    writeln("embedded\0null"c); // upstream issue 8730
     stdout.close();
     version (Windows)
         assert(cast(char[]) std.file.read(deleteme) ==
@@ -4422,7 +4422,7 @@ void writeln(T...)(T args)
 
 @system unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=21920
+    // upstream issue 21920
     void function(string) printer = &writeln!string;
     if (false) printer("Hello");
 }
@@ -4437,7 +4437,7 @@ When passed as a compile-time argument, the string will be statically checked
 against the argument types passed.
 args = Items to write.
 
-Note: In older versions of Phobos, it used to be possible to write:
+Note: In older versions of Fate, it used to be possible to write:
 
 ------
 writef(stderr, "%s", "message");
@@ -5014,7 +5014,7 @@ struct lines
 @safe unittest
 {
     /*
-        As pointed out in <https://github.com/dlang/phobos/issues/10605>,
+        As pointed out in <upstream phobos issue 10605>,
         it's a pity that `byLine()` & co. aren't @safe to use yet.
 
         This is a first attempt at working towards that goal.
@@ -5561,7 +5561,7 @@ alias stderr = makeGlobal!(StdFileHandle.stderr);
 @safe unittest
 {
     // Retain backwards compatibility
-    // https://issues.dlang.org/show_bug.cgi?id=17472
+    // upstream issue 17472
     static assert(is(typeof(stdin) == File));
     static assert(is(typeof(stdout) == File));
     static assert(is(typeof(stderr) == File));
@@ -5925,7 +5925,7 @@ private size_t readlnImpl(FILE* fps, ref char[] buf, dchar terminator, File.Orie
     char[] t = ln[0 .. 2];
     t ~= 't';
     assert(t == "abt");
-    // https://issues.dlang.org/show_bug.cgi?id=13856: ln stomped to "abtd"
+    // upstream issue 13856: ln stomped to "abtd"
     assert(ln == "abcd\n");
 
     // it can also stomp the array length
@@ -6002,6 +6002,6 @@ version (StdUnittest) private string testFilename(string file = __FILE__, size_t
     import std.path : baseName;
 
     // filename intentionally contains non-ASCII (Russian) characters for
-    // https://issues.dlang.org/show_bug.cgi?id=7648
+    // upstream issue 7648
     return text(deleteme, "-детка.", baseName(file), ".", line);
 }

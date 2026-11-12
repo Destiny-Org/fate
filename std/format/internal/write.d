@@ -1,7 +1,7 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /*
-   Copyright: Copyright The D Language Foundation 2000-2013.
+   Copyright: Copyright The D Language Foundation 2000-2013; Copyright (C) 2026 Destiny contributors.
 
    License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 
@@ -78,7 +78,7 @@ if (is(BooleanTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     assert(t2 == "[true] [false]");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20534
+// upstream issue 20534
 @safe pure unittest
 {
     assert(format("%r",false) == "\0");
@@ -367,7 +367,7 @@ private uint baseOfSpec(in char spec) @safe pure
     });
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18838
+// upstream issue 18838
 @safe pure unittest
 {
     assert("%12,d".format(0) == "           0");
@@ -407,7 +407,7 @@ private uint baseOfSpec(in char spec) @safe pure
     formatTest(S2(10), "S");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20064
+// upstream issue 20064
 @safe unittest
 {
     assert(format( "%03,d",  1234) ==              "1,234");
@@ -460,7 +460,7 @@ private uint baseOfSpec(in char spec) @safe pure
     formatTest(long.min, "-9223372036854775808");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21777
+// upstream issue 21777
 @safe pure unittest
 {
     assert(format!"%20.5,d"(cast(short) 120) == "              00,120");
@@ -482,19 +482,19 @@ private uint baseOfSpec(in char spec) @safe pure
     assert(format!"%0#.9,3x"(55) == "0x000,000,037");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21814
+// upstream issue 21814
 @safe pure unittest
 {
     assert(format("%,0d",1000) == "1000");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21817
+// upstream issue 21817
 @safe pure unittest
 {
     assert(format!"%u"(-5) == "4294967291");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21820
+// upstream issue 21820
 @safe pure unittest
 {
     assert(format!"%#.0o"(0) == "0");
@@ -557,7 +557,7 @@ private uint baseOfSpec(in char spec) @safe pure
     assert(format!"%.0g"(1500) == "2e+03");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21900#
+// upstream issue 21900#
 @safe pure unittest
 {
     assert(format!"%.1a"(472) == "0x1.ep+08");
@@ -681,7 +681,7 @@ if (is(FloatingPointTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     formatTest(S2(2.25), "S");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19939
+// upstream issue 19939
 @safe unittest
 {
     assert(format("^%13,3.2f$",          1.00) == "^         1.00$");
@@ -694,7 +694,7 @@ if (is(FloatingPointTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     assert(format("^%13,3.2f$", 10_000_000.00) == "^10,000,000.00$");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20069
+// upstream issue 20069
 @safe unittest
 {
     assert(format("%012,f",   -1234.0) ==    "-1,234.000000");
@@ -735,7 +735,7 @@ if (is(FloatingPointTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
         assert(FloatingPointControl.rounding == FloatingPointControl.roundToNearest);
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=20320
+    // upstream issue 20320
     real a = 0.16;
     real b = 0.016;
     assert(format("%.1f", a) == "0.2");
@@ -746,7 +746,7 @@ if (is(FloatingPointTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     assert(format("%.1f", a1) == "0.2");
     assert(format("%.2f", b1) == "0.02");
 
-    // https://issues.dlang.org/show_bug.cgi?id=9889
+    // upstream issue 9889
     assert(format("%.1f", 0.09) == "0.1");
     assert(format("%.1f", -0.09) == "-0.1");
     assert(format("%.1f", 0.095) == "0.1");
@@ -796,7 +796,7 @@ if (is(FloatingPointTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     assert(t2 == "[ -12.3] [-12.3 ]");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20396
+// upstream issue 20396
 @safe unittest
 {
     import std.math.operations : nextUp;
@@ -805,7 +805,7 @@ if (is(FloatingPointTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     assert(format!"%a"(nextUp(0.0)) == "0x0.0000000000001p-1022");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20371
+// upstream issue 20371
 @safe unittest
 {
     assert(format!"%.1000a"(1.0).length == 1007);
@@ -872,7 +872,7 @@ if (is(FloatingPointTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     static assert(format("%g",-1.234e23f) == "-1.234e+23");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21641
+// upstream issue 21641
 @safe unittest
 {
     float a = -999999.8125;
@@ -880,7 +880,7 @@ if (is(FloatingPointTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     assert(format("%#.6g",a) == "-1.00000e+06");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8424
+// upstream issue 8424
 @safe pure unittest
 {
     static assert(format("%s", 0.6f) == "0.6");
@@ -888,7 +888,7 @@ if (is(FloatingPointTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     static assert(format("%s", 0.6L) == "0.6");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9297
+// upstream issue 9297
 @safe pure unittest
 {
     static if (real.mant_dig == 64) // 80 bit reals
@@ -897,7 +897,7 @@ if (is(FloatingPointTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21853
+// upstream issue 21853
 @safe pure unittest
 {
     import std.math.exponential : log2;
@@ -906,45 +906,45 @@ if (is(FloatingPointTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     {
         // log2 is broken for x87-reals on some computers in CTFE
         // the following test excludes these computers from the test
-        // (https://issues.dlang.org/show_bug.cgi?id=21757)
+        // (upstream issue 21757)
         enum test = cast(int) log2(3.05e2312L);
         static if (test == 7681)
             static assert(format!"%e"(real.max) == "1.189731e+4932");
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21842
+// upstream issue 21842
 @safe pure unittest
 {
     assert(format!"%-+05,g"(1.0) == "+1   ");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20536
+// upstream issue 20536
 @safe pure unittest
 {
     real r = .00000095367431640625L;
     assert(format("%a", r) == "0x1p-20");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21840
+// upstream issue 21840
 @safe pure unittest
 {
     assert(format!"% 0,e"(0.0) == " 0.000000e+00");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21841
+// upstream issue 21841
 @safe pure unittest
 {
     assert(format!"%0.0,e"(0.0) == "0e+00");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21836
+// upstream issue 21836
 @safe pure unittest
 {
     assert(format!"%-5,1g"(0.0) == "0    ");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21838
+// upstream issue 21838
 @safe pure unittest
 {
     assert(format!"%#,a"(0.0) == "0x0.p+0");
@@ -1141,7 +1141,7 @@ if (is(StringTypeOf!T) && !is(StaticArrayTypeOf!T) && !is(T == enum) && !hasToSt
     assert(t2 == "[    本Ä] [本Ä    ]");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6640
+// upstream issue 6640
 @safe unittest
 {
     import std.range.primitives : front, popFront;
@@ -1231,7 +1231,7 @@ if (is(StaticArrayTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     formatValueImpl(w, obj[], f);
 }
 
-// Test for https://issues.dlang.org/show_bug.cgi?id=8310
+// Test for upstream issue 8310
 @safe unittest
 {
     import std.array : appender;
@@ -1247,7 +1247,7 @@ if (is(StaticArrayTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     formatValue(w, getTwo(), f);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18205
+// upstream issue 18205
 @safe pure unittest
 {
     assert("|%8s|".format("abc")       == "|     abc|");
@@ -1283,7 +1283,7 @@ if (is(DynamicArrayTypeOf!T) && !is(StringTypeOf!T) && !is(T == enum) && !hasToS
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20848
+// upstream issue 20848
 @safe unittest
 {
     class C
@@ -1381,7 +1381,7 @@ if (is(DynamicArrayTypeOf!T) && !is(StringTypeOf!T) && !is(T == enum) && !hasToS
     formatTest("%-(%s:%-(%s%)%|, %)", aa2, [`1:abcd, 2:efgh`, `2:efgh, 1:abcd`]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18778
+// upstream issue 18778
 @safe pure unittest
 {
     assert(format("%-(%1$s - %1$s, %)", ["A", "B", "C"]) == "A - A, B - B, C - C");
@@ -1755,7 +1755,7 @@ if (is(AssocArrayTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
                [`{[0001->h.e.l.l.o] $ [0002->w.o.r.l.d]}`,
                 `{[0002->w.o.r.l.d] $ [0001->h.e.l.l.o]}`]);
 
-    // https://issues.dlang.org/show_bug.cgi?id=12135
+    // upstream issue 12135
     formatTest("%(%s:<%s>%|,%)", [1:2], "1:<2>");
     formatTest("%(%s:<%s>%|%)" , [1:2], "1:<2>");
 }
@@ -1779,7 +1779,7 @@ if (is(AssocArrayTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     formatTest(S2(['c':1, 'd':2]), "S");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21875
+// upstream issue 21875
 @safe unittest
 {
     import std.exception : assertThrown;
@@ -1806,7 +1806,7 @@ if (is(AssocArrayTypeOf!T) && !is(T == enum) && !hasToString!(T, Char))
     assertThrown!FormatException(format("%(%s%1$s%)", aa));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21808
+// upstream issue 21808
 @safe unittest
 {
     auto spelled = [ 1 : "one" ];
@@ -2124,7 +2124,7 @@ template hasToString(T, Char)
             static assert(hasToString!(O, char) == inCharSink);
         }
 
-        // https://issues.dlang.org/show_bug.cgi?id=22873
+        // upstream issue 22873
         static assert(hasToString!(inout(A), char) == customPutWriter);
         static assert(hasToString!(inout(B), char) == constCharSinkFormatSpec);
         static assert(hasToString!(inout(C), char) == constCharSinkFormatString);
@@ -2274,7 +2274,7 @@ if (is(T == class) && !is(T == enum))
         static if ((is(T == immutable) || is(T == const) || is(T == shared)) && overload == none)
         {
             // Remove this when Object gets const toString
-            // https://issues.dlang.org/show_bug.cgi?id=7879
+            // upstream issue 7879
             static if (is(T == immutable))
                 put(w, "immutable(");
             else static if (is(T == const))
@@ -2318,7 +2318,7 @@ if (is(T == class) && !is(T == enum))
     import std.array : appender;
     import std.range.interfaces : inputRangeObject;
 
-    // class range (https://issues.dlang.org/show_bug.cgi?id=5154)
+    // class range (upstream issue 5154)
     auto c = inputRangeObject([1,2,3,4]);
     formatTest(c, "[1, 2, 3, 4]");
     assert(c.empty);
@@ -2328,7 +2328,7 @@ if (is(T == class) && !is(T == enum))
 
 @system unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=5354
+    // upstream issue 5354
     // If the class has both range I/F and custom toString, the use of custom
     // toString routine is prioritized.
 
@@ -2387,7 +2387,7 @@ version (StdUnittest)
     private class C {}
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=7879
+// upstream issue 7879
 @safe unittest
 {
     const(C) c;
@@ -2407,7 +2407,7 @@ version (StdUnittest)
     assert(s == "shared(std.format.internal.write.C)");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=7879
+// upstream issue 7879
 @safe unittest
 {
     class F
@@ -2491,7 +2491,7 @@ if (is(T == interface) && (hasToString!(T, Char) || !is(BuiltinTypeOf!T)) && !is
     Whatever val = new C;
     formatTest(val, "ab");
 
-    // https://issues.dlang.org/show_bug.cgi?id=11175
+    // upstream issue 11175
     version (Windows)
     {
         import core.sys.windows.com : IID, IUnknown;
@@ -2546,7 +2546,7 @@ if ((is(T == struct) || is(T == union)) && (hasToString!(T, Char) || !is(Builtin
             {
                 // ignore hidden context pointer
             }
-            /* https://github.com/dlang/phobos/issues/10840
+            /* upstream phobos issue 10840
              * handle possible bitfields by doing overlap comparisons
              * using bit counts rather than byte counts.
              * However, the overlap
@@ -2595,14 +2595,14 @@ if ((is(T == struct) || is(T == union)) && (hasToString!(T, Char) || !is(Builtin
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9588
+// upstream issue 9588
 @safe pure unittest
 {
     struct S { int x; bool empty() { return false; } }
     formatTest(S(), "S(0)");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=4638
+// upstream issue 4638
 @safe unittest
 {
     struct U8  {  string toString() const { return "blah"; } }
@@ -2613,7 +2613,7 @@ if ((is(T == struct) || is(T == union)) && (hasToString!(T, Char) || !is(Builtin
     formatTest(U32(), "blah");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=3890
+// upstream issue 3890
 @safe unittest
 {
     struct Int{ int n; }
@@ -2622,7 +2622,7 @@ if ((is(T == struct) || is(T == union)) && (hasToString!(T, Char) || !is(Builtin
                `Pair("hello", Int(5))`);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9117
+// upstream issue 9117
 @safe unittest
 {
     import std.format : formattedWrite;
@@ -2702,7 +2702,7 @@ if ((is(T == struct) || is(T == union)) && (hasToString!(T, Char) || !is(Builtin
     import std.array : appender;
     import std.format : formatValue;
 
-    // https://issues.dlang.org/show_bug.cgi?id=7230
+    // upstream issue 7230
     static struct Bug7230
     {
         string s = "hello";
@@ -2757,7 +2757,7 @@ if ((is(T == struct) || is(T == union)) && (hasToString!(T, Char) || !is(Builtin
     static assert(!__traits(compiles, formatValue(w, bar, f)));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21722
+// upstream issue 21722
 @safe unittest
 {
     struct Bar
@@ -2823,7 +2823,7 @@ if ((is(T == struct) || is(T == union)) && (hasToString!(T, Char) || !is(Builtin
     assert(w.data == "TestContainer(helloworld)", w.data);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17269
+// upstream issue 17269
 @safe unittest
 {
     import std.typecons : Nullable;
@@ -2837,7 +2837,7 @@ if ((is(T == struct) || is(T == union)) && (hasToString!(T, Char) || !is(Builtin
     formatTest(f, "Foo(Nullable.null)");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19003
+// upstream issue 19003
 @safe unittest
 {
     struct S
@@ -2949,7 +2949,7 @@ if (is(T == enum))
     assert(t2 == "[ cast(A)" ~ "10] [cast(A)" ~ "10 ]"); // due to bug in style checker
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8921
+// upstream issue 8921
 @safe unittest
 {
     enum E : char { A = 'a', B = 'b', C = 'c' }
@@ -3011,7 +3011,7 @@ if (isPointer!T && !is(T == enum) && !hasToString!(T, Char))
     formatTest(q, "FFEECCAA");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11782
+// upstream issue 11782
 @safe pure unittest
 {
     import std.range : iota;
@@ -3025,7 +3025,7 @@ if (isPointer!T && !is(T == enum) && !hasToString!(T, Char))
 
 @safe pure unittest
 {
-    // Test for https://issues.dlang.org/show_bug.cgi?id=7869
+    // Test for upstream issue 7869
     struct S
     {
         string toString() const { return ""; }
@@ -3037,14 +3037,14 @@ if (isPointer!T && !is(T == enum) && !hasToString!(T, Char))
     formatTest(q, "FFEECCAA");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9336
+// upstream issue 9336
 @system pure unittest
 {
     shared int i;
     format("%s", &i);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11778
+// upstream issue 11778
 @safe pure unittest
 {
     import std.exception : assertThrown;
@@ -3055,7 +3055,7 @@ if (isPointer!T && !is(T == enum) && !hasToString!(T, Char))
     assertThrown!FormatException(format("%04d", () @trusted { return p + 2; } ()));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12505
+// upstream issue 12505
 @safe pure unittest
 {
     void* p = null;
@@ -3079,7 +3079,7 @@ if (isSIMDVector!V)
     {
         version (X86)
         {
-            version (OSX) {/* https://issues.dlang.org/show_bug.cgi?id=17823 */}
+            version (OSX) {/* upstream issue 17823 */}
         }
         else
         {
@@ -3096,7 +3096,7 @@ if (isSIMDVector!V)
 /*
     Delegates are formatted by `ReturnType delegate(Parameters) FunctionAttributes`
 
-    Known bug: Because of issue https://issues.dlang.org/show_bug.cgi?id=18269
+    Known bug: Because of upstream issue 18269
                the FunctionAttributes might be wrong.
  */
 void formatValueImpl(Writer, T, Char)(auto ref Writer w, scope const(T), scope const ref FormatSpec!Char f)
@@ -3126,7 +3126,7 @@ if (is(StringTypeOf!T) && !hasToString!(T, Char) && !is(T == enum))
     import std.range.primitives : put;
     import std.utf : decode, UTFException;
 
-    StringTypeOf!T str = val;   // https://issues.dlang.org/show_bug.cgi?id=8015
+    StringTypeOf!T str = val;   // upstream issue 8015
 
     if (f.spec == 's')
     {
@@ -3201,7 +3201,7 @@ if (is(StringTypeOf!T) && !hasToString!(T, Char) && !is(T == enum))
     assert(w.data == "\"H\"", w.data);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15888
+// upstream issue 15888
 @safe pure unittest
 {
     import std.array : appender;
@@ -3246,7 +3246,7 @@ if ((!is(StringTypeOf!T) || hasToString!(T, Char)) && !is(CharTypeOf!T) || is(T 
     formatValue(w, val, f);
 }
 
-// Fix for https://issues.dlang.org/show_bug.cgi?id=1591
+// Fix for upstream issue 1591
 int getNthInt(string kind, A...)(uint index, A args)
 {
     return getNth!(kind, isIntegral, int)(index, args);
@@ -3361,7 +3361,7 @@ if (isSomeString!T1 && isSomeString!T2 && isSomeString!T3 && isSomeString!T4)
     long fractsWidth = fracts.length; // TODO: does not take graphemes into account
     long suffixWidth;
 
-    // TODO: remove this workaround which hides https://issues.dlang.org/show_bug.cgi?id=21815
+    // TODO: remove this workaround which hides upstream issue 21815
     if (f.width > 0)
     {
         prefixWidth = getWidth(prefix);
@@ -3594,7 +3594,7 @@ if (isSomeString!T1 && isSomeString!T2 && isSomeString!T3 && isSomeString!T4)
     writeAligned(w, "pre", "grouping", "suf", spec);
     assert(w.data == "pre000,0gr,oup,ingsuf", w.data);
 
-    // According to https://github.com/dlang/phobos/pull/7112 this
+    // According to upstream phobos pull request 7112 this
     // is defined by POSIX standard:
     w = appender!string();
     spec = singleSpec("%022,3s");

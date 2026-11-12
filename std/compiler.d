@@ -1,14 +1,14 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
  * Identify the compiler used and its various features.
  *
- * Copyright: Copyright The D Language Foundation 2000 - 2011.
+ * Copyright: Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 Destiny contributors.
  * License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors:   $(HTTP digitalmars.com, Walter Bright), Alex Rønne Petersen
  * Source:    $(PHOBOSSRC std/compiler.d)
  */
-/*          Copyright The D Language Foundation 2000 - 2011.
+/*          Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 Destiny contributors.
  * Distributed under the Boost Software License, Version 1.0.
  *    (See accompanying file LICENSE_1_0.txt or copy at
  *          http://www.boost.org/LICENSE_1_0.txt)
@@ -50,7 +50,7 @@ immutable
 
 
     /**
-     * The version of the D Programming Language Specification
+     * The version of the Destiny Programming Language Specification
      * supported by the compiler.
      */
     uint D_major = 2;

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 Implements functionality to read and write JavaScript Object Notation values.
@@ -8,7 +8,7 @@ It's easy for humans to read and write, and it's easy for machines to parse and 
 
 $(RED Warning: While $(LREF JSONValue) is fine for small-scale use, at the range of hundreds of megabytes it is
 known to cause and exacerbate GC problems. If you encounter problems, try replacing it with a stream parser. See
-also $(LINK https://forum.dlang.org/post/dzfyaxypmkdrpakmycjv@forum.dlang.org).)
+also $(LINK https://github.com/Destiny-Org/destiny).)
 
 Copyright: Copyright Jeremie Pelletier 2008 - 2009.
 License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
@@ -106,7 +106,7 @@ enum JSONType : byte
     // FIXME: Find some way to deprecate the enum members below, which does NOT
     // create lots of spam-like deprecation warnings, which can't be fixed
     // by the user. See discussion on this issue at
-    // https://forum.dlang.org/post/feudrhtxkaxxscwhhhff@forum.dlang.org
+    // https://github.com/Destiny-Org/destiny
     /* deprecated("Use .null_")    */ NULL = null_,
     /* deprecated("Use .string")   */ STRING = string,
     /* deprecated("Use .integer")  */ INTEGER = integer,
@@ -564,7 +564,7 @@ struct JSONValue
             type_tag = JSONType.string;
             store = Store(str: arg);
         }
-        // https://issues.dlang.org/show_bug.cgi?id=15884
+        // upstream issue 15884
         else static if (isSomeString!T)
         {
             type_tag = JSONType.string;
@@ -724,7 +724,7 @@ struct JSONValue
      * Unlike `emptyObject`, the order of inserted keys is preserved.
      */
     enum emptyOrderedObject = {
-        JSONValue v = void; // See https://github.com/dlang/phobos/pull/10617
+        JSONValue v = void; // See upstream phobos pull request 10617
         v.orderedObject = null;
         return v;
     }();
@@ -1184,7 +1184,7 @@ struct JSONValue
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20874
+// upstream issue 20874
 @system unittest
 {
     static struct MyCustomType
@@ -1202,10 +1202,10 @@ struct JSONValue
     if (false) // Just checking attributes
     {
         JSONValue json;
-        MyCustomType ilovedlang;
-        json = ilovedlang;
-        json["foo"] = ilovedlang;
-        auto s = ilovedlang in json;
+        MyCustomType ilovefate;
+        json = ilovefate;
+        json["foo"] = ilovefate;
+        auto s = ilovefate in json;
 
         B b;
         json ~= b;
@@ -1749,7 +1749,7 @@ if (isSomeFiniteCharInputRange!T)
     assert(json["key1"]["key2"].integer == 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20527
+// upstream issue 20527
 @safe unittest
 {
     static assert(parseJSON(`{"a" : 2}`)["a"].integer == 2);
@@ -1953,7 +1953,7 @@ if (isOutputRange!(Out,char))
                         }
 
                         import std.algorithm.sorting : sort;
-                        // https://issues.dlang.org/show_bug.cgi?id=14439
+                        // upstream issue 14439
                         // auto names = obj.keys;  // aa.keys can't be called in @safe code
                         auto names = new string[obj.length];
                         size_t i = 0;
@@ -2068,7 +2068,7 @@ if (isOutputRange!(Out,char))
     toValueImpl(root, 0);
 }
 
- // https://issues.dlang.org/show_bug.cgi?id=12897
+ // upstream issue 12897
 @safe unittest
 {
     JSONValue jv0 = JSONValue("test测试");
@@ -2083,7 +2083,7 @@ if (isOutputRange!(Out,char))
     assert(toJSON(jv1, false, JSONOptions.none) == `"été"`);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20511
+// upstream issue 20511
 @system unittest
 {
     import std.format.write : formattedWrite;
@@ -2115,7 +2115,7 @@ if (isOutputRange!(Out,char))
     assert(j["rating"].type == JSONType.float_);
     assert(isClose(j["rating"].floating, -3.0));
 
-    // https://issues.dlang.org/show_bug.cgi?id=13660
+    // upstream issue 13660
     auto jv1 = JSONValue(4.0);
     auto textual = jv1.toString();
     auto jv2 = parseJSON(textual);
@@ -2126,7 +2126,7 @@ if (isOutputRange!(Out,char))
 
 @safe unittest
 {
-    // Adapted from https://github.com/dlang/phobos/pull/5005
+    // Adapted from upstream phobos pull request 5005
     // Result from toString is not checked here, because this
     // might differ (%e-like or %f-like output) depending
     // on OS and compiler optimization.
@@ -2245,7 +2245,7 @@ class JSONException : Exception
     assert(jv3.str == "\u001C");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11504
+// upstream issue 11504
 @system unittest
 {
     JSONValue jv = 1;
@@ -2419,7 +2419,7 @@ class JSONException : Exception
 
 @system pure unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=12969
+    // upstream issue 12969
 
     JSONValue jv;
     jv["int"] = 123;
@@ -2433,9 +2433,9 @@ class JSONException : Exception
     assert(jv["array"].type == JSONType.array);
     assert(jv["array"][2].integer == 3);
 
-    jv["str"] = "D language";
+    jv["str"] = "Destiny language";
     assert(jv["str"].type == JSONType.string);
-    assert(jv["str"].str == "D language");
+    assert(jv["str"].str == "Destiny language");
 
     jv["bool"] = false;
     assert(jv["bool"].type == JSONType.false_);
@@ -2519,7 +2519,7 @@ pure nothrow @safe @nogc unittest
     assert(testVal.isNull);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15884
+// upstream issue 15884
 pure nothrow @safe unittest
 {
     import std.typecons;
@@ -2535,7 +2535,7 @@ pure nothrow @safe unittest
     Test!dchar();
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15885
+// upstream issue 15885
 @safe unittest
 {
     enum bool realInDoublePrecision = real.mant_dig == double.mant_dig;
@@ -2570,7 +2570,7 @@ pure nothrow @safe unittest
     assert(test(3*minSub));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17555
+// upstream issue 17555
 @safe unittest
 {
     import std.exception : assertThrown;
@@ -2578,7 +2578,7 @@ pure nothrow @safe unittest
     assertThrown!JSONException(parseJSON("\"a\nb\""));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17556
+// upstream issue 17556
 @safe unittest
 {
     auto v = JSONValue("\U0001D11E");
@@ -2586,7 +2586,7 @@ pure nothrow @safe unittest
     assert(j == `"\uD834\uDD1E"`);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5904
+// upstream issue 5904
 @safe unittest
 {
     string s = `"\uD834\uDD1E"`;
@@ -2594,14 +2594,14 @@ pure nothrow @safe unittest
     assert(j.str == "\U0001D11E");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17557
+// upstream issue 17557
 @safe unittest
 {
     assert(parseJSON("\"\xFF\"").str == "\xFF");
     assert(parseJSON("\"\U0001D11E\"").str == "\U0001D11E");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17553
+// upstream issue 17553
 @safe unittest
 {
     auto v = JSONValue("\xFF");
@@ -2615,7 +2615,7 @@ pure nothrow @safe unittest
     assert(parseJSON("\"\U0001D11E\"".byChar).str == "\U0001D11E");
 }
 
-// JSONOptions.doNotEscapeSlashes (https://issues.dlang.org/show_bug.cgi?id=17587)
+// JSONOptions.doNotEscapeSlashes (upstream issue 17587)
 @safe unittest
 {
     assert(parseJSON(`"/"`).toString == `"\/"`);
@@ -2624,7 +2624,7 @@ pure nothrow @safe unittest
     assert(parseJSON(`"\/"`).toString(JSONOptions.doNotEscapeSlashes) == `"/"`);
 }
 
-// JSONOptions.strictParsing (https://issues.dlang.org/show_bug.cgi?id=16639)
+// JSONOptions.strictParsing (upstream issue 16639)
 @safe unittest
 {
     import std.exception : assertThrown;
@@ -2722,7 +2722,7 @@ pure nothrow @safe unittest
     assertThrown(parseJSON(s, -1, JSONOptions.strictParsing));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20330
+// upstream issue 20330
 @safe unittest
 {
     import std.array : appender;
@@ -2736,7 +2736,7 @@ pure nothrow @safe unittest
     assert(app.data == s, app.data);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20330
+// upstream issue 20330
 @safe unittest
 {
     import std.array : appender;
@@ -2758,7 +2758,7 @@ pure nothrow @safe unittest
     assert(app.data == s, app.data);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24823 - JSONOptions.preserveObjectOrder
+// upstream issue 24823 - JSONOptions.preserveObjectOrder
 @safe unittest
 {
     import std.array : appender;

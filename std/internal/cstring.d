@@ -11,7 +11,7 @@ License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors: Denis Shelomovskij
 
 Macros:
-COREREF = $(HTTP dlang.org/phobos/core_$1.html#$2, `core.$1.$2`)
+COREREF = $(HTTP github.com/Destiny-Org/destiny/tree/main/druntime/src/core, `core.$1.$2`)
 */
 module std.internal.cstring;
 
@@ -84,7 +84,7 @@ if (isSomeChar!To && (isInputRange!From || isSomeString!From) &&
 
     // Note: res._ptr can't point to res._buff as structs are movable.
 
-    // https://issues.dlang.org/show_bug.cgi?id=14980
+    // upstream issue 14980
     static if (isSomeString!From)
     {
         if (str is null)
@@ -204,7 +204,7 @@ nothrow @nogc @system unittest
     assert(tempCString(abc[].byChar)[] == abc);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14980
+// upstream issue 14980
 pure nothrow @nogc @safe unittest
 {
     const(char[]) str = null;

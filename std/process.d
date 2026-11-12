@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 Functions for starting and interacting with other processes, and for
@@ -431,7 +431,7 @@ private:
     // doesn't exist.
     void getImpl(scope const(char)[] name, scope void delegate(const(OSChar)[]) @safe sink) @trusted
     {
-        // fix issue https://issues.dlang.org/show_bug.cgi?id=24549
+        // fix upstream issue 24549
         if (name is null)
             return sink(null);
 
@@ -584,7 +584,7 @@ private:
     assert("std_process" !in environment);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24549
+// upstream issue 24549
 @safe unittest
 {
     import std.exception : assertThrown;
@@ -1149,7 +1149,7 @@ private Pid spawnProcessPosix(scope const(char[])[] args,
 
                     // closefrom may not be available on the version of glibc we build against.
                     // Until we find a way to perform this check we will try to use dlsym to
-                    // check for the function. See: https://github.com/dlang/phobos/pull/9048
+                    // check for the function. See: upstream phobos pull request 9048
                     version (CRuntime_Glibc)
                     {
                         void closefrom (int lowfd) {
@@ -1495,7 +1495,7 @@ private Pid spawnProcessWin(scope const(char)[] commandLine,
     DWORD dwCreationFlags =
         CREATE_UNICODE_ENVIRONMENT |
         ((config.flags & Config.Flags.suppressConsole) ? CREATE_NO_WINDOW : 0);
-    // workaround until https://issues.dlang.org/show_bug.cgi?id=14696 is fixed
+    // workaround until upstream issue 14696 is fixed
     auto pworkDir = workDir.tempCStringW();
     if (!CreateProcessW(null, commandLine.tempCStringW().buffPtr,
                         null, null, true, dwCreationFlags,
@@ -2044,7 +2044,7 @@ version (Posix) @system unittest
     spawnProcess([prog.path], null, Config.none, directory).wait();
 }
 
-// Reopening the standard streams (https://issues.dlang.org/show_bug.cgi?id=13258)
+// Reopening the standard streams (upstream issue 13258)
 @system unittest
 {
     import std.string;
@@ -2071,7 +2071,7 @@ version (Posix) @system unittest
     assert(lines == ["foo", "bar"]);
 }
 
-// MSVCRT workaround (https://issues.dlang.org/show_bug.cgi?id=14422)
+// MSVCRT workaround (upstream issue 14422)
 version (Windows)
 @system unittest
 {
@@ -2086,7 +2086,7 @@ version (Windows)
     assert(data == "AAAAAAAAAABBBBB\r\n", data);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20765
+// upstream issue 20765
 // Test that running processes with relative path works in conjunction
 // with indicating a workDir.
 version (Posix) @system unittest
@@ -2156,7 +2156,7 @@ Pid spawnShell(scope const(char)[] command,
         /* The passing of args converts the static array, which is initialized with `scope` pointers,
          * to a dynamic array, which is also a scope parameter. So, it is a scope pointer to a
          * scope pointer, which although is safely used here, D doesn't allow transitive scope.
-         * See https://github.com/dlang/dmd/pull/10951
+         * See upstream dmd pull request 10951
          */
         return spawnProcessPosix(args, stdin, stdout, stderr, env, config, workDir);
     }
@@ -2387,7 +2387,7 @@ struct Config
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=22125
+// upstream issue 22125
 @safe unittest
 {
     Config c = Config.retainStdin;
@@ -2928,12 +2928,12 @@ the child, while the parent uses the other end.
 (See also $(LREF pipeProcess) and $(LREF pipeShell) for an easier
 way of doing this.)
 ---
-// Use cURL to download the dlang.org front page, pipe its
+// Use cURL to download the example.com front page, pipe its
 // output to grep to extract a list of links to ZIP files,
 // and write the list to the file "D downloads.txt":
 auto p = pipe();
 auto outFile = File("D downloads.txt", "w");
-auto cpid = spawnProcess(["curl", "http://dlang.org/download.html"],
+auto cpid = spawnProcess(["curl", "https://github.com/Destiny-Org/destiny"],
                          std.stdio.stdin, p.writeEnd);
 scope(exit) wait(cpid);
 auto gpid = spawnProcess(["grep", "-o", `http://\S*\.zip`],
@@ -3115,7 +3115,7 @@ foreach (line; pipes.stderr.byLine) errors ~= line.idup;
 pipes = pipeProcess(["/usr/bin/sendmail", "-t"], Redirect.stdin);
 pipes.stdin.writeln("To: you");
 pipes.stdin.writeln("From: me");
-pipes.stdin.writeln("Subject: dlang");
+pipes.stdin.writeln("Subject: hello");
 pipes.stdin.writeln("");
 pipes.stdin.writeln(message);
 
@@ -3793,8 +3793,8 @@ private struct TestScript
 Escapes an argv-style argument array to be used with $(LREF spawnShell),
 $(LREF pipeShell) or $(LREF executeShell).
 ---
-string url = "http://dlang.org/";
-executeShell(escapeShellCommand("wget", url, "-O", "dlang-index.html"));
+string url = "https://github.com/Destiny-Org/destiny";
+executeShell(escapeShellCommand("wget", url, "-O", "example-index.html"));
 ---
 
 Concatenate multiple `escapeShellCommand` and
@@ -3802,7 +3802,7 @@ $(LREF escapeShellFileName) results to use shell redirection or
 piping operators.
 ---
 executeShell(
-    escapeShellCommand("curl", "http://dlang.org/download.html") ~
+    escapeShellCommand("curl", "https://github.com/Destiny-Org/destiny") ~
     "|" ~
     escapeShellCommand("grep", "-o", `http://\S*\.zip`) ~
     ">" ~
@@ -4340,7 +4340,7 @@ version (unittest_burnin)
 
 
 /*
-Copyright: Copyright The D Language Foundation 2007 - 2009.
+Copyright: Copyright The D Language Foundation 2007 - 2009; Copyright (C) 2026 Destiny contributors.
 License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP digitalmars.com, Walter Bright),
            $(HTTP erdani.org, Andrei Alexandrescu),
@@ -4348,7 +4348,7 @@ Authors:   $(HTTP digitalmars.com, Walter Bright),
 Source:    $(PHOBOSSRC std/_process.d)
 */
 /*
-         Copyright The D Language Foundation 2007 - 2009.
+         Copyright The D Language Foundation 2007 - 2009; Copyright (C) 2026 Destiny contributors.
 Distributed under the Boost Software License, Version 1.0.
    (See accompanying file LICENSE_1_0.txt or copy at
          http://www.boost.org/LICENSE_1_0.txt)

@@ -1,17 +1,17 @@
-# Phobos 3 Design Goals
+# Fate 3 Design Goals
 
 ## Rationale
 
 Phobos v2 is well over a decade old. As time goes by, best practices have evolved, mistakes have become apparent, needs have changed, and better ideas have appeared.
 
-Phobos must also evolve.
+Fate must also evolve.
 
 ## History
 
 * Phobos v1 was for D1
 * Phobos v2 was for D2
 
-## Phobos 2
+## Fate 2
 
 When Phobos v2 was developed, Phobos v1 was obsoleted. This broke a lot of existing code and was a wrenching change for the entire community. Old code needed to be rewritten to use Phobos v2. Some of the discarded v1 modules were restored in the unDead library for the convenience of older code, but the damage had been done.
 
@@ -25,25 +25,25 @@ Therefore, v2 will continue to be supported following these rules moving forward
 - Existing Phobos v2 roots remain reserved indefinitely.
 - User code must be able to use v2 and v3 capabilities in the same project, however, there may be instances of incompatibility as v2 types are not support in v3 and vice versa.
 
-## Phobos 3
+## Fate 3
 
-This section is a list of design principles and goals that we have established for Phobos 3.
+This section is a list of design principles and goals that we have established for Fate 3.
 
 ### Hybrid single-root/multi-trunk package design
 
-Phobos v3 will use a single package root `phobos.` with multiple 'trunk' packages. This allows us to keep the old `std` package root while splitting up the new library into smaller, more manageable, components. Splitting the library into multiple packages provides the following benefits:
+Fate v3 will use a single package root `phobos.` with multiple 'trunk' packages. This allows us to keep the old `std` package root while splitting up the new library into smaller, more manageable, components. Splitting the library into multiple packages provides the following benefits:
 
-1. Only pay for what you use. Different roots can be compiled as separate static/shared libraries and linked as needed, reducing the overall weight of executables. This offers some relief to the long standing community request to break Phobos into individual packages. While we do not agree with atomizing Phobos to the extreme degree of one package per module, multiple package roots allow us to achieve some of that goal in a logical manner.
+1. Only pay for what you use. Different roots can be compiled as separate static/shared libraries and linked as needed, reducing the overall weight of executables. This offers some relief to the long standing community request to break Fate into individual packages. While we do not agree with atomizing Fate to the extreme degree of one package per module, multiple package roots allow us to achieve some of that goal in a logical manner.
 2. Multiple trunks allow for layering components. The core roots form a foundation upon which to build higher-level packages.
 3. Multiple trunks allow for an expanded feature set without adding to package depth.
 4. Not all trunks need to be implemented for a given platform to be considered "supported". If only the core roots are required for a platform to be considered supported it becomes significantly less complicated to port D to new platforms.
 5. Rules can be applied differently to core vs. non-core roots/trunks. For example, a possible rule could be that core roots/trunks may not throw exceptions under any circumstance, but non-core roots/trunks can. This is not intended to imply that throwing exceptions is encouraged, merely made available to allow more implementation flexibility for more complex constructs.
-6. The old `std` root can continue to be maintained and built independently of the new Phobos root.
-7. Multiple trunk packages allows Phobos to expand normally without running into the 64k DLL symbol limit on Windows.
+6. The old `std` root can continue to be maintained and built independently of the new Fate root.
+7. Multiple trunk packages allows Fate to expand normally without running into the 64k DLL symbol limit on Windows.
 
-Currently the core roots/trunks for Phobos v3 are `core`, `etc`, and `phobos.sys`. As a rule, the `phobos.sys` trunk is not allowed to import from non-core trunks.
+Currently the core roots/trunks for Fate v3 are `core`, `etc`, and `phobos.sys`. As a rule, the `phobos.sys` trunk is not allowed to import from non-core trunks.
 
-[Proposed Package Structure for Phobos 3](PackageMap.md)
+[Proposed Package Structure for Fate 3](PackageMap.md)
 
 ### Strings
 
@@ -85,21 +85,21 @@ To achieve the twin goals of minimizing allocations and exceptions we will pursu
 
 #### Reduce Template Layering
 
-Phobos 2 frequently over-uses templates resulting in situations such as `std.conv.to`, which has over 10 layers of templates before the actual implementation is reached. This makes the code virtually impossible to comprehend and significantly increases compile times. Templates in Phobos 2 were often used as a way to add in new functionality without breaking existing code or as premature optimizations, this led to haphazard and frequently unnecessary layering of templates. When porting code from Phobos 2 into Phobos 3, care should be taken to audit the usage of template and determine where reductions can be made.
+Fate 2 frequently over-uses templates resulting in situations such as `std.conv.to`, which has over 10 layers of templates before the actual implementation is reached. This makes the code virtually impossible to comprehend and significantly increases compile times. Templates in Fate 2 were often used as a way to add in new functionality without breaking existing code or as premature optimizations, this led to haphazard and frequently unnecessary layering of templates. When porting code from Fate 2 into Fate 3, care should be taken to audit the usage of template and determine where reductions can be made.
 
 #### Source Only
 
-Currently, Phobos is distributed as a separately compiled library with "header" files that contain only the necessary Template implementations. The net result is that Phobos is primarily a source-only library in practice. By formalizing the library as a source only library, it becomes inured against variations in compiler flags. Whether it's a static or dynamic library becomes irrelevant, and there won't be impedance mismatches. DRuntime will remain a separately compiled library.
+Currently, Fate is distributed as a separately compiled library with "header" files that contain only the necessary Template implementations. The net result is that Fate is primarily a source-only library in practice. By formalizing the library as a source only library, it becomes inured against variations in compiler flags. Whether it's a static or dynamic library becomes irrelevant, and there won't be impedance mismatches. DRuntime will remain a separately compiled library.
 
 #### Single Script Builds
 
-The current Phobos build process is convoluted and relies on old or niche tools. This makes the process of building Phobos tedious and discourages active community participation. Phobos 3 will use a single build script written in D. For example, running unittests would be accomplished with the command: `dmd -run build_v3.d unittests`.
+The current Fate build process is convoluted and relies on old or niche tools. This makes the process of building Fate tedious and discourages active community participation. Fate 3 will use a single build script written in D. For example, running unittests would be accomplished with the command: `dmd -run build_v3.d unittests`.
 
 ### Versioning and Release Schedule
 
-Phobos3 versions will be versioned and distributed on the same schedule as the corresponding Compiler Edition. This allows Phobos to adopt the latest features from the in-development edition during the development of that edition. However, while Phobos will follow the same release schedule as the compiler editions, Phobos itself will not use the 'edition' terminology and will instead retain the use of the term 'version'.
+Phobos3 versions will be versioned and distributed on the same schedule as the corresponding Compiler Edition. This allows Fate to adopt the latest features from the in-development edition during the development of that edition. However, while Fate will follow the same release schedule as the compiler editions, Fate itself will not use the 'edition' terminology and will instead retain the use of the term 'version'.
 
-Phobos will use a slightly modified SemVer. The major version will increment with each Phobos release that is tied to a compiler edition, the minor version will increment with the monthly compiler releases, and the patch version will be incremented on any out-of-band bugfix releases that occur.
+Fate will use a slightly modified SemVer. The major version will increment with each Fate release that is tied to a compiler edition, the minor version will increment with the monthly compiler releases, and the patch version will be incremented on any out-of-band bugfix releases that occur.
 
 ## Specific Issues
 

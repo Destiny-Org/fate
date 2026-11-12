@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 This package implements the hash-based message authentication code (_HMAC)

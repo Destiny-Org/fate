@@ -1,4 +1,4 @@
-//Written in the D programming language
+//Written in the Destiny programming language
 
 /**
  * Implements functionality to read Comma Separated Values and its variants
@@ -125,7 +125,7 @@ class CSVException : Exception
     size_t row, col;
 
     // FIXME: Use std.exception.basicExceptionCtors here once
-    // https://issues.dlang.org/show_bug.cgi?id=11500 is fixed
+    // upstream issue 11500 is fixed
 
     this(string msg, string file = __FILE__, size_t line = __LINE__,
          Throwable next = null) @nogc @safe pure nothrow
@@ -175,7 +175,7 @@ class CSVException : Exception
     assert(ex.toString == "(Row: 1, Col: 2) Unexpected 'b' when converting from type string to type int");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24478
+// upstream issue 24478
 @safe unittest
 {
     import std.exception : collectException;
@@ -1263,7 +1263,7 @@ public:
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15545
+// upstream issue 15545
 // @system due to the catch for Throwable
 @system pure unittest
 {
@@ -1836,7 +1836,7 @@ if (isSomeChar!Separator && isInputRange!Range
     assert(a.data == ""d);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8908
+// upstream issue 8908
 @safe pure unittest
 {
     string csv = `  1.0, 2.0, 3.0
@@ -1869,7 +1869,7 @@ if (isSomeChar!Separator && isInputRange!Range
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21629
+// upstream issue 21629
 @safe pure unittest
 {
     import std.typecons : Tuple;

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 Allocator that collects useful statistics about allocations, both global and per
 calling point. The statistics collected can be configured statically by choosing
@@ -767,7 +767,7 @@ public:
     import std.range : walkLength;
     import std.stdio : File;
 
-    auto f = deleteme ~ "-dlang.std.experimental.allocator.stats_collector.txt";
+    auto f = deleteme ~ "-fate.std.experimental.allocator.stats_collector.txt";
     scope(exit) remove(f);
     Allocator.reportPerCallStatistics(File(f, "w"));
     alloc.reportStatistics(File(f, "a"));

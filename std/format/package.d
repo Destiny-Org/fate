@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 This package provides string formatting functionality using
@@ -538,7 +538,7 @@ $(BOOKTABLE ,
    )
 )
 
-Copyright: Copyright The D Language Foundation 2000-2021.
+Copyright: Copyright The D Language Foundation 2000-2021; Copyright (C) 2026 Destiny contributors.
 
 Macros:
 SUBREF = $(REF_ALTTEXT $2, $2, std, format, $1)$(NBSP)
@@ -820,7 +820,7 @@ if (isSomeChar!Char)
     assert(is(typeof(format("happy"d)) == dstring));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16661
+// upstream issue 16661
 @safe pure unittest
 {
     assert(format("%.2f"d, 0.4) == "0.40");
@@ -1026,7 +1026,7 @@ if (isSomeChar!Char)
     assert(r == "012345");
     r = format("%o", 9);
     assert(r == "11");
-    r = format("%#o", 0);   // https://issues.dlang.org/show_bug.cgi?id=15663
+    r = format("%#o", 0);   // upstream issue 15663
     assert(r == "0");
 
     r = format("%+d", 123);
@@ -1215,7 +1215,7 @@ if (isSomeChar!Char)
     assert(tmp == "2345", tmp);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18047
+// upstream issue 18047
 @safe unittest
 {
     auto cmp = "     123,456";
@@ -1226,7 +1226,7 @@ if (isSomeChar!Char)
     assert(tmp == cmp, "'" ~ tmp ~ "'");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17459
+// upstream issue 17459
 @safe unittest
 {
     auto cmp = "100";
@@ -1258,7 +1258,7 @@ if (isSomeChar!Char)
     assert(tmp == cmp, tmp);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17459
+// upstream issue 17459
 @safe unittest
 {
     auto cmp = "100,000";
@@ -1274,7 +1274,7 @@ if (isSomeChar!Char)
     assert(tmp == cmp, tmp);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20288
+// upstream issue 20288
 @safe unittest
 {
     string s = format("%,.2f", double.nan);
@@ -1356,7 +1356,7 @@ if (isSomeChar!Char)
     assert(result == "    1");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23245
+// upstream issue 23245
 @safe unittest
 {
     static struct S
@@ -1368,7 +1368,7 @@ if (isSomeChar!Char)
     assert(format("%s", s) == "[S]");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23246
+// upstream issue 23246
 @safe unittest
 {
     static struct S
@@ -1427,7 +1427,7 @@ if (isSomeString!(typeof(fmt)))
     static assert(!__traits(compiles, {s = format!"%d"(4.03);})); // incompatible arg
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17381
+// upstream issue 17381
 @safe pure unittest
 {
     static assert(!__traits(compiles, format!"%s"(1.5, 2)));
@@ -1695,7 +1695,7 @@ if (isSomeString!(typeof(fmt)))
     assert(u == v);
 }
 
-@safe unittest // https://issues.dlang.org/show_bug.cgi?id=23488
+@safe unittest // upstream issue 23488
 {
     static struct R
     {

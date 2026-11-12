@@ -1,5 +1,5 @@
 # This makefile is designed to be run by gnu make.
-# - Windows: you may download a prebuilt zipped .exe from https://github.com/dlang/dmd/releases/download/nightly/gnumake-4.4-win64.zip.
+# - Windows: install GNU make 4.x, for example with MSYS2 (`pacman -S make`) or Chocolatey (`choco install make`).
 #   You also need a Git for Windows installation, for bash and common GNU tools like cp,mkdir,mv,rm,touch,which.
 # - FreeBSD: the default make program on FreeBSD is not gnu make; to install gnu make:
 #     pkg install gmake
@@ -37,7 +37,7 @@
 QUIET:=@
 
 DEBUGGER=gdb
-GIT_HOME=https://github.com/dlang
+GIT_HOME=https://github.com/Destiny-Org
 DMD_DIR=../destiny_engine
 
 include $(DMD_DIR)/compiler/src/osmodel.mak
@@ -83,7 +83,7 @@ endif
 USE_IMPORTC:=1
 
 # FreeBSD 14 can't use importC for zlib thanks to asm in stdlib.h, which dmd can't handle.
-# https://issues.dlang.org/show_bug.cgi?id=24389
+# upstream issue 24389
 ifeq (freebsd,$(OS))
 	USE_IMPORTC=0
 endif
@@ -97,8 +97,7 @@ ROOT_OF_THEM_ALL = generated
 ROOT = $(ROOT_OF_THEM_ALL)/$(OS)/$(BUILD)/$(MODEL)
 DUB=dub
 TOOLS_DIR=../tools
-DSCANNER_HASH=dc907e4a24900cd20e365082c1232967b468be4d
-DSCANNER_DIR=$(ROOT_OF_THEM_ALL)/dscanner-$(DSCANNER_HASH)
+DSCANNER_DIR=$(ROOT_OF_THEM_ALL)/dscanner
 
 # Set DRUNTIME name and full path
 ifneq (,$(DRUNTIME))
@@ -391,7 +390,7 @@ ifeq ($(OS),freebsd)
     ifeq ($(MODEL),32)
     # Curl tests for FreeBSD 32-bit are temporarily disabled.
     # https://github.com/braddr/d-tester/issues/70
-    # https://issues.dlang.org/show_bug.cgi?id=18519
+    # upstream issue 18519
     DISABLED_TESTS += std/net/curl
     endif
 endif
@@ -557,7 +556,7 @@ build-html:
 	${MAKE} -C $(DLANG_ORG_DIR) -f posix.mak phobos-prerelease
 
 ################################################################################
-# Automatically create dlang/tools repository if non-existent
+# Automatically clone the Destiny-Org/tools repository if non-existent
 ################################################################################
 
 ${TOOLS_DIR}:
@@ -574,15 +573,14 @@ checkwhitespace: $(LIB) $(TOOLS_DIR)/checkwhitespace.d
 	$(DMD) $(DFLAGS) $(NODEFAULTLIB) $(LIB) -run $(TOOLS_DIR)/checkwhitespace.d $(CWS_TOCHECK)
 
 #############################
-# Submission to Phobos are required to conform to the DStyle
+# Submission to Fate are required to conform to the DStyle
 # The tests below automate some, but not all parts of the DStyle guidelines.
-# See also: http://dlang.org/dstyle.html
+# See also: https://github.com/Destiny-Org/destiny
 #############################
 
 $(DSCANNER_DIR):
-	git clone https://github.com/dlang-community/Dscanner $@
-	git -C $@ checkout $(DSCANNER_HASH)
-	git -C $@ submodule update --init --recursive
+	# Destiny-Org/d-scanner bundles its dependencies, so no submodules are needed
+	git clone --depth=1 ${GIT_HOME}/d-scanner $@
 
 $(DSCANNER_DIR)/dsc: | $(DSCANNER_DIR) $(DMD) $(LIB)
 	# debug build is faster, but disable 'missing import' messages (missing core from druntime)
@@ -594,7 +592,7 @@ style: style_lint publictests
 
 # runs static code analysis with Dscanner
 dscanner: $(LIB)
-	@# The dscanner target is without dependencies to avoid constant rebuilds of Phobos (`make` always rebuilds order-only dependencies)
+	@# The dscanner target is without dependencies to avoid constant rebuilds of Fate (`make` always rebuilds order-only dependencies)
 	@# However, we still need to ensure that the DScanner binary is built once
 	@[ -f $(DSCANNER_DIR)/dsc ] || ${MAKE} $(DSCANNER_DIR)/dsc
 	@echo "Running DScanner"
@@ -685,7 +683,7 @@ betterc-phobos-tests: $(addsuffix .betterc,$(D_MODULES))
 betterc: betterc-phobos-tests
 
 %.betterc: %.d | $(BETTERCTESTS_DIR)/.directory
-	@# Due to the FORCE rule on druntime, make will always try to rebuild Phobos (even as an order-only dependency)
+	@# Due to the FORCE rule on druntime, make will always try to rebuild Fate (even as an order-only dependency)
 	@# However, we still need to ensure that the test_extractor is built once
 	@[ -f "$(TESTS_EXTRACTOR)" ] || ${MAKE} "$(TESTS_EXTRACTOR)"
 	$(TESTS_EXTRACTOR) --betterC --attributes betterC \

@@ -1,4 +1,4 @@
-// Written in the D programming language
+// Written in the Destiny programming language
 
 // NOTE: When working on this module, be sure to run tests with -debug=std_socket
 // E.g.: dmd -version=StdUnittest -debug=std_socket -unittest -main -run socket
@@ -15,7 +15,7 @@
 
 /**
  * Socket primitives.
- * Example: See [listener.d](https://github.com/dlang/undeaD/blob/master/dmdsamples/listener.d) and [htmlget.d](https://github.com/dlang/undeaD/blob/master/dmdsamples/htmlget.d)
+ * Example: See [listener.d](https://github.com/Destiny-Org/destiny) and [htmlget.d](https://github.com/Destiny-Org/destiny)
  * License: $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors: Christopher E. Miller, $(HTTP klickverbot.at, David Nadlinger),
  *      $(HTTP thecybershadow.net, Vladimir Panteleev)
@@ -830,7 +830,7 @@ else @safe unittest
             ih.name);
 
     /* The following assert randomly fails in the test suite.
-     * https://issues.dlang.org/show_bug.cgi?id=22791
+     * upstream issue 22791
      * So just ignore it when it fails.
      */
     //assert(ih.getHostByAddr(ih.addrList[0]));
@@ -2167,7 +2167,7 @@ static if (is(sockaddr_un))
             // getpeername is free to return an empty name for a unix
             // domain socket pair or unbound socket. Let's confirm it
             // returns successfully and doesn't throw anything.
-            // See https://issues.dlang.org/show_bug.cgi?id=20544
+            // See upstream issue 20544
             assertNotThrown(pair[1].remoteAddress().toString());
         }
     }
@@ -2693,7 +2693,7 @@ else @safe unittest
 
             ubyte[1] b;
             // Socket.send can't be marked with `scope`
-            // -> @safe DIP1000 code can't use it - see https://github.com/dlang/phobos/pull/6204
+            // -> @safe DIP1000 code can't use it - see upstream phobos pull request 6204
             () @trusted {
                 testPair[0].send(b[]);
             }();
@@ -2703,7 +2703,7 @@ else @safe unittest
             assert(readSet.isSet(testPair[1]));
             assert(!readSet.isSet(testPair[0]));
             // Socket.receive can't be marked with `scope`
-            // -> @safe DIP1000 code can't use it - see https://github.com/dlang/phobos/pull/6204
+            // -> @safe DIP1000 code can't use it - see upstream phobos pull request 6204
             () @trusted {
                 testPair[1].receive(b[]);
             }();
@@ -2711,8 +2711,8 @@ else @safe unittest
     });
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14012
-// https://issues.dlang.org/show_bug.cgi?id=14013
+// upstream issue 14012
+// upstream issue 14013
 @safe unittest
 {
     auto set = new SocketSet(1);
@@ -3878,7 +3878,7 @@ class UdpSocket: Socket
     s.receiveFrom(buf, addr);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16514
+// upstream issue 16514
 @safe unittest
 {
     void checkAttributes(string attributes)()

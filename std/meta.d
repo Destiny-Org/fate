@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
  * Templates to manipulate
@@ -67,7 +67,7 @@
  *  $(LINK2 http://amazon.com/exec/obidos/ASIN/0201704315/ref=ase_classicempire/102-2957199-2585768,
  *      Modern C++ Design),
  *   Andrei Alexandrescu (Addison-Wesley Professional, 2001)
- * Copyright: Copyright The D Language Foundation 2005 - 2015.
+ * Copyright: Copyright The D Language Foundation 2005 - 2015; Copyright (C) 2026 Destiny contributors.
  * License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors:
  *     $(HTTP digitalmars.com, Walter Bright),
@@ -84,7 +84,7 @@ import std.range.primitives : isInfinite;
  * Creates a sequence of zero or more aliases. This is most commonly
  * used as template parameters or arguments.
  *
- * In previous versions of Phobos, this was known as `TypeTuple`.
+ * In previous versions of Fate, this was known as `TypeTuple`.
  */
 alias AliasSeq(TList...) = TList;
 
@@ -371,10 +371,10 @@ template NoDuplicates(args...)
 {
     import std.range : iota;
 
-    // https://issues.dlang.org/show_bug.cgi?id=14561: huge enums
+    // upstream issue 14561: huge enums
     alias LongList = Repeat!(1500, int);
     static assert(NoDuplicates!LongList.length == 1);
-    // https://issues.dlang.org/show_bug.cgi?id=17995: huge enums, revisited
+    // upstream issue 17995: huge enums, revisited
 
     alias a = NoDuplicates!(AliasSeq!(1, Repeat!(1000, 3)));
     alias b = NoDuplicates!(AliasSeq!(1, Repeat!(10, 3)));
@@ -590,7 +590,7 @@ template staticMap(alias fun, args...)
     static assert(is(T == AliasSeq!(int, int, int, uint, ubyte, byte, short, ushort, long)));
 
     // @@@ BUG @@@ The test below exposes failure of the straightforward use.
-    // See @adamdruppe's comment to https://github.com/dlang/phobos/pull/8039
+    // See @adamdruppe's comment to upstream phobos pull request 8039
     template id(alias what) {
             enum id = __traits(identifier, what);
     }
@@ -598,7 +598,7 @@ template staticMap(alias fun, args...)
     static assert(staticMap!(id, A.a) == AliasSeq!("a"));
 }
 
-// regression test for https://issues.dlang.org/show_bug.cgi?id=21088
+// regression test for upstream issue 21088
 @system unittest // typeid opEquals is @system
 {
     enum getTypeId(T) = typeid(T);
@@ -883,7 +883,7 @@ version (StdUnittest)
  *
  * Params:
  *     iter = the entity to convert into an `AliasSeq`. It must be able to be able to be iterated over using
- *            a $(LINK2 https://dlang.org/spec/statement.html#foreach-statement, foreach-statement).
+ *            a $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/statement.dd, foreach-statement).
  *
  * Returns:
  *     An `AliasSeq` containing the values produced by iterating over `iter`.

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 Functions and types that manipulate built-in arrays and associative arrays.
 
@@ -136,7 +136,7 @@ if (isIterable!Range && !isAutodecodableString!Range && !isInfinite!Range)
             }
         } catch (Exception e)
         {
-            //https://issues.dlang.org/show_bug.cgi?id=22185
+            //upstream issue 22185
             //Make any uninitialized elements safely destructible.
             foreach (ref elem; result[cnt..$])
             {
@@ -146,7 +146,7 @@ if (isIterable!Range && !isAutodecodableString!Range && !isInfinite!Range)
             throw e;
         }
         /*
-            https://issues.dlang.org/show_bug.cgi?id=22673
+            upstream issue 22673
 
             We preallocated an array, we should ensure that enough range elements
             were gathered such that every slot in the array is filled. If not, the GC
@@ -232,7 +232,7 @@ if (is(Range == U*, U) && isIterable!U && !isAutodecodableString!Range && !isInf
     assert(equal(a, [Foo(1), Foo(2), Foo(3), Foo(4), Foo(5)]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12315
+// upstream issue 12315
 @safe pure nothrow unittest
 {
     static struct Bug12315 { immutable int i; }
@@ -248,7 +248,7 @@ if (is(Range == U*, U) && isIterable!U && !isAutodecodableString!Range && !isInf
     assert(a.length == 5);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18995
+// upstream issue 18995
 @system unittest
 {
     import core.memory : __delete;
@@ -282,7 +282,7 @@ if (is(Range == U*, U) && isIterable!U && !isAutodecodableString!Range && !isInf
     )));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20937
+// upstream issue 20937
 @safe pure nothrow unittest
 {
     struct S {int* x;}
@@ -296,7 +296,7 @@ if (is(Range == U*, U) && isIterable!U && !isAutodecodableString!Range && !isInf
 }
 
 // Test that `array(scope InputRange r)` returns a non-scope array
-// https://issues.dlang.org/show_bug.cgi?id=23300
+// upstream issue 23300
 @safe pure nothrow unittest
 {
     @safe int[] fun()
@@ -415,7 +415,7 @@ if (isAutodecodableString!String)
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8233
+// upstream issue 8233
 @safe pure nothrow unittest
 {
     assert(array("hello world"d) == "hello world"d);
@@ -443,7 +443,7 @@ if (isAutodecodableString!String)
     }}
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9824
+// upstream issue 9824
 @safe pure nothrow unittest
 {
     static struct S
@@ -455,7 +455,7 @@ if (isAutodecodableString!String)
     arr.array();
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10220
+// upstream issue 10220
 @safe pure nothrow unittest
 {
     import std.algorithm.comparison : equal;
@@ -475,7 +475,7 @@ if (isAutodecodableString!String)
         assert(equal(r, [S(1), S(1)]));
     });
 }
-//https://issues.dlang.org/show_bug.cgi?id=22673
+//upstream issue 22673
 @system unittest
 {
     struct LyingRange
@@ -501,7 +501,7 @@ if (isAutodecodableString!String)
     import std.exception : assertThrown;
     assertThrown!Error(array(rng));
 }
-//https://issues.dlang.org/show_bug.cgi?id=22185
+//upstream issue 22185
 @system unittest
 {
     import std.stdio;
@@ -667,7 +667,7 @@ if (isInputRange!Values && isInputRange!Keys)
             if (values.empty) break;
 
             // aa[key] is incorrectly not @safe if the destructor throws
-            // https://issues.dlang.org/show_bug.cgi?id=18592
+            // upstream issue 18592
             static if (is(typeof(() @safe
             {
                 import std.range : ElementType;
@@ -714,7 +714,7 @@ if (isInputRange!Values && isInputRange!Keys)
 }
 
 // Cannot be version (StdUnittest) - recursive instantiation error
-// https://issues.dlang.org/show_bug.cgi?id=11053
+// upstream issue 11053
 @safe pure nothrow unittest
 {
     import std.typecons;
@@ -724,7 +724,7 @@ if (isInputRange!Values && isInputRange!Keys)
     assert([ tuple("foo", "bar") ].assocArray() == ["foo": "bar"]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13909
+// upstream issue 13909
 @safe pure nothrow unittest
 {
     import std.typecons;
@@ -735,7 +735,7 @@ if (isInputRange!Values && isInputRange!Keys)
     static assert(!__traits(compiles, assocArray(b)));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5502
+// upstream issue 5502
 @safe pure nothrow unittest
 {
     auto a = assocArray([0, 1, 2], ["a", "b", "c"]);
@@ -747,7 +747,7 @@ if (isInputRange!Values && isInputRange!Keys)
     assert(b == [0: 3L, 1: 4, 2: 5]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5502
+// upstream issue 5502
 @safe pure unittest
 {
     import std.algorithm.iteration : filter, map;
@@ -900,7 +900,7 @@ if (isAssociativeArray!AA)
     assert(savedPairs.front == tuple("a", 2));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17711
+// upstream issue 17711
 @safe pure nothrow unittest
 {
     const(int[string]) aa = [ "abc": 123 ];
@@ -1160,7 +1160,7 @@ private auto arrayAllocImpl(bool minimallyInitialized, T, I...)(I sizes) nothrow
     assert(s2.length == 0);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9803
+// upstream issue 9803
 @safe nothrow pure unittest
 {
     auto a = minimallyInitializedArray!(int*[])(1);
@@ -1171,7 +1171,7 @@ private auto arrayAllocImpl(bool minimallyInitialized, T, I...)(I sizes) nothrow
     assert(c[0][0] == null);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10637
+// upstream issue 10637
 @safe pure nothrow unittest
 {
     static struct S
@@ -1373,7 +1373,7 @@ if (is(typeof(a.ptr < b.ptr) == bool))
     assert(overlap(c, d.dup.idup).empty);
 }
 
- // https://issues.dlang.org/show_bug.cgi?id=9836
+ // upstream issue 9836
 @safe pure nothrow unittest
 {
     // range primitives for array should work with alias this types
@@ -1791,7 +1791,7 @@ private template isInputRangeOrConvertible(E)
     });
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6874
+// upstream issue 6874
 @system unittest
 {
     import core.memory;
@@ -2274,14 +2274,14 @@ if (isInputRange!RoR &&
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14230
+// upstream issue 14230
 @safe unittest
 {
    string[] ary = ["","aa","bb","cc"]; // leaded by _empty_ element
    assert(ary.join(" @") == " @aa @bb @cc"); // OK in 2.067b1 and olders
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21337
+// upstream issue 21337
 @system unittest
 {
     import std.algorithm.iteration : map;
@@ -2374,7 +2374,7 @@ if (isInputRange!RoR &&
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14230
+// upstream issue 14230
 @safe unittest
 {
    string[] ary = ["","aa","bb","cc"];
@@ -2595,7 +2595,7 @@ if (isInputRange!RoR &&
     assert(join(f([f([1, 2]), f([41, 42])]), f([5, 6])) == [1, 2, 5, 6, 41, 42]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10683
+// upstream issue 10683
 @safe unittest
 {
     import std.range : join;
@@ -2604,7 +2604,7 @@ if (isInputRange!RoR &&
     assert([[tuple("x")]].join == [tuple("x")]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13877
+// upstream issue 13877
 @safe unittest
 {
     // Test that the range is iterated only once.
@@ -2663,7 +2663,7 @@ if ((isForwardRange!R1 && isForwardRange!R2 && (hasLength!R2 || isSomeString!R2)
     assert([3, 3, 4, 3].replace([3, 3], [1, 1, 1]) == [1, 1, 1, 4, 3]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18215
+// upstream issue 18215
 @safe unittest
 {
     auto arr = ["aaa.dd", "b"];
@@ -2675,7 +2675,7 @@ if ((isForwardRange!R1 && isForwardRange!R2 && (hasLength!R2 || isSomeString!R2)
     assert(arr == ["_", "_", ".", "b", "c", ".", "e"]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18215
+// upstream issue 18215
 @safe unittest
 {
     assert([[0], [1, 2], [0], [3]].replace([0], [4]) == [[4], [1, 2], [4], [3]]);
@@ -2685,7 +2685,7 @@ if ((isForwardRange!R1 && isForwardRange!R2 && (hasLength!R2 || isSomeString!R2)
             .replace([[0], [1, 2]], [[4]]) == [[4], [0], [3], [1, 2], [4]]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10930
+// upstream issue 10930
 @safe unittest
 {
     assert([0, 1, 2].replace(1, 4) == [0, 4, 2]);
@@ -2858,7 +2858,7 @@ if (isOutputRange!(Sink, E) &&
     }}
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10930
+// upstream issue 10930
 @safe unittest
 {
     auto sink = appender!(int[])();
@@ -3070,7 +3070,7 @@ if (isInputRange!Range &&
     assert(replace(d, 5, 10, "⁴³²¹⁰"d) == "⁰¹²³⁴⁴³²¹⁰"d);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18166
+// upstream issue 18166
 @safe pure unittest
 {
     auto str = replace("aaaaa"d, 1, 4, "***"d);
@@ -3140,7 +3140,7 @@ if (is(typeof(replace(array, from, to, stuff))))
     assert(a == [1, 4, 5, 5]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12889
+// upstream issue 12889
 @safe unittest
 {
     int[1][] arr = [[0], [1], [2], [3], [4], [5], [6]];
@@ -3151,7 +3151,7 @@ if (is(typeof(replace(array, from, to, stuff))))
 
 @system unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=14925
+    // upstream issue 14925
     char[] a = "mon texte 1".dup;
     char[] b = "abc".dup;
     replaceInPlace(a, 4, 9, b);
@@ -3377,7 +3377,7 @@ if (isDynamicArray!(E[]) &&
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8187
+// upstream issue 8187
 @safe unittest
 {
     auto res = ["a", "a"];
@@ -4025,7 +4025,7 @@ if (isDynamicArray!A)
     assert(app3[] == "Appender!(int[])(0001, 0002, 0003)");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17251
+// upstream issue 17251
 @safe pure nothrow unittest
 {
     static struct R
@@ -4041,7 +4041,7 @@ if (isDynamicArray!A)
     app.put(r[]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13300
+// upstream issue 13300
 @safe pure nothrow unittest
 {
     static test(bool isPurePostblit)()
@@ -4077,7 +4077,7 @@ if (isDynamicArray!A)
     static assert(!__traits(compiles, () pure { test!false(); }));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19572
+// upstream issue 19572
 @safe pure nothrow unittest
 {
     static struct Struct
@@ -4108,7 +4108,7 @@ if (isDynamicArray!A)
     assert(wstr.data == str.to!wstring);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21256
+// upstream issue 21256
 @safe pure unittest
 {
     Appender!string app1;
@@ -4118,7 +4118,7 @@ if (isDynamicArray!A)
     app2.toString();
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24856
+// upstream issue 24856
 @system unittest
 {
     import core.memory : GC;
@@ -4155,7 +4155,7 @@ if (isDynamicArray!A)
         writeln("WARNING: test of Appender zeroing did not occur");
 }
 
-// https://github.com/dlang/phobos/issues/10747
+// upstream phobos issue 10747
 @system unittest
 {
     static struct A10747
@@ -4362,8 +4362,8 @@ Appender!(E[]) appender(A : E[], E)(auto ref A array)
     catch (Exception) assert(0);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5663
-// https://issues.dlang.org/show_bug.cgi?id=9725
+// upstream issue 5663
+// upstream issue 9725
 @safe pure nothrow unittest
 {
     import std.exception : assertNotThrown;
@@ -4400,7 +4400,7 @@ Appender!(E[]) appender(A : E[], E)(auto ref A array)
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10122
+// upstream issue 10122
 @safe pure nothrow unittest
 {
     import std.exception : assertCTFEable;
@@ -4517,7 +4517,7 @@ unittest
     w.put(r);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10690
+// upstream issue 10690
 @safe pure nothrow unittest
 {
     import std.algorithm.iteration : filter;
@@ -4591,7 +4591,7 @@ unittest
     a2.put([s2]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9528
+// upstream issue 9528
 @safe pure nothrow unittest
 {
     const(E)[] fastCopy(E)(E[] src) {
@@ -4609,7 +4609,7 @@ unittest
     assert(t.length == 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10753
+// upstream issue 10753
 @safe pure unittest
 {
     import std.algorithm.iteration : map;
@@ -4732,7 +4732,7 @@ unittest
 
 @system unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=13077
+    // upstream issue 13077
     static class A {}
 
     // reduced case
@@ -4837,7 +4837,7 @@ unittest
     assert(app3[] == [1, 2, 3]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14605
+// upstream issue 14605
 @safe pure nothrow unittest
 {
     static assert(isOutputRange!(Appender!(int[]), int));

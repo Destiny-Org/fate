@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 Source: $(PHOBOSSRC std/experimental/allocator/building_blocks/_free_tree.d)
 */
@@ -417,7 +417,7 @@ version (StdUnittest)
     testAllocator!(() => FreeTree!GCAllocator());
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16506
+// upstream issue 16506
 @system unittest
 {
     import std.experimental.allocator.gc_allocator : GCAllocator;
@@ -437,7 +437,7 @@ version (StdUnittest)
     f!GCAllocator(1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16507
+// upstream issue 16507
 @system unittest
 {
     static struct MyAllocator

@@ -1,11 +1,11 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 This is a submodule of $(MREF std, math).
 
 It contains classical algebraic functions like `abs`, `sqrt`, and `poly`.
 
-Copyright: Copyright The D Language Foundation 2000 - 2011.
+Copyright: Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 Destiny contributors.
 License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP digitalmars.com, Walter Bright), Don Clugston,
            Conversion of CEPHES math library to D by Iain Buclaw and David Nadlinger
@@ -104,14 +104,14 @@ if (isIntegral!Num || (is(typeof(Num.init >= 0)) && is(typeof(-Num.init))))
     }}
 }
 
-// see https://issues.dlang.org/show_bug.cgi?id=20205
+// see upstream issue 20205
 // to avoid falling into the trap again
 @safe pure nothrow @nogc unittest
 {
     assert(50 - abs(-100) == -50);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19162
+// upstream issue 19162
 @safe unittest
 {
     struct Vector(T, int size)
@@ -220,7 +220,7 @@ real sqrt(real x) @nogc @safe pure nothrow { return core.math.sqrt(x); }
 
 @safe unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=5305
+    // upstream issue 5305
     float function(float) psqrtf = &sqrt;
     assert(psqrtf != null);
     double function(double) psqrtd = &sqrt;
@@ -414,7 +414,7 @@ if (isFloatingPoint!T)
     assert(hypot(double.infinity, double.nan) == double.infinity);
 }
 
-// https://github.com/dlang/phobos/issues/10491
+// upstream phobos issue 10491
 @safe pure nothrow unittest
 {
     import std.math : isClose;
@@ -854,7 +854,7 @@ if (isFloatingPoint!T)
     }}
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15973
+// upstream issue 15973
 @safe @nogc pure nothrow unittest
 {
     assert(nextPow2(uint.max / 2) == uint.max / 2 + 1);

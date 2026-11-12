@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 The C heap allocator.
 
@@ -292,7 +292,7 @@ pure @nogc @system nothrow unittest
 version (Posix)
 pure @nogc @system nothrow unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=16398
+    // upstream issue 16398
     // test the "pseudo" alignedReallocate for Posix
     void[] b = AlignedMallocator.instance.alignedAllocate(16, 32);
     (cast(ubyte[]) b)[] = ubyte(1);
@@ -313,7 +313,7 @@ pure @nogc @system nothrow unittest
     version (LDC_AddressSanitizer) {} else // AddressSanitizer does not support such large memory allocations (0x10000000000 max)
     version (DragonFlyBSD) {} else    /* FIXME: Malloc on DragonFly does not return NULL when allocating more than UINTPTR_MAX
                                        * $(LINK: https://bugs.dragonflybsd.org/issues/3114, dragonfly bug report)
-                                       * $(LINK: https://github.com/dlang/druntime/pull/1999#discussion_r157536030, PR Discussion) */
+                                       * $(LINK: upstream druntime pull request 1999, PR Discussion) */
     assert(!AlignedMallocator.instance.alignedReallocate(c, size_t.max, 4096));
     AlignedMallocator.instance.deallocate(c);
 }

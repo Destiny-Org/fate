@@ -536,7 +536,7 @@ struct Task(alias fun, Args...)
         }
     }
 
-    // Work around DMD bug https://issues.dlang.org/show_bug.cgi?id=6588,
+    // Work around DMD upstream issue 6588,
     // allow immutable elements.
     static if (allSatisfy!(isAssignable, Args))
     {
@@ -1513,7 +1513,7 @@ private:
 
         // Disabled until writing code to support
         // running thread with specified priority
-        // See https://issues.dlang.org/show_bug.cgi?id=8960
+        // See upstream issue 8960
 
         /*if (priority != int.max)
         {
@@ -2759,7 +2759,7 @@ public:
             alias RTask = Task!(run, typeof(&reduceOnRange), R, size_t, size_t);
             RTask[] tasks;
 
-            // Can't use alloca() due to https://issues.dlang.org/show_bug.cgi?id=3753
+            // Can't use alloca() due to upstream issue 3753
             // Use a fixed buffer backed by malloc().
             enum maxStack = 2_048;
             byte[maxStack] buf = void;
@@ -3651,7 +3651,7 @@ ParallelForeach!R parallel(R)(R range, size_t workUnitSize)
 }
 
 //  `each` should be usable with parallel
-// https://issues.dlang.org/show_bug.cgi?id=17019
+// upstream issue 17019
 @system unittest
 {
     import std.algorithm.iteration : each, sum;
@@ -3667,7 +3667,7 @@ ParallelForeach!R parallel(R)(R range, size_t workUnitSize)
     assert(arrIndex.sum == 10.iota.sum);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=22745
+// upstream issue 22745
 @system unittest
 {
     auto pool = new TaskPool(0);
@@ -3707,7 +3707,7 @@ private void submitAndExecute(
     // The logical thing to do would be to just use alloca() here, but that
     // causes problems on Windows for reasons that I don't understand
     // (tentatively a compiler bug) and definitely doesn't work on Posix due
-    // to https://issues.dlang.org/show_bug.cgi?id=3753.
+    // to upstream issue 3753.
     // Therefore, allocate a fixed buffer and fall back to `malloc()` if
     // someone's using a ridiculous amount of threads.
     // Also, the using a byte array instead of a PTask array as the fixed buffer
@@ -4228,7 +4228,7 @@ version (StdUnittest)
 }
 
 // These test basic functionality but don't stress test for threading bugs.
-// These are the tests that should be run every time Phobos is compiled.
+// These are the tests that should be run every time Fate is compiled.
 @system unittest
 {
     import std.algorithm.comparison : equal, min, max;
@@ -4460,7 +4460,7 @@ version (StdUnittest)
         pool2.finish(true); // blocking
         assert(tSlow2.done);
 
-        // Test fix for https://issues.dlang.org/show_bug.cgi?id=8582 by making pool size zero.
+        // Test fix for upstream issue 8582 by making pool size zero.
         auto pool3 = new TaskPool(0);
         auto tSlow3 = task!slowFun();
         pool3.put(tSlow3);
@@ -4953,7 +4953,7 @@ version (parallelismStressTest)
     })));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17539
+// upstream issue 17539
 @system unittest
 {
     import std.random : rndGen;

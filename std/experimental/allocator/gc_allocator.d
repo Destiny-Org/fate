@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 Allocators that draw from the D runtime's garbage-collected heap.
 

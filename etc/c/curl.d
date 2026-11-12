@@ -5,8 +5,8 @@
    cleaned up by Jonas Drewsen (jdrewsen)
 
    Windows x86 note:
-   A DMD compatible libcurl static library can be downloaded from the dlang.org
-   $(LINK2 http://dlang.org/download.html, download page).
+   A DMD compatible libcurl static library can be downloaded from the upstream D
+   $(LINK2 https://github.com/Destiny-Org/destiny, download page).
 */
 
 /* **************************************************************************

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
  * Signals and Slots are an implementation of the Observer Pattern.
@@ -48,14 +48,14 @@
  * Macros:
  *      SIGNALS=signals
  *
- * Copyright: Copyright The D Language Foundation 2000 - 2009.
+ * Copyright: Copyright The D Language Foundation 2000 - 2009; Copyright (C) 2026 Destiny contributors.
  * License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors:   $(HTTP digitalmars.com, Walter Bright)
  * Source:    $(PHOBOSSRC std/signals.d)
  *
  * $(SCRIPT inhibitQuickIndex = 1;)
  */
-/*          Copyright The D Language Foundation 2000 - 2009.
+/*          Copyright The D Language Foundation 2000 - 2009; Copyright (C) 2026 Destiny contributors.
  * Distributed under the Boost Software License, Version 1.0.
  *    (See accompanying file LICENSE_1_0.txt or copy at
  *          http://www.boost.org/LICENSE_1_0.txt)
@@ -619,7 +619,7 @@ void linkin() { }
     a.value6 = 46;
 }
 
-// Triggers bug from https://issues.dlang.org/show_bug.cgi?id=15341
+// Triggers bug from upstream issue 15341
 @system unittest
 {
     class Observer
@@ -647,7 +647,7 @@ void linkin() { }
    a.emit(); // should not raise segfault since &o.watch2 is no longer connected
 }
 
-version (none) // Disabled because of https://issues.dlang.org/show_bug.cgi?id=5028
+version (none) // Disabled because of upstream issue 5028
 @system unittest
 {
     class A
@@ -661,7 +661,7 @@ version (none) // Disabled because of https://issues.dlang.org/show_bug.cgi?id=5
     }
 }
 
-// Triggers bug from https://issues.dlang.org/show_bug.cgi?id=16249
+// Triggers bug from upstream issue 16249
 @system unittest
 {
     class myLINE

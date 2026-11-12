@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 A one-stop shop for converting values from one type to another.
@@ -36,7 +36,7 @@ $(TR $(TD Exceptions) $(TD
 ))
 ))
 
-Copyright: Copyright The D Language Foundation 2007-.
+Copyright: Copyright The D Language Foundation 2007-; Copyright (C) 2026 Destiny contributors.
 
 License:   $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 
@@ -126,7 +126,7 @@ private
     T toStr(T, S)(S src)
     if (isSomeString!T)
     {
-        // workaround for https://issues.dlang.org/show_bug.cgi?id=14198
+        // workaround for upstream issue 14198
         static if (is(S == bool) && is(typeof({ T s = "string"; })))
         {
             return src ? "true" : "false";
@@ -214,14 +214,14 @@ template to(T)
         return toImpl!T(args);
     }
 
-    // Fix https://issues.dlang.org/show_bug.cgi?id=6175
+    // Fix upstream issue 6175
     T to(S)(ref S arg)
     if (isStaticArray!S)
     {
         return toImpl!T(arg);
     }
 
-    // Fix https://issues.dlang.org/show_bug.cgi?id=16108
+    // Fix upstream issue 16108
     T to(S)(ref S arg)
     if (isAggregateType!S && !isCopyable!S)
     {
@@ -444,7 +444,7 @@ template to(T)
     assertThrown!ConvException(to!E("A"));
 }
 
-// Tests for https://issues.dlang.org/show_bug.cgi?id=6175
+// Tests for upstream issue 6175
 @safe pure nothrow unittest
 {
     char[9] sarr = "blablabla";
@@ -453,7 +453,7 @@ template to(T)
     assert(sarr.length == darr.length);
 }
 
-// Tests for https://issues.dlang.org/show_bug.cgi?id=7348
+// Tests for upstream issue 7348
 @safe pure /+nothrow+/ unittest
 {
     assert(to!string(null) == "null");
@@ -475,7 +475,7 @@ template to(T)
     assert(text("a", s) == "aS");
 }
 
-// Tests for https://issues.dlang.org/show_bug.cgi?id=11390
+// Tests for upstream issue 11390
 @safe pure /+nothrow+/ unittest
 {
     const(typeof(null)) ctn;
@@ -484,7 +484,7 @@ template to(T)
     assert(to!string(itn) == "null");
 }
 
-// Tests for https://issues.dlang.org/show_bug.cgi?id=8729: do NOT skip leading WS
+// Tests for upstream issue 8729: do NOT skip leading WS
 @safe pure unittest
 {
     import std.exception;
@@ -510,7 +510,7 @@ template to(T)
     assertThrown!ConvException(to!AA(" [1:1]"));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20623
+// upstream issue 20623
 @safe pure nothrow unittest
 {
     // static class C
@@ -550,7 +550,7 @@ if (isInputRange!S && isInfinite!S && isExactSomeString!T)
                 "Use `std.range.take` or `std.range.takeExactly` to make it finite.");
 }
 
-// Test for issue : https://github.com/dlang/phobos/issues/10559
+// Test for issue : upstream phobos issue 10559
 @safe pure nothrow unittest
 {
     import std.range : repeat;
@@ -591,7 +591,7 @@ if (is(S : T) &&
     return value;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9523: Allow identity enum conversion
+// upstream issue 9523: Allow identity enum conversion
 @safe pure nothrow unittest
 {
     enum E { a }
@@ -606,7 +606,7 @@ if (is(S : T) &&
     assert(a == b);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6377
+// upstream issue 6377
 @safe pure unittest
 {
     import std.exception;
@@ -676,7 +676,7 @@ if (is(S : T) &&
     }}
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13551
+// upstream issue 13551
 private T toImpl(T, S)(S value)
 if (isTuple!T)
 {
@@ -779,7 +779,7 @@ if (!is(S : T) &&
     return T(value);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=3961
+// upstream issue 3961
 @safe pure unittest
 {
     struct Int
@@ -808,7 +808,7 @@ if (!is(S : T) &&
     Int3 i3 = to!Int3(1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6808
+// upstream issue 6808
 @safe pure unittest
 {
     static struct FakeBigInt
@@ -1142,13 +1142,13 @@ if (!(is(S : T) &&
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14042
+// upstream issue 14042
 @system unittest
 {
     immutable(char)* ptr = "hello".ptr;
     auto result = ptr.to!(char[]);
 }
-// https://issues.dlang.org/show_bug.cgi?id=8384
+// upstream issue 8384
 @system unittest
 {
     void test1(T)(T lp, string cmp)
@@ -1196,7 +1196,7 @@ if (!(is(S : T) &&
     return w.data;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16108
+// upstream issue 16108
 @safe unittest
 {
     static struct A
@@ -1224,7 +1224,7 @@ if (!(is(S : T) &&
     assert(to!string(b) == "B(0, false)");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20070
+// upstream issue 20070
 @safe unittest
 {
     void writeThem(T)(ref inout(T) them)
@@ -1397,14 +1397,14 @@ if (is (T == immutable) && isExactSomeString!T && is(S == enum))
     a = new A;
     assert(to!string(a) == "an A");
 
-    // https://issues.dlang.org/show_bug.cgi?id=7660
+    // upstream issue 7660
     class C { override string toString() @safe const { return "C"; } }
     struct S { C c; alias c this; }
     S s; s.c = new C();
     assert(to!string(s) == "C");
 }
 
-// https://github.com/dlang/phobos/issues/10568
+// upstream phobos issue 10568
 @safe unittest
 {
     enum E { One }
@@ -1435,7 +1435,7 @@ if (is (T == immutable) && isExactSomeString!T && is(S == enum))
     S2 s2;
     assert(to!string(s2) == "S2(42, 43.5)");
 
-    // Test for https://issues.dlang.org/show_bug.cgi?id=8080
+    // Test for upstream issue 8080
     struct S8080
     {
         short[4] data;
@@ -1451,7 +1451,7 @@ if (is (T == immutable) && isExactSomeString!T && is(S == enum))
     // Conversion representing enum value with string
     enum EB : bool { a = true }
     enum EU : uint { a = 0, b = 1, c = 2 }  // base type is unsigned
-    // base type is signed (https://issues.dlang.org/show_bug.cgi?id=7909)
+    // base type is signed (upstream issue 7909)
     enum EI : int { a = -1, b = 0, c = 1 }
     enum EF : real { a = 1.414, b = 1.732, c = 2.236 }
     enum EC : char { a = 'x', b = 'y' }
@@ -1745,7 +1745,7 @@ if (!is(S : T) &&
     auto f = to!(float[][])(e);
     assert(f[0] == b && f[1] == b);
 
-    // Test for https://issues.dlang.org/show_bug.cgi?id=8264
+    // Test for upstream issue 8264
     struct Wrap
     {
         string wrap;
@@ -1753,7 +1753,7 @@ if (!is(S : T) &&
     }
     Wrap[] warr = to!(Wrap[])(["foo", "bar"]);  // should work
 
-    // https://issues.dlang.org/show_bug.cgi?id=12633
+    // upstream issue 12633
     import std.conv : to;
     const s2 = ["10", "20"];
 
@@ -1813,7 +1813,7 @@ if (!is(S : T) && isAssociativeArray!S &&
     assert(b["0"d] == 1 && b["1"d] == 2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8705, from doc
+// upstream issue 8705, from doc
 @safe unittest
 {
     import std.exception;
@@ -2037,7 +2037,7 @@ $(UL
 private T toImpl(T, S)(S value)
 if (isInputRange!S && isSomeChar!(ElementEncodingType!S) &&
     !isExactSomeString!T && is(typeof(parse!T(value))) &&
-    // https://issues.dlang.org/show_bug.cgi?id=20539
+    // upstream issue 20539
     !(is(T == enum) && is(typeof(value == OriginalType!T.init)) && !isSomeString!(OriginalType!T)))
 {
     scope(success)
@@ -2067,7 +2067,7 @@ if (isSomeFiniteCharInputRange!S &&
 
 @safe pure unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=6668
+    // upstream issue 6668
     // ensure no collaterals thrown
     try { to!uint("-1"); }
     catch (ConvException e) { assert(e.next is null); }
@@ -2082,12 +2082,12 @@ if (isSomeFiniteCharInputRange!S &&
         assert(to!double(a) == 123);
     }}
 
-    // https://issues.dlang.org/show_bug.cgi?id=6255
+    // upstream issue 6255
     auto n = to!int("FF", 16);
     assert(n == 255);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15800
+// upstream issue 15800
 @safe unittest
 {
     import std.utf : byCodeUnit, byChar, byWchar, byDchar;
@@ -2181,7 +2181,7 @@ if (is(T == enum) && !is(S == enum)
     assert(m1 == [[En8143.A, En8143.C], [En8143.C, En8143.A]]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20539
+// upstream issue 20539
 @safe pure unittest
 {
     import std.exception : assertNotThrown;
@@ -2285,7 +2285,7 @@ template roundTo(Target)
     assert(ex.msg == "Input was NaN");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5232
+// upstream issue 5232
 @safe pure unittest
 {
     static if (real.mant_dig >= 64)
@@ -2843,7 +2843,7 @@ Lerr:
         tuple( 1234 ,4) && s == "abc"); });
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13931
+// upstream issue 13931
 @safe pure unittest
 {
     import std.exception;
@@ -2852,7 +2852,7 @@ Lerr:
     assertThrown!ConvOverflowException("-92233720368547758080".to!long());
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14396
+// upstream issue 14396
 @safe pure unittest
 {
     struct StrInputRange
@@ -2871,7 +2871,7 @@ Lerr:
     assert(parse!(int, StrInputRange, Yes.doCount)(input2) == tuple(777, 3));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9621
+// upstream issue 9621
 @safe pure unittest
 {
     string s1 = "[ \"\\141\", \"\\0\", \"\\41\", \"\\418\" ]";
@@ -2988,13 +2988,13 @@ do
     assert(parse!int(s = "000135", 8) == octal!"135");
     assert(parse!int(s = "fCDe", 16) == 0xfcde);
 
-    // https://issues.dlang.org/show_bug.cgi?id=6609
+    // upstream issue 6609
     assert(parse!int(s = "-42", 10) == -42);
 
     assert(parse!ubyte(s = "ff", 16) == 0xFF);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=7302
+// upstream issue 7302
 @safe pure unittest
 {
     import std.range : cycle;
@@ -3009,7 +3009,7 @@ do
     assert(r2.front == '!');
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13163
+// upstream issue 13163
 @safe pure unittest
 {
     import std.exception;
@@ -3017,7 +3017,7 @@ do
         assertThrown!ConvOverflowException(s.parse!ubyte(16));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17282
+// upstream issue 17282
 @safe pure unittest
 {
     auto str = "0=\x00\x02\x55\x40&\xff\xf0\n\x00\x04\x55\x40\xff\xf0~4+10\n";
@@ -3027,7 +3027,7 @@ do
     assert(parse!(uint, string, Yes.doCount)(str) == tuple(0, 1));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18248
+// upstream issue 18248
 @safe pure unittest
 {
     import std.exception : assertThrown;
@@ -3131,7 +3131,7 @@ if (is(Target == enum) && isSomeString!Source && !is(Source == enum))
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=4744
+// upstream issue 4744
 @safe pure unittest
 {
     enum A { member1, member11, member111 }
@@ -3805,7 +3805,7 @@ if (isFloatingPoint!Target && !is(Target == enum) &&
 {
     import std.exception;
 
-    // https://issues.dlang.org/show_bug.cgi?id=4959
+    // upstream issue 4959
     {
         auto s = "0 ";
         auto x = parse!double(s);
@@ -3819,19 +3819,19 @@ if (isFloatingPoint!Target && !is(Target == enum) &&
         assert(x == tuple(0.0, 1));
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=3369
+    // upstream issue 3369
     assert(to!float("inf") == float.infinity);
     assert(to!float("-inf") == -float.infinity);
 
-    // https://issues.dlang.org/show_bug.cgi?id=6160
+    // upstream issue 6160
     assert(6_5.536e3L == to!real("6_5.536e3"));                     // 2^16
     assert(0x1000_000_000_p10 == to!real("0x1000_000_000_p10"));    // 7.03687e+13
 
-    // https://issues.dlang.org/show_bug.cgi?id=6258
+    // upstream issue 6258
     assertThrown!ConvException(to!real("-"));
     assertThrown!ConvException(to!real("in"));
 
-    // https://issues.dlang.org/show_bug.cgi?id=7055
+    // upstream issue 7055
     assertThrown!ConvException(to!float("INF2"));
 
     //extra stress testing
@@ -3846,7 +3846,7 @@ if (isFloatingPoint!Target && !is(Target == enum) &&
         assertThrown!ConvException(parse!double(s));
 }
 
-@safe unittest // https://issues.dlang.org/show_bug.cgi?id=22637
+@safe unittest // upstream issue 22637
 {
     import std.exception : assertThrown, assertNotThrown;
     auto src = "9991232549867999698999493543521458974414359998784641646846435132132543645435456345634541999999999999999"
@@ -4217,7 +4217,7 @@ if (isDynamicArray!Target && !is(Target == enum) &&
     assert(a3.count == len3);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9615
+// upstream issue 9615
 @safe unittest
 {
     import std.typecons : Flag, Yes, No, tuple;
@@ -4735,7 +4735,7 @@ if (isInputRange!Source && isSomeChar!(ElementType!Source))
         `\141`,
         `\x61`,
         `\u65E5`, `\U00012456`,
-         // https://issues.dlang.org/show_bug.cgi?id=9621 (Named Character Entities)
+         // upstream issue 9621 (Named Character Entities)
         //`\&amp;`, `\&quot;`,
     ];
     string[] copyS1 = s1 ~ s1[0 .. 0];
@@ -4745,7 +4745,7 @@ if (isInputRange!Source && isSomeChar!(ElementType!Source))
         '\141',
         '\x61',
         '\u65E5', '\U00012456',
-        // https://issues.dlang.org/show_bug.cgi?id=9621 (Named Character Entities)
+        // upstream issue 9621 (Named Character Entities)
         //'\&amp;', '\&quot;',
     ];
     foreach (i ; 0 .. s1.length)
@@ -5207,7 +5207,7 @@ private S textImpl(S, U...)(U args)
 private void writeTextImpl(S, Sink, U...)(ref Sink sink, U args)
 if (isSomeString!S && isOutputRange!(Sink, ElementEncodingType!S))
 {
-    // Must be static foreach because of https://issues.dlang.org/show_bug.cgi?id=21209
+    // Must be static foreach because of upstream issue 21209
     static foreach (arg; args)
     {
         static if (
@@ -5221,7 +5221,7 @@ if (isSomeString!S && isOutputRange!(Sink, ElementEncodingType!S))
             is(immutable typeof(arg) == immutable uint) || is(immutable typeof(arg) == immutable ulong) ||
             is(immutable typeof(arg) == immutable int) || is(immutable typeof(arg) == immutable long)
         )
-            // https://issues.dlang.org/show_bug.cgi?id=17712#c15
+            // upstream issue 17712#c15
             put(sink, textImpl!(S)(arg));
         else
             put(sink, to!S(arg));
@@ -5511,7 +5511,7 @@ private bool isOctalLiteral(const string num)
 // emplace() used to be here but was moved to druntime
 public import core.lifetime : emplace;
 
-// https://issues.dlang.org/show_bug.cgi?id=9559
+// upstream issue 9559
 @safe unittest
 {
     import std.algorithm.iteration : map;
@@ -5522,7 +5522,7 @@ public import core.lifetime : emplace;
     auto asArray = array(ints);
 }
 
-@system unittest //http://forum.dlang.org/post/nxbdgtdlmwscocbiypjs@forum.dlang.org
+@system unittest //https://github.com/Destiny-Org/destiny
 {
     import std.array : array;
     import std.datetime : SysTime, UTC;
@@ -5566,7 +5566,7 @@ public import core.lifetime : emplace;
 {
     import std.algorithm.comparison : equal;
     import std.algorithm.iteration : map;
-    // Check fix for https://issues.dlang.org/show_bug.cgi?id=2971
+    // Check fix for upstream issue 2971
     assert(equal(map!(to!int)(["42", "34", "345"]), [42, 34, 345]));
 }
 
@@ -5735,7 +5735,7 @@ if (isIntegral!T)
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10874
+// upstream issue 10874
 @safe unittest
 {
     enum Test { a = 0 }
@@ -5839,7 +5839,7 @@ template castFrom(From)
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16667
+// upstream issue 16667
 @system unittest
 {
     ubyte[] a = ['a', 'b', 'c'];
@@ -5938,7 +5938,7 @@ private bool isHexLiteral(String)(scope const String hexData)
     static assert( ("5A 01A C FF de 1b"d).isHexLiteral);
     static assert( ("0123456789abcdefABCDEF"d).isHexLiteral);
     static assert( (" 012 34 5 6789 abcd ef\rAB\nCDEF"d).isHexLiteral);
-    // library version allows what's pointed by https://issues.dlang.org/show_bug.cgi?id=10454
+    // library version allows what's pointed by upstream issue 10454
     static assert( ("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF").isHexLiteral);
 }
 
@@ -6003,7 +6003,7 @@ if (hexData.isHexLiteral)
 {
     /* These are meant to be used with CTFE.
      * They cause the instantiations of hexStrLiteral()
-     * to be in Phobos, not user code.
+     * to be in Fate, not user code.
      */
     string hexToString(string s)
     {
@@ -6338,7 +6338,7 @@ if ((radix == 2 || radix == 8 || radix == 10 || radix == 16) &&
     }
 }
 
-@safe unittest // opSlice (https://issues.dlang.org/show_bug.cgi?id=16192)
+@safe unittest // opSlice (upstream issue 16192)
 {
     import std.meta : AliasSeq;
 
@@ -6366,7 +6366,7 @@ if ((radix == 2 || radix == 8 || radix == 10 || radix == 16) &&
         for (; !r.empty; r.popFront(), ++i)
         {
             assert(original[i .. original.length].tupleof == r.tupleof);
-                // tupleof is used to work around https://issues.dlang.org/show_bug.cgi?id=16216.
+                // tupleof is used to work around upstream issue 16216.
         }
 
         // opSlice vs popBack

@@ -1,4 +1,4 @@
-// Written in the D programming language
+// Written in the Destiny programming language
 
 /++
 $(SCRIPT inhibitQuickIndex = 1;)
@@ -4133,7 +4133,7 @@ assert(!range.empty);
     /+
         Converts this interval to a string.
       +/
-    // Due to bug https://issues.dlang.org/show_bug.cgi?id=3715 , we can't
+    // Due to upstream issue 3715 , we can't
     // have versions of toString() with extra modifiers,
     // so we define one version with modifiers and one without.
     string toString()
@@ -4145,7 +4145,7 @@ assert(!range.empty);
     /++
         Converts this interval to a string.
       +/
-    // Due to bug https://issues.dlang.org/show_bug.cgi?id=3715 , we can't
+    // Due to upstream issue 3715 , we can't
     // have versions of toString() with extra modifiers,
     // so we define one version with modifiers and one without.
     string toString() const nothrow
@@ -6357,7 +6357,7 @@ assert(!range.empty);
     /+
         Converts this interval to a string.
       +/
-    // Due to bug https://issues.dlang.org/show_bug.cgi?id=3715 , we can't
+    // Due to upstream issue 3715 , we can't
     // have versions of toString() with extra modifiers,
     // so we define one version with modifiers and one without.
     string toString()
@@ -6369,7 +6369,7 @@ assert(!range.empty);
     /++
         Converts this interval to a string.
       +/
-    // Due to bug https://issues.dlang.org/show_bug.cgi?id=3715 , we can't
+    // Due to upstream issue 3715 , we can't
     // have versions of toString() with extra modifiers,
     // so we define one version with modifiers and one without.
     string toString() const nothrow
@@ -8307,7 +8307,7 @@ private:
     static assert(isInputRange!(IntervalRange!(Date, Direction.fwd)));
     static assert(isForwardRange!(IntervalRange!(Date, Direction.fwd)));
 
-    // Commented out due to bug https://issues.dlang.org/show_bug.cgi?id=4895
+    // Commented out due to upstream issue 4895
     // static assert(!isOutputRange!(IntervalRange!(Date, Direction.fwd), Date));
 
     static assert(!isBidirectionalRange!(IntervalRange!(Date, Direction.fwd)));
@@ -8754,7 +8754,7 @@ private:
     static assert(isForwardRange!(PosInfIntervalRange!Date));
     static assert(isInfinite!(PosInfIntervalRange!Date));
 
-    // Commented out due to bug https://issues.dlang.org/show_bug.cgi?id=4895
+    // Commented out due to upstream issue 4895
     // static assert(!isOutputRange!(PosInfIntervalRange!Date, Date));
     static assert(!isBidirectionalRange!(PosInfIntervalRange!Date));
     static assert(!isRandomAccessRange!(PosInfIntervalRange!Date));
@@ -9037,7 +9037,7 @@ private:
     static assert(isForwardRange!(NegInfIntervalRange!Date));
     static assert(isInfinite!(NegInfIntervalRange!Date));
 
-    // Commented out due to bug https://issues.dlang.org/show_bug.cgi?id=4895
+    // Commented out due to upstream issue 4895
     // static assert(!isOutputRange!(NegInfIntervalRange!Date, Date));
     static assert(!isBidirectionalRange!(NegInfIntervalRange!Date));
     static assert(!isRandomAccessRange!(NegInfIntervalRange!Date));

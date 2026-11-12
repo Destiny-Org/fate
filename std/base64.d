@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
  * Support for Base64 encoding and decoding.
@@ -1928,7 +1928,7 @@ class Base64Exception : Exception
         assert(tv["foobar"] == b.data); a.clear(); b.clear();
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=9543
+    // upstream issue 9543
     // These tests were disabled because they actually relied on the input range having length.
     // The implementation (currently) doesn't support encoding/decoding from a length-less source.
     version (none)
@@ -2111,8 +2111,8 @@ class Base64Exception : Exception
     assert(or2.result == [0x1a, 0x2b, 0x3c, 0x4d, 0x5d, 0x6e]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21679
-// https://issues.dlang.org/show_bug.cgi?id=21706
+// upstream issue 21679
+// upstream issue 21706
 @safe unittest
 {
     ubyte[][] input;
@@ -2189,7 +2189,7 @@ class Base64Exception : Exception
     assert(Base64.decoder(input).array == [[123, 45]]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21707
+// upstream issue 21707
 @safe unittest
 {
     import std.exception : assertThrown;

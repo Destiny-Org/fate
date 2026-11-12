@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 This module implements a
@@ -79,7 +79,7 @@ import core.memory : GC;
 /++
     Gives the `sizeof` the largest type given.
 
-    See_Also: $(LINK https://forum.dlang.org/thread/wbpnncxepehgcswhuazl@forum.dlang.org?page=1)
+    See_Also: $(LINK https://github.com/Destiny-Org/destiny)
   +/
 template maxSize(Ts...)
 {
@@ -292,7 +292,7 @@ private:
                 {
                     // The check above will always succeed if A is an empty struct.
                     // Don't generate unreachable code as seen in
-                    // https://issues.dlang.org/show_bug.cgi?id=21231
+                    // upstream issue 21231
                     return 0;
                 }
                 else
@@ -1381,7 +1381,7 @@ public:
     assert(v[42] == 5);
 }
 
-// opIndex with static arrays, https://issues.dlang.org/show_bug.cgi?id=12771
+// opIndex with static arrays, upstream issue 12771
 @system unittest
 {
     int[4] elements = [0, 1, 2, 3];
@@ -1412,7 +1412,7 @@ public:
     assertThrown!VariantException(v[1] = Variant(null));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10879
+// upstream issue 10879
 @system unittest
 {
     int[10] arr = [1,2,3,4,5,6,7,8,9,10];
@@ -1438,7 +1438,7 @@ public:
     assert(v3 == ls);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8195
+// upstream issue 8195
 @system unittest
 {
     struct S
@@ -1458,7 +1458,7 @@ public:
     assert(v == S.init);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10961
+// upstream issue 10961
 @system unittest
 {
     // Primarily test that we can assign a void[] to a Variant.
@@ -1468,7 +1468,7 @@ public:
     assert(returned == elements);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13352
+// upstream issue 13352
 @system unittest
 {
     alias TP = Algebraic!(long);
@@ -1484,7 +1484,7 @@ public:
     assert(a + c == 4L);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13354
+// upstream issue 13354
 @system unittest
 {
     alias A = Algebraic!(string[]);
@@ -1502,14 +1502,14 @@ public:
     assert(aa["b"] == 3);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14198
+// upstream issue 14198
 @system unittest
 {
     Variant a = true;
     assert(a.type == typeid(bool));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14233
+// upstream issue 14233
 @system unittest
 {
     alias Atom = Algebraic!(string, This[]);
@@ -1526,7 +1526,7 @@ pure nothrow @nogc
     a = 1.0;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14457
+// upstream issue 14457
 @system unittest
 {
     alias A = Algebraic!(int, float, double);
@@ -1540,7 +1540,7 @@ pure nothrow @nogc
     assert(a.get!float == 6f);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14585
+// upstream issue 14585
 @system unittest
 {
     static struct S
@@ -1551,7 +1551,7 @@ pure nothrow @nogc
     Variant(S()).get!S;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14586
+// upstream issue 14586
 @system unittest
 {
     const Variant v = new immutable Object;
@@ -1568,7 +1568,7 @@ pure nothrow @nogc
     v.get!S;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13262
+// upstream issue 13262
 @system unittest
 {
     static void fun(T)(Variant v){
@@ -1630,7 +1630,7 @@ pure nothrow @nogc
     Algebraic!(SafeS) y;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19986
+// upstream issue 19986
 @system unittest
 {
     VariantN!32 v;
@@ -1645,7 +1645,7 @@ pure nothrow @nogc
     v2 = const(S).init;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21021
+// upstream issue 21021
 @system unittest
 {
     static struct S
@@ -1663,7 +1663,7 @@ pure nothrow @nogc
     assert(other.array[0] == 3);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21231
+// upstream issue 21231
 // Compatibility with -preview=fieldwise
 @system unittest
 {
@@ -1698,7 +1698,7 @@ pure nothrow @nogc
     assert(v != b);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=22647
+// upstream issue 22647
 // Can compare with 'null'
 @system unittest
 {
@@ -2184,7 +2184,7 @@ static class VariantException : Exception
     static assert(!__traits(compiles, () => v > null));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=1558
+// upstream issue 1558
 @system unittest
 {
     Variant va=1;
@@ -2251,7 +2251,7 @@ static class VariantException : Exception
     assert(v.convertsTo!(char[]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5424
+// upstream issue 5424
 @system unittest
 {
     interface A {
@@ -2267,14 +2267,14 @@ static class VariantException : Exception
     Variant b = Variant(a);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=7070
+// upstream issue 7070
 @system unittest
 {
     Variant v;
     v = null;
 }
 
-// Class and interface opEquals, https://issues.dlang.org/show_bug.cgi?id=12157
+// Class and interface opEquals, upstream issue 12157
 @system unittest
 {
     class Foo { }
@@ -2292,7 +2292,7 @@ static class VariantException : Exception
     assert(v2 == f2);
 }
 
-// Const parameters with opCall, https://issues.dlang.org/show_bug.cgi?id=11361
+// Const parameters with opCall, upstream issue 11361
 @system unittest
 {
     static string t1(string c) {
@@ -2323,7 +2323,7 @@ static class VariantException : Exception
     assert(v3(4).type == typeid(char[]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12071
+// upstream issue 12071
 @system unittest
 {
     static struct Structure { int data; }
@@ -2341,7 +2341,7 @@ static class VariantException : Exception
 }
 
 // Ordering comparisons of incompatible types
-// e.g. https://issues.dlang.org/show_bug.cgi?id=7990
+// e.g. upstream issue 7990
 @system unittest
 {
     import std.exception : assertThrown;
@@ -2354,7 +2354,7 @@ static class VariantException : Exception
 }
 
 // Handling of unordered types
-// https://issues.dlang.org/show_bug.cgi?id=9043
+// upstream issue 9043
 @system unittest
 {
     import std.exception : assertThrown;
@@ -2368,7 +2368,7 @@ static class VariantException : Exception
 }
 
 // Handling of empty types and arrays
-// https://issues.dlang.org/show_bug.cgi?id=10958
+// upstream issue 10958
 @system unittest
 {
     class EmptyClass { }
@@ -2400,7 +2400,7 @@ static class VariantException : Exception
 }
 
 // Handling of void function pointers / delegates
-// https://issues.dlang.org/show_bug.cgi?id=11360
+// upstream issue 11360
 @system unittest
 {
     static void t1() { }
@@ -2413,7 +2413,7 @@ static class VariantException : Exception
 }
 
 // Using peek for large structs
-// https://issues.dlang.org/show_bug.cgi?id=8580
+// upstream issue 8580
 @system unittest
 {
     struct TestStruct(bool pad)
@@ -2444,7 +2444,7 @@ static class VariantException : Exception
     testPeekWith!(TestStruct!true)();
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18780
+// upstream issue 18780
 @system unittest
 {
     int x = 7;
@@ -2826,7 +2826,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     assert(false);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21253
+// upstream issue 21253
 @system unittest
 {
     static struct A { int n; }
@@ -2855,7 +2855,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     assert(depth(fb) == 3);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16383
+// upstream issue 16383
 @system unittest
 {
     class Foo {this() immutable {}}
@@ -2867,7 +2867,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     assert(x == 3);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5310
+// upstream issue 5310
 @system unittest
 {
     const Variant a;
@@ -2883,7 +2883,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     assert(a[0] == 2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10017
+// upstream issue 10017
 @system unittest
 {
     static struct S
@@ -2897,7 +2897,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     assert(v1 == v2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=7069
+// upstream issue 7069
 @system unittest
 {
     import std.exception : assertThrown;
@@ -3059,7 +3059,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12540
+// upstream issue 12540
 @system unittest
 {
     static struct DummyScope
@@ -3075,7 +3075,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
 
 @system unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=10194
+    // upstream issue 10194
     // Also test for elaborate copying
     static struct S
     {
@@ -3121,7 +3121,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
 
 @system unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=13300
+    // upstream issue 13300
     static struct S
     {
         this(this) {}
@@ -3149,7 +3149,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     auto a = appender!(T[]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13871
+// upstream issue 13871
 @system unittest
 {
     alias A = Algebraic!(int, typeof(null));
@@ -3188,7 +3188,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     assertThrown!VariantException(v.length);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13534
+// upstream issue 13534
 @system unittest
 {
     static assert(!__traits(compiles, () @safe {
@@ -3198,7 +3198,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     }));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15039
+// upstream issue 15039
 @system unittest
 {
     import std.typecons;
@@ -3216,7 +3216,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     );
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15791
+// upstream issue 15791
 @system unittest
 {
     int n = 3;
@@ -3230,14 +3230,14 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     assert(v.get!NS2.foo() == 30);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15827
+// upstream issue 15827
 @system unittest
 {
     static struct Foo15827 { Variant v; this(Foo15827 v) {} }
     Variant v = Foo15827.init;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18934
+// upstream issue 18934
 @system unittest
 {
     static struct S
@@ -3255,7 +3255,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     assert(v.get!S.x == 2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19200
+// upstream issue 19200
 @system unittest
 {
     static struct S
@@ -3272,7 +3272,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     assert(b == 3);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11061
+// upstream issue 11061
 @system unittest
 {
     int[4] el = [0, 1, 2, 3];
@@ -3288,7 +3288,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     assert(v1 == [0, 1] ~ [2, 3]); // Compare Var(dynamic) to dynamic
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15940
+// upstream issue 15940
 @system unittest
 {
     class C { }
@@ -3315,7 +3315,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     assert(v == [0,1]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19994
+// upstream issue 19994
 @safe unittest
 {
     alias Inner = Algebraic!(This*);
@@ -3324,14 +3324,14 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     static assert(is(Outer.AllowedTypes == AliasSeq!(Inner, Outer*)));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21296
+// upstream issue 21296
 @system unittest
 {
     immutable aa = ["0": 0];
     auto v = Variant(aa); // compile error
 }
 
-// https://github.com/dlang/phobos/issues/9585
+// upstream phobos issue 9585
 // Verify that alignment is respected
 @safe unittest
 {
@@ -3344,7 +3344,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     static assert(AFoo1.sizeof >= double.sizeof + FP_SIZE);
 }
 
-// https://github.com/dlang/phobos/issues/10518
+// upstream phobos issue 10518
 @system unittest
 {
     import std.exception : assertThrown;
@@ -3372,7 +3372,7 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     +/
 }
 
-// https://github.com/dlang/phobos/issues/10429
+// upstream phobos issue 10429
 @system unittest
 {
     Variant test = tuple(1,2);
@@ -3381,8 +3381,8 @@ if (isAlgebraic!VariantType && Handler.length > 0)
     assert(test[1] == 10);
 }
 
-// https://github.com/dlang/phobos/issues/10062
-// https://github.com/dlang/phobos/issues/9783
+// upstream phobos issue 10062
+// upstream phobos issue 9783
 @system
 unittest
 {

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 Collection of typical and useful prebuilt allocators using the given
 components. User code would typically import this module and use its

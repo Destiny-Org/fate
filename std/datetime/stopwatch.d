@@ -1,4 +1,4 @@
-// Written in the D programming language
+// Written in the Destiny programming language
 
 /++
     Module containing some basic benchmarking and timing functionality.

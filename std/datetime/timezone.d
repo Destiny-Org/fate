@@ -1,4 +1,4 @@
-// Written in the D programming language
+// Written in the Destiny programming language
 
 /++
 
@@ -459,7 +459,7 @@ public:
             bool first = true;
             auto springSwitch = SysTime(dstSwitches[i][0] + dur!"hours"(spring), UTC()) - stdOffset;
             auto fallSwitch = SysTime(dstSwitches[i][1] + dur!"hours"(fall), UTC()) - dstOffset;
-            // https://issues.dlang.org/show_bug.cgi?id=3659 makes this necessary.
+            // upstream issue 3659 makes this necessary.
             auto fallSwitchMinus1 = fallSwitch - dur!"hours"(1);
 
             foreach (hour; -24 .. 25)
@@ -609,7 +609,7 @@ public:
             GetTimeZoneInformation(&tzInfo);
 
             // Cannot use to!string() like this should, probably due to bug
-            // https://issues.dlang.org/show_bug.cgi?id=5016
+            // upstream issue 5016
             //return to!string(tzInfo.StandardName);
 
             wchar[32] str;
@@ -702,7 +702,7 @@ public:
             GetTimeZoneInformation(&tzInfo);
 
             // Cannot use to!string() like this should, probably due to bug
-            // https://issues.dlang.org/show_bug.cgi?id=5016
+            // upstream issue 5016
             //return to!string(tzInfo.DaylightName);
 
             wchar[32] str;
@@ -1063,7 +1063,7 @@ public:
                 bool first = true;
                 auto springSwitch = SysTime(tzInfos[i][1] + dur!"hours"(spring), UTC()) - stdOffset;
                 auto fallSwitch = SysTime(tzInfos[i][2] + dur!"hours"(fall), UTC()) - dstOffset;
-                // https://issues.dlang.org/show_bug.cgi?id=3659 makes this necessary.
+                // upstream issue 3659 makes this necessary.
                 auto fallSwitchMinus1 = fallSwitch - dur!"hours"(1);
 
                 foreach (hour; -24 .. 25)
@@ -2578,7 +2578,7 @@ public:
         }
     }
 
-    // https://github.com/dlang/phobos/issues/11000
+    // upstream phobos issue 11000
     version (Posix) @safe unittest
     {
         version (Android)

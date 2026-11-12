@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 This is a submodule of $(MREF std, algorithm).
 It contains generic searching algorithms.
@@ -573,7 +573,7 @@ if (isNarrowString!R1 && isNarrowString!R2)
             assert(commonPrefix(to!S("hello, world"), to!T("hello, ")) == to!S("hello, "));
             assert(commonPrefix(to!S("hello, world"), to!T("hello, world")) == to!S("hello, world"));
 
-            // https://issues.dlang.org/show_bug.cgi?id=8890
+            // upstream issue 8890
             assert(commonPrefix(to!S("Пиво"), to!T("Пони"))== to!S("П"));
             assert(commonPrefix(to!S("Пони"), to!T("Пиво"))== to!S("П"));
             assert(commonPrefix(to!S("Пиво"), to!T("Пиво"))== to!S("Пиво"));
@@ -762,13 +762,13 @@ if (isInputRange!R && !isInfinite!R)
     assert(count("日本語") == 3);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11253
+// upstream issue 11253
 @safe nothrow unittest
 {
     assert([1, 2, 3].count([2, 3]) == 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=22582
+// upstream issue 22582
 @safe unittest
 {
     assert([1, 2, 3].count!"a & 1" == 2);
@@ -807,7 +807,7 @@ if (isInputRange!R && !isInfinite!R)
     - `needle` is the index into `needles` which matched.
     - Both are `-1` if there was no match.
 
-    Warning: Due to $(LINK2 https://tour.dlang.org/tour/en/gems/unicode,
+    Warning: Due to $(LINK2 https://github.com/Destiny-Org/destiny,
     auto-decoding), the return value of this function may $(I not) correspond
     to the array index for strings.  To find the index of an element matching
     the predicate in a string, use $(REF indexOf, std,string) instead.
@@ -1052,7 +1052,7 @@ if (isInputRange!R &&
   - If `startsWith!pred(haystack)` is not `true` for any element in
     `haystack`, then `-1` is returned.
 
-    Warning: Due to $(LINK2 https://tour.dlang.org/tour/en/gems/unicode,
+    Warning: Due to $(LINK2 https://github.com/Destiny-Org/destiny,
     auto-decoding), the return value of this function may $(I not) correspond
     to the array index for strings.  To find the index of an element matching
     the predicate in a string, use $(REF indexOf, std,string) instead.
@@ -1095,7 +1095,7 @@ if (isInputRange!R &&
         }
     }
 
-    // Because of https://issues.dlang.org/show_bug.cgi?id=8804
+    // Because of upstream issue 8804
     // Avoids both "unreachable code" or "no return statement"
     static if (isInfinite!R) assert(false, R.stringof ~ " must not be an"
             ~ " inifite range");
@@ -1341,7 +1341,7 @@ if (isInputRange!R &&
 
     static foreach (S; AliasSeq!(char[], wchar[], dchar[], string, wstring, dstring))
     (){ // workaround slow optimizations for large functions
-        // https://issues.dlang.org/show_bug.cgi?id=2396
+        // upstream issue 2396
         assert(!endsWith(to!S("abc"), 'a'));
         assert(endsWith(to!S("abc"), 'a', 'c') == 2);
         assert(!endsWith(to!S("abc"), 'x', 'n', 'b'));
@@ -1419,7 +1419,7 @@ if (isInputRange!R &&
 
 @safe pure unittest
 {
-    //example from https://issues.dlang.org/show_bug.cgi?id=19727
+    //example from upstream issue 19727
     import std.path : asRelativePath;
     string[] ext = ["abc", "def", "ghi"];
     string path = "/foo/file.def";
@@ -1634,7 +1634,7 @@ if (isInputRange!Range && !isInfinite!Range &&
     assert(arr2d.extremum!"a[1]" == arr2d[1]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17982
+// upstream issue 17982
 @safe unittest
 {
     class B
@@ -1650,11 +1650,11 @@ if (isInputRange!Range && !isInfinite!Range &&
     assert(doStuff([new B(1), new B(0), new B(2)]).val == 0);
 
     const(B)[] arr = [new B(0), new B(1)];
-    // can't compare directly - https://issues.dlang.org/show_bug.cgi?id=1824
+    // can't compare directly - upstream issue 1824
     assert(arr.extremum!"a.val".val == 0);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=22786
+// upstream issue 22786
 @nogc @safe nothrow pure unittest
 {
     struct S
@@ -1665,7 +1665,7 @@ if (isInputRange!Range && !isInfinite!Range &&
     assert([S(5), S(6)].extremum!"a.value" == S(5));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24027
+// upstream issue 24027
 @safe nothrow unittest
 {
     class A
@@ -1813,7 +1813,7 @@ if (isInputRange!InputRange &&
 
     // If the haystack is a SortedRange we can use binary search to find the needle.
     // Works only for the default find predicate and any SortedRange predicate.
-    // https://issues.dlang.org/show_bug.cgi?id=8829
+    // upstream issue 8829
     import std.range : SortedRange;
     static if (is(InputRange : SortedRange!TT, TT) && isDefaultPred)
     {
@@ -1900,7 +1900,7 @@ if (isInputRange!InputRange &&
     }
     else static if (isArray!R)
     {
-        // https://issues.dlang.org/show_bug.cgi?id=10403 optimization
+        // upstream issue 10403 optimization
         static if (isDefaultPred && isIntegral!EType && EType.sizeof == 1 && isIntegralNeedle)
         {
             import std.algorithm.comparison : max, min;
@@ -2052,7 +2052,7 @@ if (isInputRange!InputRange &&
     assertCTFEable!dg;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11603
+// upstream issue 11603
 @safe unittest
 {
     enum Foo : ubyte { A }
@@ -2166,7 +2166,7 @@ if (isForwardRange!R1 && isForwardRange!R2
         // Binary search can be used to find the first occurrence
         // of the first element of the needle in haystack.
         // When it is found O(walklength(needle)) steps are performed.
-        // https://issues.dlang.org/show_bug.cgi?id=8829 enhancement
+        // upstream issue 8829 enhancement
         import std.algorithm.comparison : mismatch;
         import std.range : SortedRange;
         static if (is(R1 == R2)
@@ -2287,7 +2287,7 @@ if (isForwardRange!R1 && isForwardRange!R2
     assert([C(1,0), C(2,0), C(3,1), C(4,0)].find!"a.x == b"(SList!int(2, 3)[]) == [C(2,0), C(3,1), C(4,0)]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12470
+// upstream issue 12470
 @safe unittest
 {
     import std.array : replace;
@@ -2356,7 +2356,7 @@ if (isForwardRange!R1 && isForwardRange!R2
     assert(find([ 1, 2, 1, 2, 3, 3 ], SList!int(2, 3)[]) == [ 2, 3, 3 ]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8334
+// upstream issue 8334
 @safe unittest
 {
     import std.algorithm.iteration : filter;
@@ -2372,7 +2372,7 @@ if (isForwardRange!R1 && isForwardRange!R2
     assert(find(haystack, filter!"true"(needle)).empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11013
+// upstream issue 11013
 @safe unittest
 {
     assert(find!"a == a"("abc","abc") == "abc");
@@ -2456,7 +2456,7 @@ private R1 simpleMindedFind(alias pred, R1, R2)(R1 haystack, scope R2 needle)
     @safe:
         string _impl;
 
-        // This is what triggers https://issues.dlang.org/show_bug.cgi?id=7992.
+        // This is what triggers upstream issue 7992.
         @property size_t length() const { return _impl.length; }
         @property void length(size_t len) { _impl.length = len; }
 
@@ -2469,7 +2469,7 @@ private R1 simpleMindedFind(alias pred, R1, R2)(R1 haystack, scope R2 needle)
         @property CustomString save() { return this; }
     }
 
-    // If https://issues.dlang.org/show_bug.cgi?id=7992 occurs, this will throw an exception from calling
+    // If upstream issue 7992 occurs, this will throw an exception from calling
     // popFront() on an empty range.
     auto r = find(CustomString("a"), CustomString("b"));
     assert(r.empty);
@@ -2862,7 +2862,7 @@ if (isForwardRange!(Range))
     ReferenceForwardRange!int rfr = new ReferenceForwardRange!int([1, 2, 3, 2, 2, 3]);
     assert(equal(findAdjacent(rfr), [2, 2, 3]));
 
-    // https://issues.dlang.org/show_bug.cgi?id=9350
+    // upstream issue 9350
     assert(!repeat(1).findAdjacent().empty);
 }
 
@@ -2917,7 +2917,7 @@ if (isInputRange!InputRange && isForwardRange!ForwardRange)
     assert(findAmong!("a == b")(b, [ 4, 6, 7 ][]).empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19765
+// upstream issue 19765
 @system unittest
 {
     import std.range.interfaces : inputRangeObject;
@@ -2983,7 +2983,7 @@ if (isForwardRange!R1 && isForwardRange!R2
     assert(findSkip(s, "def") && s.empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19020
+// upstream issue 19020
 @safe unittest
 {
     static struct WrapperRange
@@ -3260,9 +3260,9 @@ if (isForwardRange!R1 && isForwardRange!R2)
 @safe pure nothrow unittest
 {
     // findSplit returns a triplet
-    if (auto split = "dlang-rocks".findSplit("-"))
+    if (auto split = "desti-rocks".findSplit("-"))
     {
-        assert(split[0] == "dlang");
+        assert(split[0] == "desti");
         assert(split[1] == "-");
         assert(split[2] == "rocks");
     }
@@ -3464,7 +3464,7 @@ if (isForwardRange!R1 && isForwardRange!R2)
     assert(split[1] == "one");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11013
+// upstream issue 11013
 @safe pure unittest
 {
     auto var = "abc";
@@ -3816,7 +3816,7 @@ if (isInputRange!Range && !isInfinite!Range &&
     assert(arr2d.minElement!"a[1]" == arr2d[1]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17982
+// upstream issue 17982
 @safe unittest
 {
     struct A
@@ -3828,7 +3828,7 @@ if (isInputRange!Range && !isInfinite!Range &&
     assert(v.minElement!"a.val" == A(0));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17982
+// upstream issue 17982
 @safe unittest
 {
     class B
@@ -3844,11 +3844,11 @@ if (isInputRange!Range && !isInfinite!Range &&
     assert(doStuff([new B(1), new B(0), new B(2)]).val == 0);
 
     const(B)[] arr = [new B(0), new B(1)];
-    // can't compare directly - https://issues.dlang.org/show_bug.cgi?id=1824
+    // can't compare directly - upstream issue 1824
     assert(arr.minElement!"a.val".val == 0);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24827
+// upstream issue 24827
 @safe unittest
 {
     static struct S
@@ -3999,7 +3999,7 @@ if (isInputRange!Range && !isInfinite!Range &&
     assert(arr2d.maxElement!"a[1]" == arr2d[1]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17982
+// upstream issue 17982
 @safe unittest
 {
     class B
@@ -4015,11 +4015,11 @@ if (isInputRange!Range && !isInfinite!Range &&
     assert(doStuff([new B(1), new B(0), new B(2)]).val == 2);
 
     const(B)[] arr = [new B(0), new B(1)];
-    // can't compare directly - https://issues.dlang.org/show_bug.cgi?id=1824
+    // can't compare directly - upstream issue 1824
     assert(arr.maxElement!"a.val".val == 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23993
+// upstream issue 23993
 @safe unittest
 {
     import std.bigint : BigInt;
@@ -4027,7 +4027,7 @@ if (isInputRange!Range && !isInfinite!Range &&
     assert([BigInt(2), BigInt(3)].maxElement == BigInt(3));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24596
+// upstream issue 24596
 @safe unittest
 {
     static class A {
@@ -4042,7 +4042,7 @@ if (isInputRange!Range && !isInfinite!Range &&
     assert(arr[0].getI == 2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24827
+// upstream issue 24827
 @safe unittest
 {
     static struct S
@@ -4824,19 +4824,19 @@ template skipOver(alias pred = (a, b) => a == b)
 // variadic skipOver
 @safe unittest
 {
-    auto s = "DLang.rocks";
-    assert(!s.skipOver("dlang", "DLF", "DLang "));
-    assert(s == "DLang.rocks");
+    auto s = "DEsti.rocks";
+    assert(!s.skipOver("desti", "DEF", "DEsti "));
+    assert(s == "DEsti.rocks");
 
-    assert(s.skipOver("dlang", "DLANG", "DLF", "D", "DL", "DLanpp"));
-    assert(s == "ang.rocks");
-    s = "DLang.rocks";
+    assert(s.skipOver("desti", "DESTI", "DEF", "D", "DE", "DEstpp"));
+    assert(s == "sti.rocks");
+    s = "DEsti.rocks";
 
-    assert(s.skipOver("DLang", "DLANG", "DLF", "D", "DL", "DLang "));
+    assert(s.skipOver("DEsti", "DESTI", "DEF", "D", "DE", "DEsti "));
     assert(s == ".rocks");
-    s = "DLang.rocks";
+    s = "DEsti.rocks";
 
-    assert(s.skipOver("dlang", "DLANG", "DLF", "D", "DL", "DLang."));
+    assert(s.skipOver("desti", "DESTI", "DEF", "D", "DE", "DEsti."));
     assert(s == "rocks");
 }
 
@@ -4845,35 +4845,35 @@ template skipOver(alias pred = (a, b) => a == b)
 {
     import std.ascii : toLower;
 
-    auto s = "DLang.rocks";
-    assert(!s.skipOver("dlang", "DLF", "DLang "));
-    assert(s == "DLang.rocks");
+    auto s = "DEsti.rocks";
+    assert(!s.skipOver("desti", "DEF", "DEsti "));
+    assert(s == "DEsti.rocks");
 
-    assert(s.skipOver!((a, b) => a.toLower == b.toLower)("dlang", "DLF", "DLang "));
+    assert(s.skipOver!((a, b) => a.toLower == b.toLower)("desti", "DEF", "DEsti "));
     assert(s == ".rocks");
 }
 
 // variadic skipOver with mixed needles
 @safe unittest
 {
-    auto s = "DLang.rocks";
-    assert(!s.skipOver("dlang"d, "DLF", "DLang "w));
-    assert(s == "DLang.rocks");
+    auto s = "DEsti.rocks";
+    assert(!s.skipOver("desti"d, "DEF", "DEsti "w));
+    assert(s == "DEsti.rocks");
 
-    assert(s.skipOver("dlang", "DLANG"d, "DLF"w, "D"d, "DL", "DLanp"));
-    assert(s == "ang.rocks");
-    s = "DLang.rocks";
+    assert(s.skipOver("desti", "DESTI"d, "DEF"w, "D"d, "DE", "DEstp"));
+    assert(s == "sti.rocks");
+    s = "DEsti.rocks";
 
-    assert(s.skipOver("DLang", "DLANG"w, "DLF"d, "D"d, "DL", "DLang "));
+    assert(s.skipOver("DEsti", "DESTI"w, "DEF"d, "D"d, "DE", "DEsti "));
     assert(s == ".rocks");
-    s = "DLang.rocks";
+    s = "DEsti.rocks";
 
-    assert(s.skipOver("dlang", "DLANG"w, "DLF", "D"d, "DL"w, "DLang."d));
+    assert(s.skipOver("desti", "DESTI"w, "DEF", "D"d, "DE"w, "DEsti."d));
     assert(s == "rocks");
 
     import std.algorithm.iteration : filter;
-    s = "DLang.rocks";
-    assert(s.skipOver("dlang", "DLang".filter!(a => true)));
+    s = "DEsti.rocks";
+    assert(s.skipOver("desti", "DEsti".filter!(a => true)));
     assert(s == ".rocks");
 }
 
@@ -4900,16 +4900,16 @@ template skipOver(alias pred = (a, b) => a == b)
 // variadic skipOver with single elements
 @safe unittest
 {
-    auto s = "DLang.rocks";
+    auto s = "DEsti.rocks";
     assert(!s.skipOver('a', 'd', 'e'));
-    assert(s == "DLang.rocks");
+    assert(s == "DEsti.rocks");
 
     assert(s.skipOver('a', 'D', 'd', 'D'));
-    assert(s == "Lang.rocks");
-    s = "DLang.rocks";
+    assert(s == "Esti.rocks");
+    s = "DEsti.rocks";
 
     assert(s.skipOver(wchar('a'), dchar('D'), 'd'));
-    assert(s == "Lang.rocks");
+    assert(s == "Esti.rocks");
 
     dstring dstr = "+Foo";
     assert(!dstr.skipOver('.', '-'));
@@ -4922,12 +4922,12 @@ template skipOver(alias pred = (a, b) => a == b)
 // skipOver with empty ranges must return true (compatibility)
 @safe unittest
 {
-    auto s = "DLang.rocks";
+    auto s = "DEsti.rocks";
     assert(s.skipOver(""));
     assert(s.skipOver("", ""));
     assert(s.skipOver("", "foo"));
 
-    auto s2 = "DLang.rocks"d;
+    auto s2 = "DEsti.rocks"d;
     assert(s2.skipOver(""));
     assert(s2.skipOver("", ""));
     assert(s2.skipOver("", "foo"));
@@ -5226,7 +5226,7 @@ if (isInputRange!R &&
 
     static foreach (S; AliasSeq!(char[], wchar[], dchar[], string, wstring, dstring))
     (){ // workaround slow optimizations for large functions
-        // https://issues.dlang.org/show_bug.cgi?id=2396
+        // upstream issue 2396
         assert(!startsWith(to!S("abc"), 'c'));
         assert(startsWith(to!S("abc"), 'a', 'c') == 1);
         assert(!startsWith(to!S("abc"), 'x', 'n', 'b'));
@@ -5553,7 +5553,7 @@ if (isInputRange!Range)
     assert(equal(until!"a == 2"(a, No.openRight), [1, 2]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13171
+// upstream issue 13171
 @system unittest
 {
     import std.algorithm.comparison : equal;
@@ -5563,7 +5563,7 @@ if (isInputRange!Range)
     assert(a == [4]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10460
+// upstream issue 10460
 @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -5573,7 +5573,7 @@ if (isInputRange!Range)
     assert(equal(a, [0, 0, 3, 4]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13124
+// upstream issue 13124
 @safe unittest
 {
     import std.algorithm.comparison : among, equal;
@@ -5581,7 +5581,7 @@ if (isInputRange!Range)
     assert(equal(s.until!(c => c.among!('\n', '\r')), "hello how"));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18657
+// upstream issue 18657
 pure @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -5600,7 +5600,7 @@ pure @safe unittest
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14543
+// upstream issue 14543
 pure @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -5630,7 +5630,7 @@ pure @safe unittest
     assert("one two three".until!((a,b)=>a.toUpper == b)("TWO", No.openRight).equal("one two"));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24342
+// upstream issue 24342
 pure @safe unittest
 {
     import std.algorithm.comparison : equal;

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /++
     Functions which operate on ASCII characters.
@@ -170,7 +170,7 @@ enum ControlChar : char
 {
     import std.conv;
     //Control character table can be used in place of hexcodes.
-    with (ControlChar) assert(text("Phobos", us, "Deimos", us, "Tango", rs) == "Phobos\x1FDeimos\x1FTango\x1E");
+    with (ControlChar) assert(text("Fate", us, "Deimos", us, "Tango", rs) == "Fate\x1FDeimos\x1FTango\x1E");
 }
 
 /// Newline sequence for this system.

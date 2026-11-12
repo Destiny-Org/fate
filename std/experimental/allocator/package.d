@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 
 High-level interface for allocators. Implements bundled allocation/creation
@@ -239,7 +239,7 @@ module std.experimental.allocator;
 public import std.experimental.allocator.common,
     std.experimental.allocator.typed;
 
-// Fix https://issues.dlang.org/show_bug.cgi?id=17806
+// Fix upstream issue 17806
 // this should always be the first unittest in this module in order to ensure
 // that we use the `processAllocator` setter before the getter
 @system unittest
@@ -1262,8 +1262,8 @@ auto make(T, Allocator, A...)(auto ref Allocator alloc, auto ref A args)
     assert(outer.x == inner.getX);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15639
-// https://issues.dlang.org/show_bug.cgi?id=15772
+// upstream issue 15639
+// upstream issue 15772
 @system unittest
 {
     abstract class Foo {}
@@ -1428,7 +1428,7 @@ nothrow @safe @nogc unittest
         "Don't allow zero-ctor-args `make` for structs with `@disable this();`");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18937
+// upstream issue 18937
 @safe unittest
 {
     static struct S
@@ -1655,7 +1655,7 @@ T[] makeArray(T, Allocator)(auto ref Allocator alloc, size_t length)
     assert(c.equal([0, 0, 0, 0, 0]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19085 - makeArray with void
+// upstream issue 19085 - makeArray with void
 @system unittest
 {
     auto b = theAllocator.makeArray!void(5);
@@ -2283,7 +2283,7 @@ if (isInputRange!R)
     assert(arr == [1, 2, 3, 1, 2, 3, 4]);
 }
 
-// Regression test for https://issues.dlang.org/show_bug.cgi?id=20929
+// Regression test for upstream issue 20929
 @system unittest
 {
     static void test(Char, Allocator)(auto ref Allocator alloc)
@@ -2497,7 +2497,7 @@ void dispose(A, T)(auto ref A alloc, auto ref T[] array)
     theAllocator.dispose(arr);
 }
 
-// https://github.com/dlang/phobos/issues/9824
+// upstream phobos issue 9824
 @system unittest
 {
     import std.experimental.allocator.mallocator : Mallocator;
@@ -2511,7 +2511,7 @@ void dispose(A, T)(auto ref A alloc, auto ref T[] array)
     assert(ii is null);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16512
+// upstream issue 16512
 @system unittest
 {
     import std.experimental.allocator.mallocator : Mallocator;
@@ -2533,7 +2533,7 @@ void dispose(A, T)(auto ref A alloc, auto ref T[] array)
     assert(ua is null);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15721
+// upstream issue 15721
 @system unittest
 {
     import std.experimental.allocator.mallocator : Mallocator;
@@ -3757,7 +3757,7 @@ unittest
             r = a.resolveInternalPointer((() @trusted => &b[0] + b.length)(), p);
 
             /* This line randomly fails on MacOS 12.x x64
-             * https://issues.dlang.org/show_bug.cgi?id=22660
+             * upstream issue 22660
              * Commenting it out until someone can fix it.
              */
             //assert(&p[0] == &b[0] && p.length >= b.length);

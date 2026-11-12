@@ -1,5 +1,5 @@
-This directory will get copied to dlang.org and cleared when master gets
-merged into stable prior to a new release.
+This directory holds changelog entries for the next Destiny release.
+It is cleared after each release.
 
 How to add a new changelog entry to the pending changelog?
 ==========================================================
@@ -25,18 +25,8 @@ and links to the documentation, e.g. $(REF drop, std, range) or
 $(REF_ALTTEXT a custom name for the function, drop, std, range).
 
 Links to the spec can look like this $(LINK2 $(ROOT_DIR)spec/module.html, this)
-and of course you can link to other $(LINK2 https://forum.dlang.org/, external resources).
+and of course you can link to other $(LINK2 https://github.com/Destiny-Org/destiny, external resources).
 ```
 
 The title can't contain links (it's already one).
-For more infos, see the [Ddoc spec](https://dlang.org/spec/ddoc.html).
-
-Preview changes
----------------
-
-If you have cloned the [tools](https://github.com/dlang/tools) and [dlang.org](https://github.com/dlang/dlang.org) repo,
-you can preview the changelog with:
-
-```
-make -C ../dlang.org -f posix.mak pending_changelog
-```
+For more infos, see the [Ddoc spec](https://github.com/Destiny-Org/destiny/blob/main/spec/ddoc.dd).

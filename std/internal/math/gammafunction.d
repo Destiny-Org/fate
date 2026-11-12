@@ -719,7 +719,7 @@ real logGamma(real x)
 
 @safe pure nothrow @nogc unittest
 {
-    // Regression for https://github.com/dlang/phobos/issues/11128.
+    // Regression for upstream phobos issue 11128
     foreach (x; [nextDown(1.0L), nextUp(1.0L)])
     {
         const h = x - 1;
@@ -1255,7 +1255,7 @@ real betaIncomplete(real aa, real bb, real xx )
     return betaIncompleteImpl(aa, bb, xx, 1 - xx, xx > 0.95L);
 }
 
-// https://github.com/dlang/phobos/issues/11133
+// upstream phobos issue 11133
 @safe unittest
 {
     // Exact shape-one identity, including the last representable real below 1.
@@ -1903,7 +1903,7 @@ private real betaIncompleteInvSubnormal(real a, real b, real p)
     return real.nan;
 }
 
-// https://github.com/dlang/phobos/issues/11135
+// upstream phobos issue 11135
 @safe unittest
 {
     import std.math : nextUp;
@@ -1952,7 +1952,7 @@ private real betaIncompleteInvSubnormal(real a, real b, real p)
             / 0.00333526973196368954550724726202728030L - 1) < tolerance);
 }
 
-// https://github.com/dlang/phobos/issues/11134
+// upstream phobos issue 11134
 @safe unittest
 {
     import std.math : expm1, log1p, nextDown;
@@ -2039,7 +2039,7 @@ private real betaIncompleteInvSubnormal(real a, real b, real p)
     assert(feqrel(betaIncompleteInv(5, 10, 0.2000002972865658842L), 0.229121208190918L) >= real.mant_dig - 3);
     assert(feqrel(betaIncompleteInv(4, 7, 0.8000002209179505L), 0.483657360076904L) >= real.mant_dig - 3);
 
-    // https://github.com/dlang/phobos/issues/11103
+    // upstream phobos issue 11103
     // small lower-tail probabilities whose quantile is close to 1
     assert(isClose(betaIncompleteInv(1000, 1, 1e-20L), pow(1e-20L, 1.0L / 1000), 1e-15L));
     assert(isClose(betaIncompleteInv(1000, 1, 1e-10L), pow(1e-10L, 1.0L / 1000), 1e-15L));

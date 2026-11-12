@@ -1,4 +1,4 @@
-//Written in the D programming language
+//Written in the Destiny programming language
 /*
     Implementation of Thompson NFA std.regex engine.
     Key point is evaluation of all possible threads (state) at each step

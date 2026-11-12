@@ -1251,7 +1251,7 @@ if (isSomeChar!(Char))
     //     ` (OpenDNS does this, for instance).`); // DNS check is currently not implemented
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17217
+// upstream issue 17217
 @safe unittest
 {
     wstring a = `test.test@iana.org`w;

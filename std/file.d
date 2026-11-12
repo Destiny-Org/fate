@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 Utilities for manipulating files and scanning directories. Functions
@@ -68,7 +68,7 @@ $(TR $(TD Other) $(TD
 ))
 
 
-Copyright: Copyright The D Language Foundation 2007 - 2011.
+Copyright: Copyright The D Language Foundation 2007 - 2011; Copyright (C) 2026 Destiny contributors.
 See_Also:  The $(HTTP ddili.org/ders/d.en/files.html, official tutorial) for an
 introduction to working with files in D, module
 $(MREF std, stdio) for opening files and manipulating them via handles,
@@ -283,7 +283,7 @@ private T cenforce(T)(T condition, scope const(char)[] name, scope const(FSChar)
     throw new FileException(name, .errno, file, line);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17102
+// upstream issue 17102
 @safe unittest
 {
     try
@@ -1691,7 +1691,7 @@ private void setTimesImpl(scope const(char)[] names, scope const(FSChar)* namez,
     rmdirRecurse(newdir);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23683
+// upstream issue 23683
 @safe unittest
 {
     scope(exit) deleteme.remove;
@@ -1927,12 +1927,12 @@ else version (Posix)
 //
 // Note: on linux systems, although in theory a change to a file date
 // can be tracked with precision of 4 msecs, this test waits 20 msecs
-// to prevent possible problems relative to the CI services the dlang uses,
+// to prevent possible problems relative to the CI services upstream uses,
 // as they may have the HZ setting that controls the software clock set to 100
 // (instead of the more common 250).
 // see https://man7.org/linux/man-pages/man7/time.7.html
 //     https://stackoverflow.com/a/14393315,
-//     https://issues.dlang.org/show_bug.cgi?id=21148
+//     upstream issue 21148
 version (FreeBSD) {} else
 version (DragonFlyBSD) {} else
 version (OSX) {} else
@@ -2036,7 +2036,7 @@ private bool existsImpl(scope const(FSChar)* namez) @trusted nothrow @nogc
     assert(deleteme.exists);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16573
+// upstream issue 16573
 @safe unittest
 {
     enum S : string { foo = "foo" }
@@ -2604,7 +2604,7 @@ if (isConvertibleToString!R)
     assert(f.isFile);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15658
+// upstream issue 15658
 @safe unittest
 {
     DirEntry e = DirEntry(".");
@@ -3188,7 +3188,7 @@ void mkdirRecurse(scope const(char)[] pathname) @safe
         assertThrown!FileException(mkdirRecurse(`1:\foobar`));
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=3570
+    // upstream issue 3570
     {
         immutable basepath = deleteme ~ "_dir";
         version (Windows)
@@ -4243,7 +4243,7 @@ else version (Posix)
             core.sys.posix.unistd.symlink((deleteme ~ "_broken_symlink\0").ptr, symfile.ptr);
 
             {
-                // https://issues.dlang.org/show_bug.cgi?id=8298
+                // upstream issue 8298
                 DirEntry de = DirEntry(symfile);
 
                 assert(!de.isFile);
@@ -4350,7 +4350,7 @@ if (isConvertibleToString!RF || isConvertibleToString!RT)
     assert(targetNonExistent.readText == "source");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15319
+// upstream issue 15319
 @safe unittest
 {
     assert(__traits(compiles, copy("from.txt", "to.txt")));
@@ -4472,7 +4472,7 @@ private void copyImpl(scope const(char)[] f, scope const(char)[] t,
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14817
+// upstream issue 14817
 @safe unittest
 {
     import std.algorithm, std.file;
@@ -4489,7 +4489,7 @@ private void copyImpl(scope const(char)[] f, scope const(char)[] t,
     copy(t1.byChar, t2.byChar);
     assert(readText(t2.byChar) == "2");
 
-// https://issues.dlang.org/show_bug.cgi?id=20370
+// upstream issue 20370
     version (Windows)
         assert(t1.timeLastModified == t2.timeLastModified);
     else static if (is(typeof(&utimensat)) || is(typeof(&setattrlist)))
@@ -4498,7 +4498,7 @@ private void copyImpl(scope const(char)[] f, scope const(char)[] t,
         assert(abs(t1.timeLastModified - t2.timeLastModified) < dur!"usecs"(1));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11434
+// upstream issue 11434
 version (CRuntime_WASI) {} // wasi-libc has no chmod
 else version (Posix) @safe unittest
 {
@@ -4512,7 +4512,7 @@ else version (Posix) @safe unittest
     assert(getAttributes(t2) == octal!100767);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15865
+// upstream issue 15865
 @safe unittest
 {
     import std.exception : assertThrown;
@@ -4523,7 +4523,7 @@ else version (Posix) @safe unittest
     assert(readText(t) == "a");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19834
+// upstream issue 19834
 version (Windows) @safe unittest
 {
     import std.exception : collectException;
@@ -4996,7 +4996,7 @@ struct _DirIterator(bool useDIP1000)
 
 private:
     /+
-        @@BUG@@: <https://github.com/dlang/phobos/issues/11068>
+        @@BUG@@: <upstream phobos issue 11068>
 
         While this `SafeRefCounted` variable is well encapsulated inside this struct,
         the unsafeness of its destructor in non-DIP1000 builds still bleeds through.
@@ -5232,7 +5232,7 @@ auto dirEntries(bool useDIP1000 = dip1000Enabled)
         assert(e.isFile || e.isDir, e.name);
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=7264
+    // upstream issue 7264
     foreach (string name; dirEntries(testdir, "*.d", SpanMode.breadth))
     {
 
@@ -5241,17 +5241,17 @@ auto dirEntries(bool useDIP1000 = dip1000Enabled)
     {
         static assert(is(typeof(entry) == DirEntry));
     }
-    // https://issues.dlang.org/show_bug.cgi?id=7138
+    // upstream issue 7138
     auto a = array(dirEntries(testdir, SpanMode.shallow));
 
-    // https://issues.dlang.org/show_bug.cgi?id=11392
+    // upstream issue 11392
     auto dFiles = dirEntries(testdir, SpanMode.shallow);
     foreach (d; dFiles){}
 
-    // https://issues.dlang.org/show_bug.cgi?id=15146
+    // upstream issue 15146
     dirEntries("", SpanMode.shallow).walkLength();
 
-    // https://github.com/dlang/phobos/issues/9584
+    // upstream phobos issue 9584
     string cwd = getcwd();
     foreach (string entry; dirEntries(testdir, SpanMode.shallow))
     {
@@ -5360,7 +5360,7 @@ auto dirEntries(bool useDIP1000 = dip1000Enabled)
 }
 
 // Make sure that dirEntries does not butcher Unicode file names
-// https://issues.dlang.org/show_bug.cgi?id=17962
+// upstream issue 17962
 @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -5387,7 +5387,7 @@ auto dirEntries(bool useDIP1000 = dip1000Enabled)
     assert(equal(files, result));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21250
+// upstream issue 21250
 @system unittest
 {
     import std.exception : assertThrown;
@@ -5520,14 +5520,14 @@ Returns:
 string tempDir() @trusted
 {
     // We must check that the end of a path is not a separator, before adding another
-    // If we don't we end up with https://issues.dlang.org/show_bug.cgi?id=22738
+    // If we don't we end up with upstream issue 22738
     static string addSeparator(string input)
     {
         import std.path : dirSeparator;
         import std.algorithm.searching : endsWith;
 
         // It is very rare a directory path will reach this point with a directory separator at the end
-        // However on OSX this can happen, so we must verify lest we break user code i.e. https://github.com/dlang/dub/pull/2208
+        // However on OSX this can happen, so we must verify lest we break user code i.e. https://github.com/Destiny-Org/destiny
         if (!input.endsWith(dirSeparator))
             return input ~ dirSeparator;
         else
@@ -5598,7 +5598,7 @@ string tempDir() @trusted
     import std.path : dirSeparator;
     assert(tempDir.endsWith(dirSeparator));
 
-    // https://issues.dlang.org/show_bug.cgi?id=22738
+    // upstream issue 22738
     assert(!tempDir.endsWith(dirSeparator ~ dirSeparator));
 }
 

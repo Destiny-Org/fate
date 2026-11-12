@@ -322,7 +322,7 @@ private:
      */
     @trusted
     // Explicit return type omitted
-    // Workaround for https://github.com/dlang/dmd/issues/20549
+    // Workaround for upstream dmd issue 20549
     ref getByIndex(size_t tid)() inout
     if (tid < Types.length)
     {
@@ -335,7 +335,7 @@ private:
 
 public:
 
-    // Workaround for https://issues.dlang.org/show_bug.cgi?id=21399
+    // Workaround for upstream issue 21399
     version (StdDdoc)
     {
         // Dummy type to stand in for loop variable
@@ -364,7 +364,7 @@ public:
 
             static if (isCopyable!T)
             {
-                // Workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                // Workaround for upstream issue 21542
                 storage.tupleof[tid] = __ctfe ? value : forward!value;
             }
             else
@@ -543,7 +543,7 @@ public:
         @disable this();
     }
 
-    // Workaround for https://issues.dlang.org/show_bug.cgi?id=21399
+    // Workaround for upstream issue 21399
     version (StdDdoc)
     {
         // Dummy type to stand in for loop variable
@@ -642,7 +642,7 @@ public:
 
                 static if (isCopyable!T)
                 {
-                    // Workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                    // Workaround for upstream issue 21542
                     mixin("Storage newStorage = { ",
                         memberName!tid, ": __ctfe ? rhs : forward!rhs",
                     " };");
@@ -697,7 +697,7 @@ public:
             rhs.match!((ref value) {
                 static if (isCopyable!(typeof(value)))
                 {
-                    // Workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                    // Workaround for upstream issue 21542
                     this = __ctfe ? value : move(value);
                 }
                 else
@@ -738,7 +738,7 @@ public:
         }
     }
 
-    // Workaround for https://issues.dlang.org/show_bug.cgi?id=19407
+    // Workaround for upstream issue 19407
     static if (__traits(compiles, anySatisfy!(hasElaborateDestructor, Types)))
     {
         // If possible, include the destructor only when it's needed
@@ -759,7 +759,7 @@ public:
         }
     }
 
-    // Workaround for https://issues.dlang.org/show_bug.cgi?id=21400
+    // Workaround for upstream issue 21400
     version (StdDdoc)
     {
         /**
@@ -819,7 +819,7 @@ public:
 
     static if (allSatisfy!(isHashable, Map!(ConstOf, Types)))
     {
-        // Workaround for https://issues.dlang.org/show_bug.cgi?id=21400
+        // Workaround for upstream issue 21400
         version (StdDdoc)
         {
             /**
@@ -830,7 +830,7 @@ public:
             size_t toHash() const;
         }
 
-        // Workaround for https://issues.dlang.org/show_bug.cgi?id=20095
+        // Workaround for upstream issue 20095
         version (D_BetterC) {} else
         /**
          * Returns the hash of the `SumType`'s current value.
@@ -1055,7 +1055,7 @@ version (D_BetterC) {} else
 }
 
 // const SumTypes
-version (D_BetterC) {} else // not @nogc, https://issues.dlang.org/show_bug.cgi?id=22117
+version (D_BetterC) {} else // not @nogc, upstream issue 22117
 @safe unittest
 {
     auto _ = const(SumType!(int[]))([1, 2, 3]);
@@ -1523,7 +1523,7 @@ version (D_BetterC) {} else
 }
 
 // Pointers to local variables
-// https://issues.dlang.org/show_bug.cgi?id=22117
+// upstream issue 22117
 @safe unittest
 {
     int n = 123;
@@ -1535,7 +1535,7 @@ version (D_BetterC) {} else
 }
 
 // Immutable member type with copy constructor
-// https://issues.dlang.org/show_bug.cgi?id=22572
+// upstream issue 22572
 @safe unittest
 {
     static struct CopyConstruct
@@ -1552,7 +1552,7 @@ version (D_BetterC) {} else
 }
 
 // Construction of inout-qualified SumTypes
-// https://issues.dlang.org/show_bug.cgi?id=22901
+// upstream issue 22901
 @safe unittest
 {
     static inout(SumType!(int[])) example(inout(int[]) arr)
@@ -1562,7 +1562,7 @@ version (D_BetterC) {} else
 }
 
 // Assignment of struct with overloaded opAssign in CTFE
-// https://issues.dlang.org/show_bug.cgi?id=23182
+// upstream issue 23182
 @safe unittest
 {
     static struct HasOpAssign
@@ -1583,7 +1583,7 @@ version (D_BetterC) {} else
     enum result = test();
 }
 
-// https://github.com/dlang/phobos/issues/10563
+// upstream phobos issue 10563
 // Do not waste space for tag if sumtype has only single type
 @safe unittest
 {
@@ -1698,7 +1698,7 @@ enum bool isSumType(T) = is(T : SumType!Args, Args...);
  * overloads are considered as potential matches.
  *
  * Templated handlers are also accepted, and will match any type for which they
- * can be [implicitly instantiated](https://dlang.org/glossary.html#ifti).
+ * can be [implicitly instantiated](https://github.com/Destiny-Org/destiny).
  * (Remember that a $(DDSUBLINK spec/expression,function_literals, function literal)
  * without an explicit argument type is considered a template.)
  *
@@ -1922,7 +1922,7 @@ if (Ts.length > 0)
 }
 
 // Allows returning non-copyable types by ref
-// https://github.com/dlang/phobos/issues/10647
+// upstream phobos issue 10647
 @safe unittest
 {
     static struct NoCopy
@@ -2023,7 +2023,7 @@ private template matchImpl(Flag!"exhaustive" exhaustive, handlers...)
         {
             size_t[numCases] result;
 
-            // Workaround for https://issues.dlang.org/show_bug.cgi?id=19561
+            // Workaround for upstream issue 19561
             foreach (ref match; result)
             {
                 match = noMatch;
@@ -2061,7 +2061,7 @@ private template matchImpl(Flag!"exhaustive" exhaustive, handlers...)
             );
         }
 
-        // Workaround for https://issues.dlang.org/show_bug.cgi?id=19993
+        // Workaround for upstream issue 19993
         enum handlerName(size_t hid) = "handler" ~ toCtString!hid;
 
         static foreach (size_t hid, handler; handlers)
@@ -2688,7 +2688,7 @@ version (D_Exceptions)
 }
 
 // return ref
-// issue: https://issues.dlang.org/show_bug.cgi?id=23101
+// upstream issue 23101
 @safe unittest
 {
     static assert(!__traits(compiles, () {
@@ -3133,7 +3133,7 @@ private template getRvalue(Flag!"try_" try_, T)
                         {
                             static if (isCopyable!Value)
                             {
-                                // Workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                                // Workaround for upstream issue 21542
                                 if (__ctfe)
                                     return self.getByIndex!valueTid;
                                 else

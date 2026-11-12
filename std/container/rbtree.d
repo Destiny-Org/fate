@@ -557,7 +557,7 @@ struct RBNode(V)
         }
 
         // clean references to help GC
-        // https://issues.dlang.org/show_bug.cgi?id=12915
+        // upstream issue 12915
         _left = _right = _parent = null;
 
         return ret;
@@ -1995,7 +1995,7 @@ assert(equal(rbt[], [5]));
     test!byte();
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19626
+// upstream issue 19626
 @safe pure unittest
 {
     enum T { a, b }
@@ -2245,14 +2245,14 @@ if (isSuitablePredicate!(less, ElementType!Stuff)
     assert(rt1.upperBound(2).equal([3, 4, 5]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15941
+// upstream issue 15941
 @safe pure unittest
 {
     class C {}
     RedBlackTree!(C, "cast(void*)a < cast(void*) b") tree;
 }
 
-// const/immutable elements (https://issues.dlang.org/show_bug.cgi?id=17519)
+// const/immutable elements (upstream issue 17519)
 @safe pure unittest
 {
     RedBlackTree!(immutable int) t1;

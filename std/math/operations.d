@@ -1,11 +1,11 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 This is a submodule of $(MREF std, math).
 
 It contains several functions for work with floating point numbers.
 
-Copyright: Copyright The D Language Foundation 2000 - 2011.
+Copyright: Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 Destiny contributors.
 License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP digitalmars.com, Walter Bright), Don Clugston,
            Conversion of CEPHES math library to D by Iain Buclaw and David Nadlinger
@@ -615,7 +615,7 @@ float nextDown(float x) @safe pure nothrow @nogc
     // CTFE
 
     enum double ctfe_n = NaN(0xABC);
-    //static assert(isIdentical(nextUp(ctfe_n), ctfe_n)); // FIXME: https://issues.dlang.org/show_bug.cgi?id=20197
+    //static assert(isIdentical(nextUp(ctfe_n), ctfe_n)); // FIXME: upstream issue 20197
     static assert(nextUp(double.nan) is double.nan);
     // negative numbers
     static assert( nextUp(-double.infinity) == -double.max );
@@ -636,7 +636,7 @@ float nextDown(float x) @safe pure nothrow @nogc
     static assert( nextUp(double.max) == double.infinity );
 
     enum float ctfe_fn = NaN(0xABC);
-    //static assert(isIdentical(nextUp(ctfe_fn), ctfe_fn)); // FIXME: https://issues.dlang.org/show_bug.cgi?id=20197
+    //static assert(isIdentical(nextUp(ctfe_fn), ctfe_fn)); // FIXME: upstream issue 20197
     static assert(nextUp(float.nan) is float.nan);
     static assert(nextUp(-float.min_normal) == -float.min_normal*(1-float.epsilon));
     static assert(nextUp(1.0f) == 1.0f+float.epsilon);
@@ -1131,7 +1131,7 @@ deprecated @safe pure nothrow unittest
 {
     // relative comparison depends on reference, make sure proper
     // side is used when comparing range to single value. Based on
-    // https://issues.dlang.org/show_bug.cgi?id=15763
+    // upstream issue 15763
     auto a = [2e-3 - 1e-5];
     auto b = 2e-3 + 1e-5;
     assert(a[0].approxEqual(b));
@@ -1840,7 +1840,7 @@ if (isFloatingPoint!T)
     assert(bp.exponent == -56);
     assert(bp.negative == true);
 
-    // using double literal due to https://issues.dlang.org/show_bug.cgi?id=20361
+    // using double literal due to upstream issue 20361
     f = 2.3822073893521890206e-44;
     bp = extractBitpattern(f);
     assert(bp.mantissa == 0x00_0011);
@@ -1961,7 +1961,7 @@ if (isFloatingPoint!T)
     {
         // log2 is broken for x87-reals on some computers in CTFE
         // the following test excludes these computers from the test
-        // (https://issues.dlang.org/show_bug.cgi?id=21757)
+        // (upstream issue 21757)
         enum test = cast(int) log2(3.05e2312L);
         static if (test == 7681)
         {

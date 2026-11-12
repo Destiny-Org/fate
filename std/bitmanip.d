@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 Bit-level manipulation facilities.
@@ -35,7 +35,7 @@ $(TR $(TD Tagging) $(TD
 ))
 ))
 
-Copyright: Copyright The D Language Foundation 2007 - 2011.
+Copyright: Copyright The D Language Foundation 2007 - 2011; Copyright (C) 2026 Destiny contributors.
 License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP digitalmars.com, Walter Bright),
            $(HTTP erdani.org, Andrei Alexandrescu),
@@ -46,7 +46,7 @@ Authors:   $(HTTP digitalmars.com, Walter Bright),
 Source: $(PHOBOSSRC std/bitmanip.d)
 */
 /*
-         Copyright The D Language Foundation 2007 - 2012.
+         Copyright The D Language Foundation 2007 - 2012; Copyright (C) 2026 Destiny contributors.
 Distributed under the Boost Software License, Version 1.0.
    (See accompanying file LICENSE_1_0.txt or copy at
          http://www.boost.org/LICENSE_1_0.txt)
@@ -379,8 +379,8 @@ one bitfield with an empty name.
 unittest
 {
     // Degenerate bitfields tests mixed with range tests
-    // https://issues.dlang.org/show_bug.cgi?id=8474
-    // https://issues.dlang.org/show_bug.cgi?id=11160
+    // upstream issue 8474
+    // upstream issue 11160
     struct Test1
     {
         mixin(bitfields!(uint, "a", 32,
@@ -444,7 +444,7 @@ unittest
     t4b.a = -5; assert(t4b.a == -5L);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6686
+// upstream issue 6686
 @safe unittest
 {
     union  S {
@@ -461,7 +461,7 @@ unittest
     assert(num.bits == 0xFFFF_FFFF_8000_0001uL);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5942
+// upstream issue 5942
 @safe unittest
 {
     struct S
@@ -526,7 +526,7 @@ unittest
         assert(i.checkExpectations(true, 7, 7));
     }
 
-    //https://issues.dlang.org/show_bug.cgi?id=8876
+    //upstream issue 8876
     {
         struct MoreIntegrals {
             bool checkExpectations(uint eu, ushort es, uint ei) { return u == eu && s == es && i == ei; }
@@ -579,7 +579,7 @@ unittest
     assert(f.checkExpectations(true));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12477
+// upstream issue 12477
 @system unittest
 {
     import core.exception : AssertError;
@@ -603,7 +603,7 @@ unittest
     { assert(ae.msg.canFind("Value is smaller than the minimum value of bitfield 'b'"), ae.msg); }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15305
+// upstream issue 15305
 @safe unittest
 {
     struct S {
@@ -619,7 +619,7 @@ unittest
     assert(s.bob == long.max - 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21634
+// upstream issue 21634
 @safe unittest
 {
     struct A
@@ -629,7 +629,7 @@ unittest
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21725
+// upstream issue 21725
 @safe unittest
 {
     struct S
@@ -776,7 +776,7 @@ if (is(T == class))
     static assert(!__traits(compiles, bar(s)));
 }
 
-// https://github.com/dlang/phobos/issues/9840
+// upstream phobos issue 9840
 @safe unittest
 {
     struct S
@@ -1235,7 +1235,7 @@ public:
         return _len;
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=20240
+    // upstream issue 20240
     @system unittest
     {
         BitArray ba;
@@ -1918,7 +1918,7 @@ public:
         assert(v.length == (a.length + blockSize - 1) / blockSize);
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=20606
+    // upstream issue 20606
     @system unittest
     {
         import std.meta : AliasSeq;
@@ -2489,7 +2489,7 @@ public:
         }
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=17467
+    // upstream issue 17467
     @system unittest
     {
         import std.algorithm.comparison : equal;
@@ -2510,7 +2510,7 @@ public:
         assert(equal(b.bitsSet, iota(64, 128)));
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=18134
+    // upstream issue 18134
     // shifting right when length is a multiple of 8 * size_t.sizeof.
     @system unittest
     {
@@ -2721,7 +2721,7 @@ public:
         assert(b.bitsSet.equal(iota(wordBits * 2)));
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=20241
+    // upstream issue 20241
     @system unittest
     {
         BitArray ba;
@@ -2769,7 +2769,7 @@ public:
         put(sink, "]");
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=20639
+    // upstream issue 20639
     // Separate @nogc test because public tests use array literals
     // (and workarounds needlessly uglify those examples)
     @system @nogc unittest
@@ -2948,7 +2948,7 @@ if (isIntegral!T || isSomeChar!T || isBoolean!T)
         static if (isSigned!T)
             assert(swapEndian(swapEndian(cast(T) 0)) == 0);
 
-        // used to trigger https://issues.dlang.org/show_bug.cgi?id=6354
+        // used to trigger upstream issue 6354
         static if (T.sizeof > 1 && isUnsigned!T)
         {
             T left = 0xffU;
@@ -3692,7 +3692,7 @@ if (canSwapEndianness!T &&
     }
 }
 
-// https://github.com/dlang/phobos/issues/11027
+// upstream phobos issue 11027
 @safe unittest
 {
     import std.meta : AliasSeq;
@@ -4028,7 +4028,7 @@ if (canSwapEndianness!T && isInputRange!R && is(ElementType!R : const ubyte))
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17247
+// upstream issue 17247
 @safe unittest
 {
     struct UbyteRange
@@ -4417,7 +4417,7 @@ if (canSwapEndianness!T &&
     static assert(!__traits(compiles, buffer.write!Real(Real.one)));
 }
 
-// https://github.com/dlang/phobos/issues/11028
+// upstream phobos issue 11028
 @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -4882,7 +4882,7 @@ if (isIntegral!T)
         assert(bitsSet(1UL << i).equal([i]));
 }
 
-// Fix https://issues.dlang.org/show_bug.cgi?id=24095
+// Fix upstream issue 24095
 @safe @nogc pure unittest
 {
     enum Bar : bool

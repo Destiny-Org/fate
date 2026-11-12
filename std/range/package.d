@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 This module defines the notion of a range. Ranges generalize the concept of
@@ -18,9 +18,9 @@ $(UL
         for the basics of working with and creating range-based code.)
     $(LI Jonathan M. Davis $(LINK2 http://dconf.org/2015/talks/davis.html, $(I Introduction to Ranges))
         talk at DConf 2015 a vivid introduction from its core constructs to practical advice.)
-    $(LI The DLang Tour's $(LINK2 http://tour.dlang.org/tour/en/basics/ranges, chapter on ranges)
+    $(LI The upstream D Tour chapter on ranges
         for an interactive introduction.)
-    $(LI H. S. Teoh's $(LINK2 http://wiki.dlang.org/Component_programming_with_ranges, tutorial on
+    $(LI H. S. Teoh's $(LINK2 https://github.com/Destiny-Org/destiny, tutorial on
         component programming with ranges) for a real-world showcase of the influence
         of range-based programming on complex algorithms.)
     $(LI Andrei Alexandrescu's article
@@ -315,7 +315,7 @@ if (isBidirectionalRange!(Unqual!Range))
                 {
                     import core.lifetime : forward;
 
-                    // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                    // __ctfe check is workaround for upstream issue 21542
                     source.back = __ctfe ? val : forward!val;
                 }
 
@@ -323,7 +323,7 @@ if (isBidirectionalRange!(Unqual!Range))
                 {
                     import core.lifetime : forward;
 
-                    // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                    // __ctfe check is workaround for upstream issue 21542
                     source.front = __ctfe ? val : forward!val;
                 }
             }
@@ -338,7 +338,7 @@ if (isBidirectionalRange!(Unqual!Range))
                     {
                         import core.lifetime : forward;
 
-                        // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                        // __ctfe check is workaround for upstream issue 21542
                         source[retroIndex(n)] = __ctfe ? val : forward!val;
                     }
                 }
@@ -474,7 +474,7 @@ pure @safe nothrow @nogc unittest
     assert(equal(r, excepted[]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12662
+// upstream issue 12662
 pure @safe nothrow @nogc unittest
 {
     int[3] src = [1,2,3];
@@ -497,7 +497,7 @@ pure @safe nothrow unittest
     assert(equal(r, [S(3), S(2), S(1)]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24481
+// upstream issue 24481
 @safe unittest
 {
     bool called;
@@ -635,7 +635,7 @@ do
                 {
                     import core.lifetime : forward;
 
-                    // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                    // __ctfe check is workaround for upstream issue 21542
                     source.front = __ctfe ? val : forward!val;
                 }
             }
@@ -759,7 +759,7 @@ debug pure nothrow @system unittest
     scope (success) assert(passed);
     import core.exception : AssertError;
     //std.exception.assertThrown won't do because it can't infer nothrow
-    // https://issues.dlang.org/show_bug.cgi?id=12647
+    // upstream issue 12647
     try
     {
         auto unused = testArr[].stride(0);
@@ -810,7 +810,7 @@ pure @safe nothrow unittest
     // assert(s2[$ .. $].empty);
     assert(s2[s2.opDollar .. s2.opDollar].empty);
 
-    // Test fix for https://issues.dlang.org/show_bug.cgi?id=5035
+    // Test fix for upstream issue 5035
     auto m = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]; // 3 rows, 4 columns
     auto col = stride(m, 4);
     assert(equal(col, [1, 1, 1]));
@@ -929,7 +929,7 @@ pure @safe nothrow unittest
     assert(equal(r, [S(1), S(4)]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24481
+// upstream issue 24481
 @safe unittest
 {
     bool called;
@@ -1172,7 +1172,7 @@ if (Ranges.length > 0 &&
                         static foreach (i; 0 .. R.length)
                         {
                         case i:
-                            // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                            // __ctfe check is workaround for upstream issue 21542
                             source[i].front = __ctfe ? v : forward!v;
                             break sw;
                         }
@@ -1299,7 +1299,7 @@ if (Ranges.length > 0 &&
                             static foreach_reverse (i; 1 .. R.length + 1)
                             {
                             case i:
-                                // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                                // __ctfe check is workaround for upstream issue 21542
                                 source[i - 1].back = __ctfe ? v : forward!v;
                                 break sw;
                             }
@@ -1423,7 +1423,7 @@ if (Ranges.length > 0 &&
                                     }
                                 }
 
-                                // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                                // __ctfe check is workaround for upstream issue 21542
                                 source[i][index] = __ctfe ? v : forward!v;
                                 break sw;
                             }
@@ -1640,7 +1640,7 @@ pure @safe nothrow unittest
     }
 
 
-    // Make sure https://issues.dlang.org/show_bug.cgi?id=3311 is fixed.
+    // Make sure upstream issue 3311 is fixed.
     // elements are mutable.
     assert(equal(chain(iota(0, 3), iota(0, 3)), [0, 1, 2, 0, 1, 2]));
 
@@ -1661,7 +1661,7 @@ pure @safe nothrow unittest
 
     foreach (DummyType1; AllDummyRanges)
     (){ // workaround slow optimizations for large functions
-        // https://issues.dlang.org/show_bug.cgi?id=2396
+        // upstream issue 2396
         DummyType1 dummy1;
         foreach (DummyType2; AllDummyRanges)
         {
@@ -1709,7 +1709,7 @@ pure @safe nothrow @nogc unittest
     assert(chain(a, b).empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18657
+// upstream issue 18657
 pure @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -1719,7 +1719,7 @@ pure @safe unittest
     assert(equal(r, "foobar"));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23844
+// upstream issue 23844
 pure @safe unittest
 {
     struct S
@@ -1731,7 +1731,7 @@ pure @safe unittest
     assert(range.array == [S(5), S(6)]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24064
+// upstream issue 24064
 pure @safe nothrow unittest
 {
     import std.algorithm.comparison : equal;
@@ -1764,7 +1764,7 @@ pure @safe nothrow @nogc unittest
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24243
+// upstream issue 24243
 pure @safe nothrow unittest
 {
     import std.algorithm.iteration : filter;
@@ -1775,7 +1775,7 @@ pure @safe nothrow unittest
     assert(typeof(range).init.empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24481
+// upstream issue 24481
 @safe unittest
 {
     bool called;
@@ -2100,7 +2100,7 @@ private struct ChooseResult(Ranges...)
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18657
+// upstream issue 18657
 pure @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -2186,7 +2186,7 @@ pure @safe unittest
     static assert(!__traits(compiles, choose(true, R(), [0]).save));
 }
 
-//https://issues.dlang.org/show_bug.cgi?id=19738
+//upstream issue 19738
 @safe nothrow pure @nogc unittest
 {
     static struct EvilRange
@@ -2210,7 +2210,7 @@ pure @safe unittest
 }
 
 
-// https://issues.dlang.org/show_bug.cgi?id=20495
+// upstream issue 20495
 @safe unittest
 {
     static struct KillableRange
@@ -2251,7 +2251,7 @@ pure @safe nothrow unittest
     assert(chosen2.front.v == 4);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15708
+// upstream issue 15708
 @safe unittest
 {
     static struct HasPostblit
@@ -2611,7 +2611,7 @@ pure @safe nothrow unittest
     assert(equal(r, [ S(1), S(10), S(2), S(20) ]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24384
+// upstream issue 24384
 @safe unittest
 {
     auto r = roundRobin("", "a");
@@ -2815,7 +2815,7 @@ if (isInputRange!(Unqual!Range) &&
                 "Attempting to assign to the front of an empty "
                 ~ Take.stringof);
 
-            // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+            // __ctfe check is workaround for upstream issue 21542
             source.front = __ctfe ? v : forward!v;
         }
 
@@ -2901,7 +2901,7 @@ if (isInputRange!(Unqual!Range) &&
             @property void back(ElementType!R v)
             {
                 // This has to return auto instead of void because of
-                // https://issues.dlang.org/show_bug.cgi?id=4706
+                // upstream issue 4706
                 assert(!empty,
                     "Attempting to assign to the back of an empty "
                     ~ Take.stringof);
@@ -3067,7 +3067,7 @@ pure @safe nothrow @nogc unittest
     // Check that one can declare variables of all Take types,
     // and that they match the return type of the corresponding
     // take().
-    // See https://issues.dlang.org/show_bug.cgi?id=4464
+    // See upstream issue 4464
     int[] r1;
     Take!(int[]) t1;
     t1 = take(r1, 1);
@@ -3093,7 +3093,7 @@ pure @safe nothrow @nogc unittest
     static assert(isBidirectionalRange!TR2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12731
+// upstream issue 12731
 pure @safe nothrow @nogc unittest
 {
     auto a = repeat(1);
@@ -3104,7 +3104,7 @@ pure @safe nothrow @nogc unittest
     assert(s[1] == 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13151
+// upstream issue 13151
 pure @safe nothrow @nogc unittest
 {
     import std.algorithm.comparison : equal;
@@ -3113,7 +3113,7 @@ pure @safe nothrow @nogc unittest
     assert(r.take(2).equal(repeat(1, 2)));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24481
+// upstream issue 24481
 @safe unittest
 {
     import std.algorithm.iteration : filter;
@@ -3217,7 +3217,7 @@ if (isInputRange!R)
                         "Attempting to assign to the front of an empty "
                         ~ typeof(this).stringof);
 
-                    // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                    // __ctfe check is workaround for upstream issue 21542
                     return _input.front = __ctfe ? v : forward!v;
                 }
             }
@@ -3339,7 +3339,7 @@ pure @safe nothrow unittest
     assert(equal(t, te));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18092
+// upstream issue 18092
 // can't combine take and takeExactly
 @safe unittest
 {
@@ -3355,7 +3355,7 @@ pure @safe nothrow unittest
     }}
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24481
+// upstream issue 24481
 @safe unittest
 {
     import std.algorithm.iteration : filter;
@@ -3571,7 +3571,7 @@ pure @safe nothrow @nogc unittest
     assertThrown!AssertError(s.popBack);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16999
+// upstream issue 16999
 pure @safe unittest
 {
     auto myIota = new class
@@ -3630,7 +3630,7 @@ if (isInputRange!R)
     //member version if it's defined.
     static if (is(typeof(R.takeNone)))
         auto retval = range.takeNone();
-    // https://issues.dlang.org/show_bug.cgi?id=8339
+    // upstream issue 8339
     else static if (isDynamicArray!R)/+ ||
                    (is(R == struct) && __traits(compiles, {auto r = R.init;}) && R.init.empty))+/
     {
@@ -3642,7 +3642,7 @@ if (isInputRange!R)
     else
         auto retval = takeExactly(range, 0);
 
-    // https://issues.dlang.org/show_bug.cgi?id=7892 prevents this from being
+    // upstream issue 7892 prevents this from being
     // done in an out block.
     assert(retval.empty);
     return retval;
@@ -3653,7 +3653,7 @@ pure @safe nothrow unittest
 {
     import std.algorithm.iteration : filter;
     assert(takeNone([42, 27, 19]).empty);
-    assert(takeNone("dlang.org").empty);
+    assert(takeNone("example.org").empty);
     assert(takeNone(filter!"true"([42, 27, 19])).empty);
 }
 
@@ -3744,7 +3744,7 @@ pure @safe nothrow unittest
                              "hello world"w,
                              "hello world"d,
                              SliceStruct([1, 2, 3]),
-                             // https://issues.dlang.org/show_bug.cgi?id=8339
+                             // upstream issue 8339
                              // forces this to be takeExactly `InitStruct([1, 2, 3]),
                              TakeNoneStruct([1, 2, 3])))
     {
@@ -3776,8 +3776,8 @@ pure @safe nothrow unittest
 
     auto filtered = filter!"true"([1, 2, 3, 4, 5]);
     assert(takeNone(filtered).empty);
-    // https://issues.dlang.org/show_bug.cgi?id=8339 and
-    // https://issues.dlang.org/show_bug.cgi?id=5941 force this to be takeExactly
+    // upstream issue 8339 and
+    // upstream issue 5941 force this to be takeExactly
     //static assert(is(typeof(filtered) == typeof(takeNone(filtered))), typeof(filtered).stringof);
 }
 
@@ -3857,7 +3857,7 @@ pure @safe nothrow unittest
         .assumeWontThrow);
 }
 
-// @nogc prevented by https://issues.dlang.org/show_bug.cgi?id=15408
+// @nogc prevented by upstream issue 15408
 pure nothrow @safe /+@nogc+/ unittest
 {
     import std.algorithm.comparison : equal;
@@ -4215,7 +4215,7 @@ pure @safe nothrow unittest
     assert(5.repeat(4).equal([5, 5, 5, 5]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12007
+// upstream issue 12007
 pure @safe nothrow unittest
 {
     static class C{}
@@ -4419,7 +4419,7 @@ public:
     assert(g.front == f + 5);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23319
+// upstream issue 23319
 @safe pure nothrow unittest
 {
     auto b = generate!(() => const(int)(42));
@@ -4477,7 +4477,7 @@ if (isForwardRange!R && !isInfinite!R)
             {
                 import core.lifetime : forward;
 
-                // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                // __ctfe check is workaround for upstream issue 21542
                 _original[_index] = __ctfe ? val : forward!val;
             }
         }
@@ -4590,7 +4590,7 @@ if (isForwardRange!R && !isInfinite!R)
             {
                 import core.lifetime : forward;
 
-                // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                // __ctfe check is workaround for upstream issue 21542
                 return _current.front = __ctfe ? val : forward!val;
             }
         }
@@ -4900,7 +4900,7 @@ if (isStaticArray!R)
     assert(cleS.front == 0);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10845
+// upstream issue 10845
 @system unittest
 {
     import std.algorithm.comparison : equal;
@@ -4910,13 +4910,13 @@ if (isStaticArray!R)
     assert(equal(cycle(a).take(10), [0, 1, 2, 0, 1, 2, 0, 1, 2, 0]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12177
+// upstream issue 12177
 @safe unittest
 {
     static assert(__traits(compiles, recurrence!q{a[n - 1] ~ a[n - 2]}("1", "0")));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13390
+// upstream issue 13390
 @system unittest
 {
     import core.exception : AssertError;
@@ -4924,7 +4924,7 @@ if (isStaticArray!R)
     assertThrown!AssertError(cycle([0, 1, 2][0 .. 0]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18657
+// upstream issue 18657
 pure @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -4934,7 +4934,7 @@ pure @safe unittest
     assert(equal(r.save, "foof"));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24481
+// upstream issue 24481
 @safe unittest
 {
     import std.algorithm.iteration : filter;
@@ -4963,7 +4963,7 @@ pure @safe unittest
     }
 }
 
-// https://github.com/dlang/phobos/issues/10852
+// upstream phobos issue 10852
 @safe unittest
 {
     // forward range
@@ -5894,11 +5894,11 @@ pure @system unittest
         assert(zLongest.empty);
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=8900
+    // upstream issue 8900
     assert(zip([1, 2], repeat('a')).array == [tuple(1, 'a'), tuple(2, 'a')]);
     assert(zip(repeat('a'), [1, 2]).array == [tuple('a', 1), tuple('a', 2)]);
 
-    // https://issues.dlang.org/show_bug.cgi?id=18524
+    // upstream issue 18524
     // moveBack instead performs moveFront
     {
         auto r = zip([1,2,3]);
@@ -5973,7 +5973,7 @@ nothrow pure @safe unittest
     assert(equal(z2, [tuple(7, 0L)]));
 }
 
-// Test for https://issues.dlang.org/show_bug.cgi?id=11196
+// Test for upstream issue 11196
 @safe pure unittest
 {
     import std.exception : assertThrown;
@@ -5984,7 +5984,7 @@ nothrow pure @safe unittest
     assertThrown(zip(StoppingPolicy.longest, cast(S[]) null, new int[1]).front);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12007
+// upstream issue 12007
 @nogc nothrow @safe pure unittest
 {
     static struct R
@@ -6341,7 +6341,7 @@ pure @safe unittest
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15860: foreach_reverse on lockstep
+// upstream issue 15860: foreach_reverse on lockstep
 pure @safe unittest
 {
     auto arr1 = [0, 1, 2, 3];
@@ -6426,7 +6426,7 @@ pure @safe unittest
 
     // Just make sure 1-range case instantiates. This hangs the compiler
     // when no explicit stopping policy is specified due to
-    // https://issues.dlang.org/show_bug.cgi?id=4652
+    // upstream issue 4652
     auto stuff = lockstep([1,2,3,4,5], StoppingPolicy.shortest);
     foreach (i, a; stuff)
     {
@@ -6832,7 +6832,7 @@ pure @safe nothrow @nogc unittest
     assert(equal(odds.take(3), only(21, 23, 25)));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5036
+// upstream issue 5036
 pure @safe nothrow unittest
 {
     auto s = sequence!((a, n) => new int)(0);
@@ -7374,13 +7374,13 @@ pure @safe unittest
     assert(iota_of_longs_with_steps.length == 6);
     assert(equal(iota_of_longs_with_steps, [50L, 60L, 70L, 80L, 90L, 100L]));
 
-    // iota of unsigned zero length (https://issues.dlang.org/show_bug.cgi?id=6222)
+    // iota of unsigned zero length (upstream issue 6222)
     // Actually trying to consume it is the only way to find something is wrong
     // because the public properties are all correct.
     auto iota_zero_unsigned = iota(0, 0u, 3);
     assert(count(iota_zero_unsigned) == 0);
 
-    // https://issues.dlang.org/show_bug.cgi?id=7982
+    // upstream issue 7982
     // unsigned reverse iota can be buggy if `.length` doesn't
     // take them into account
     assert(iota(10u, 0u, -1).length == 10);
@@ -7398,7 +7398,7 @@ pure @safe unittest
     assert(!(int.max in iota(20u, 10u, -1)));
 
 
-    // https://issues.dlang.org/show_bug.cgi?id=8920
+    // upstream issue 8920
     static foreach (Type; AliasSeq!(byte, ubyte, short, ushort,
         int, uint, long, ulong))
     {{
@@ -7552,7 +7552,7 @@ if (!isIntegral!(CommonType!(B, E)) &&
     assert(i2.equal([3, 4, 0, 1 ]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23453
+// upstream issue 23453
 @safe unittest
 {
     auto r = iota('a', 'z');
@@ -7702,7 +7702,7 @@ struct FrontTransversal(Ror,
         {
             import core.lifetime : forward;
 
-            // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+            // __ctfe check is workaround for upstream issue 21542
             _input.front.front = __ctfe ? val : forward!val;
         }
     }
@@ -7762,7 +7762,7 @@ struct FrontTransversal(Ror,
             {
                 import core.lifetime : forward;
 
-                // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                // __ctfe check is workaround for upstream issue 21542
                 _input.back.front = __ctfe ? val : forward!val;
             }
         }
@@ -7798,7 +7798,7 @@ struct FrontTransversal(Ror,
             {
                 import core.lifetime : forward;
 
-                // __ctfe check is workaround for https://issues.dlang.org/show_bug.cgi?id=21542
+                // __ctfe check is workaround for upstream issue 21542
                 _input[n].front = __ctfe ? val : forward!val;
             }
         }
@@ -7910,7 +7910,7 @@ pure @safe nothrow unittest
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16363
+// upstream issue 16363
 pure @safe nothrow unittest
 {
     import std.algorithm.comparison : equal;
@@ -7922,7 +7922,7 @@ pure @safe nothrow unittest
     static assert(isRandomAccessRange!(typeof(ft)));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16442
+// upstream issue 16442
 pure @safe nothrow unittest
 {
     int[][] arr = [[], []];
@@ -7940,7 +7940,7 @@ pure @safe unittest
     assert(ft.empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24481
+// upstream issue 24481
 @safe unittest
 {
     bool called;
@@ -8365,7 +8365,7 @@ private:
     assert(transposed(ror).empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9507
+// upstream issue 9507
 @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -8377,7 +8377,7 @@ private:
     ]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17742
+// upstream issue 17742
 @safe unittest
 {
     import std.algorithm.iteration : map;
@@ -8466,7 +8466,7 @@ if (isForwardRange!RangeOfRanges &&
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8764
+// upstream issue 8764
 @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -10462,7 +10462,7 @@ public:
     }}
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19082
+// upstream issue 19082
 @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -10470,7 +10470,7 @@ public:
     assert([1].map!(x => x).slide(2).equal!equal([[1]]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19642
+// upstream issue 19642
 @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -10479,7 +10479,7 @@ public:
     assert("ab cd".splitter(' ').slide!(No.withPartial)(2).equal!equal([["ab", "cd"]]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23976
+// upstream issue 23976
 @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -10626,7 +10626,7 @@ if (Values.length > 1)
     private size_t frontIndex = 0;
     private size_t backIndex = 0;
 
-    // https://issues.dlang.org/show_bug.cgi?id=10643
+    // upstream issue 10643
     version (none)
     {
         import std.traits : hasElaborateAssign;
@@ -10688,7 +10688,7 @@ private struct OnlyResult(T)
     }
     alias opDollar = length;
 
-    // FIXME Workaround for https://issues.dlang.org/show_bug.cgi?id=24415
+    // FIXME Workaround for upstream issue 24415
     import std.traits : hasElaborateCopyConstructor;
     static if (hasElaborateCopyConstructor!T)
     {
@@ -10790,7 +10790,7 @@ if (!is(CommonType!Values == void))
 /// ditto
 auto only()()
 {
-    // cannot use noreturn due to https://issues.dlang.org/show_bug.cgi?id=22383
+    // cannot use noreturn due to upstream issue 22383
     struct EmptyElementType {}
     EmptyElementType[] result;
     return result;
@@ -10809,7 +10809,7 @@ auto only()()
 
     assert(only("one", "two", "three").joiner(" ").equal("one two three"));
 
-    string title = "The D Programming Language";
+    string title = "The Destiny Programming Language";
     assert(title
         .filter!isUpper // take the upper case letters
         .map!only       // make each letter its own range
@@ -10817,7 +10817,7 @@ auto only()()
         .equal("T.D.P.L"));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20314
+// upstream issue 20314
 @safe unittest
 {
     import std.algorithm.iteration : joiner;
@@ -10889,7 +10889,7 @@ auto only()()
     assert(imm.front == 1);
     assert(imm.back == 1);
     assert(!imm.empty);
-    assert(imm.init.empty); // https://issues.dlang.org/show_bug.cgi?id=13441
+    assert(imm.init.empty); // upstream issue 13441
     assert(imm.length == 1);
     assert(equal(imm, imm[]));
     assert(equal(imm, imm[0 .. 1]));
@@ -10978,7 +10978,7 @@ auto only()()
     alias Imm = typeof(imm);
     static assert(is(ElementType!Imm == immutable(int)));
     assert(!imm.empty);
-    assert(imm.init.empty); // https://issues.dlang.org/show_bug.cgi?id=13441
+    assert(imm.init.empty); // upstream issue 13441
     assert(imm.front == 42);
     imm.popFront();
     assert(imm.front == 24);
@@ -10990,7 +10990,7 @@ auto only()()
     cast(void) only(test, test); // Works with mutable indirection
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21129
+// upstream issue 21129
 @safe unittest
 {
     auto range = () @safe {
@@ -11003,7 +11003,7 @@ auto only()()
     assert(range.join == "Hello World");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21129
+// upstream issue 21129
 @safe unittest
 {
     struct AliasedString
@@ -11027,7 +11027,7 @@ auto only()()
     assert(range.join == "Hello World");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21022
+// upstream issue 21022
 @safe pure nothrow unittest
 {
     struct S
@@ -11040,7 +11040,7 @@ auto only()()
     auto r1 = arr.chain(x.only, only(x, x));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24382
+// upstream issue 24382
 @safe unittest
 {
     auto r1 = only(123);
@@ -11057,16 +11057,16 @@ auto only()()
     // Can't assign double to int
     static assert(!__traits(compiles, r3.front = 7.89));
     static assert(!__traits(compiles, r3.back = 7.89));
-    // Workaround https://issues.dlang.org/show_bug.cgi?id=24383
+    // Workaround upstream issue 24383
     static assert(!__traits(compiles, () { r3[0] = 7.89; }));
     // Can't assign type other than element type (even if compatible)
     static assert(!__traits(compiles, r3.front = 789));
     static assert(!__traits(compiles, r3.back = 789));
-    // Workaround https://issues.dlang.org/show_bug.cgi?id=24383
+    // Workaround upstream issue 24383
     static assert(!__traits(compiles, () { r3[0] = 789; }));
 }
 
-// https://github.com/dlang/phobos/issues/10993
+// upstream phobos issue 10993
 @safe unittest
 {
     auto x = only(3, 4);
@@ -11075,7 +11075,7 @@ auto only()()
     assert(x[1] == 4);
 }
 
-// https://github.com/dlang/phobos/issues/10561
+// upstream phobos issue 10561
 @safe unittest
 {
     static struct Range
@@ -11437,7 +11437,7 @@ pure @safe unittest
     //Assertion won't happen when contracts are disabled for -release.
     debug assertThrown!AssertError(enumerate(thePayload, -10));
 }
-// https://issues.dlang.org/show_bug.cgi?id=10939
+// upstream issue 10939
 version (none)
 {
     // Re-enable (or remove) if 10939 is resolved.
@@ -12128,7 +12128,7 @@ template SortedRange(Range, alias pred = "a < b",
                      SortedRangeOptions opt = SortedRangeOptions.assumeSorted)
 if (isInstanceOf!(SortedRange, Range))
 {
-    // Avoid nesting SortedRange types (see https://issues.dlang.org/show_bug.cgi?id=18933);
+    // Avoid nesting SortedRange types (see upstream issue 18933);
     alias SortedRange = SortedRange!(Unqual!(typeof(Range._input)), pred, opt);
 }
 
@@ -12325,7 +12325,7 @@ want to search in that range by only providing a value for that member.
     f.close();
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19337
+// upstream issue 19337
 @safe unittest
 {
     import std.algorithm.sorting : sort;
@@ -12382,7 +12382,7 @@ if (isInputRange!(Unqual!R))
     p = assumeSorted(a).upperBound(4.2);
     assert(equal(p, [ 5, 6 ]));
 
-    // https://issues.dlang.org/show_bug.cgi?id=18933
+    // upstream issue 18933
     // don't create senselessly nested SortedRange types.
     assert(is(typeof(assumeSorted(a)) == typeof(assumeSorted(assumeSorted(a)))));
     assert(is(typeof(assumeSorted(a)) == typeof(assumeSorted(assumeSorted!"a > b"(a)))));
@@ -12429,7 +12429,7 @@ if (isInputRange!(Unqual!R))
     r = assumeSorted(a);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15003
+// upstream issue 15003
 @nogc @safe unittest
 {
     static immutable a = [1, 2, 3, 4];
@@ -12948,7 +12948,7 @@ private:
     }
 
     {
-        // https://issues.dlang.org/show_bug.cgi?id=16534
+        // upstream issue 16534
         // opDollar should be defined if the wrapped range defines length.
         auto range = 10.iota.takeExactly(5);
         auto wrapper = refRange(&range);
@@ -13137,7 +13137,7 @@ private:
     assert(cWrapper is c);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14373
+// upstream issue 14373
 @system unittest
 {
     static struct R
@@ -13151,7 +13151,7 @@ private:
     assert(r.empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14575
+// upstream issue 14575
 @system unittest
 {
     struct R
@@ -13182,7 +13182,7 @@ private:
     auto rr2 = refRange(&r2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24801
+// upstream issue 24801
 @safe unittest
 {
 
@@ -13230,7 +13230,7 @@ if (isInputRange!R)
         return *range;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9060
+// upstream issue 9060
 @safe unittest
 {
     import std.algorithm.iteration : map, joiner, group;
@@ -14073,7 +14073,7 @@ if (is(typeof(fun) == void) || isSomeFunction!fun)
     }}
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13483
+// upstream issue 13483
 @safe unittest
 {
     static void func1(T)(T x) {}
@@ -14469,7 +14469,7 @@ pure @safe unittest
     assert(len == 6);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19042
+// upstream issue 19042
 @safe pure unittest
 {
     import std.algorithm.comparison : equal;

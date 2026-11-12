@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
  * Encode and decode Uniform Resource Identifiers (URIs).
@@ -11,12 +11,12 @@
  * See_Also:
  *  $(LINK2 https://www.ietf.org/rfc/rfc3986.txt, RFC 3986)<br>
  *  $(LINK2 http://en.wikipedia.org/wiki/Uniform_resource_identifier, Wikipedia)
- * Copyright: Copyright The D Language Foundation 2000 - 2009.
+ * Copyright: Copyright The D Language Foundation 2000 - 2009; Copyright (C) 2026 Destiny contributors.
  * License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors:   $(HTTP digitalmars.com, Walter Bright)
  * Source:    $(PHOBOSSRC std/uri.d)
  */
-/*          Copyright The D Language Foundation 2000 - 2009.
+/*          Copyright The D Language Foundation 2000 - 2009; Copyright (C) 2026 Destiny contributors.
  * Distributed under the Boost Software License, Version 1.0.
  *    (See accompanying file LICENSE_1_0.txt or copy at
  *          http://www.boost.org/LICENSE_1_0.txt)
@@ -372,7 +372,7 @@ if (isSomeChar!Char)
     assert("foo bar".encode == "foo%20bar");
     assert("<>.@.™".encode == "%3C%3E.@.%E2%84%A2");
     assert("foo/#?a=1&b=2".encode == "foo/#?a=1&b=2");
-    assert("dlang+rocks!".encode == "dlang+rocks!");
+    assert("desti+rocks!".encode == "desti+rocks!");
     assert("!@#$%^&*(".encode == "!@#$%25%5E&*(");
 }
 
@@ -395,7 +395,7 @@ if (isSomeChar!Char)
     assert("<>.@.™".encodeComponent == "%3C%3E.%40.%E2%84%A2");
     assert("foo/&".encodeComponent == "foo%2F%26");
     assert("dläng röcks".encodeComponent == "dl%C3%A4ng%20r%C3%B6cks");
-    assert("dlang+rocks!".encodeComponent == "dlang%2Brocks!");
+    assert("desti+rocks!".encodeComponent == "desti%2Brocks!");
 }
 
 /* Encode associative array using www-form-urlencoding

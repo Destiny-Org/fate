@@ -2,16 +2,16 @@ Guidelines for Contributing
 ===========================
 
 Welcome to the D community and thanks for your interest in contributing!
-If this is your first pull request, please read [Contributing to Phobos](https://wiki.dlang.org/Contributing_to_Phobos).
-Have a look at [Starting as a Contributor](http://wiki.dlang.org/Starting_as_a_Contributor#Building_D) for build instructions.
+If this is your first pull request, please read [Contributing to Fate](https://github.com/Destiny-Org/destiny).
+Have a look at [Starting as a Contributor](https://github.com/Destiny-Org/destiny) for build instructions.
 
 More Links
 ----------
 
-* Fork [on Github](https://github.com/dlang/phobos)
-* Follow the [D style](http://dlang.org/dstyle.html)
-* Participate in [our forum](http://forum.dlang.org/)
+* Fork [on Github](https://github.com/Destiny-Org/fate)
+* Follow the [D style](https://github.com/Destiny-Org/destiny)
+* Participate in [our forum](https://github.com/Destiny-Org/destiny)
 * Ask questions on our `#d` IRC channel on libera.chat ([web interface](https://kiwiirc.com/client/irc.libera.chat/d))
-* Review Phobos additions in the [Review Queue](http://wiki.dlang.org/Review_Queue).
+* Review Fate additions in the [Review Queue](https://github.com/Destiny-Org/destiny).
 
-* Video Tutorial: [Setting Up dmd and Phobos for Contribution](https://youtu.be/iLN4rQkk4Fs?list=PLIldXzSkPUXXSkM5NjBAGNIdkd4Q2Zf0R)
+* Video Tutorial: [Setting Up dmd and Fate for Contribution](https://youtu.be/iLN4rQkk4Fs?list=PLIldXzSkPUXXSkM5NjBAGNIdkd4Q2Zf0R)

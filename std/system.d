@@ -1,11 +1,11 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 //
 // NOTE: This must be kept in sync with phobos/sys/system.d
 
 /**
  * Information about the target operating system, environment, and CPU.
  *
- *  Copyright: Copyright The D Language Foundation 2000 - 2011
+ *  Copyright: Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 Destiny contributors
  *  License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  *  Authors:   $(HTTP digitalmars.com, Walter Bright) and
                $(HTTP jmdavisprog.com, Jonathan M Davis)

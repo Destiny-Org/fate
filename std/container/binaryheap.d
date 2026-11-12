@@ -482,7 +482,7 @@ BinaryHeap!(Store, less) heapify(alias less = "a < b", Store)(Store s,
     assert(h.equal([16, 14, 10, 9, 8, 7, 4, 3, 2, 1]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15675
+// upstream issue 15675
 @system unittest
 {
     import std.container.array : Array;
@@ -492,7 +492,7 @@ BinaryHeap!(Store, less) heapify(alias less = "a < b", Store)(Store s,
     assert(heap.front == 12);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16072
+// upstream issue 16072
 @system unittest
 {
     auto q = heapify!"a > b"([2, 4, 5]);
@@ -588,7 +588,7 @@ BinaryHeap!(Store, less) heapify(alias less = "a < b", Store)(Store s,
     assert(equal(b, [10, 9, 8, 7, 6, 6, 7, 8, 9, 10]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17314
+// upstream issue 17314
 @system unittest
 {
     import std.algorithm.comparison : equal;
@@ -607,7 +607,7 @@ the Store, if the Store is already full. The Heap will not point anymore to the
 original Dyamic Array, but point to a new Dynamic Array.
  */
 
-// https://issues.dlang.org/show_bug.cgi?id=18333
+// upstream issue 18333
 @system unittest
 {
     import std.stdio;

@@ -1,4 +1,4 @@
-// Written in the D programming language
+// Written in the Destiny programming language
 /++
     Templates which extract information about types and symbols at compile time.
 
@@ -116,7 +116,7 @@
     ))
     )
 
-    Copyright: Copyright The D Language Foundation 2005 - 2024.
+    Copyright: Copyright The D Language Foundation 2005 - 2024; Copyright (C) 2026 Destiny contributors.
     License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
     Authors:   $(HTTP jmdavisprog.com, Jonathan M Davis)
                $(HTTP digitalmars.com, Walter Bright),
@@ -265,7 +265,7 @@ enum isDynamicArray(T) = is(T == U[], U);
     static assert( isDynamicArray!string);
 
     static assert( isDynamicArray!(typeof([1, 2, 3])));
-    static assert( isDynamicArray!(typeof("dlang")));
+    static assert( isDynamicArray!(typeof("desti")));
 
     int[] arr;
     static assert( isDynamicArray!(typeof(arr)));
@@ -1297,7 +1297,7 @@ enum isCharacter(T) = is(immutable T == immutable char) ||
 
     static assert( isCharacter!(typeof('A')));
     static assert( isCharacter!(typeof('月')));
-    static assert( isCharacter!(typeof("dlang"[0])));
+    static assert( isCharacter!(typeof("desti"[0])));
 
     char c;
     static assert( isCharacter!(typeof(c)));
@@ -1517,7 +1517,7 @@ enum isPointer(T) = is(T == U*, U);
     be done with naked is expressions.
 
     See_Also:
-        $(DDSUBLINK dlang.org/spec/expression.html, is-type, Spec on the related is expression)
+        $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/expression.dd, Spec on the related is expression)
   +/
 enum isType(T) = true;
 
@@ -1765,7 +1765,7 @@ if (__traits(isTemplate, Template))
     static assert(!isInstantiationOf!(Variadic, int));
     static assert(!isInstantiationOf!(Variadic, SingleArg!int));
 
-    static assert( isInstantiationOf!(ValueArg, ValueArg!"dlang"));
+    static assert( isInstantiationOf!(ValueArg, ValueArg!"desti"));
     static assert( isInstantiationOf!(ValueArg, ValueArg!"foobar"));
     static assert(!isInstantiationOf!(ValueArg, string));
     static assert(!isInstantiationOf!(ValueArg, Variadic!string));
@@ -2158,7 +2158,7 @@ if (is(E == enum))
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14561: huge enums
+// upstream issue 14561: huge enums
 @safe unittest
 {
     static string genEnum()
@@ -2221,7 +2221,7 @@ if (is(E == enum))
     template predicates.
 
     See_Also:
-        $(DDSUBLINK dlang.org/spec/type, implicit-conversions, Spec on implicit conversions)
+        $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/type.dd, Spec on implicit conversions)
         $(DDSUBLINK spec/const3, implicit_qualifier_conversions, Spec for implicit qualifier conversions)
         $(LREF isQualifierConvertible)
   +/
@@ -2627,7 +2627,7 @@ template isQualifierConvertible(From)
     alias Types = AliasSeq!(int, const int, shared int, inout int, const shared int,
                             const inout int, inout shared int, const inout shared int, immutable int);
 
-    // https://dlang.org/spec/const3.html#implicit_qualifier_conversions
+    // https://github.com/Destiny-Org/destiny/blob/main/spec/const3.dd
     enum _ = 0;
     static immutable bool[Types.length][Types.length] conversions = [
     //   m   c   s   i   cs  ci  is  cis im
@@ -3895,7 +3895,7 @@ if (isAggregateType!T)
         static int var;
 
         // Manifest constants are not included.
-        enum lang = "dlang";
+        enum lang = "desti";
 
         // Functions are not included, even if they're @property functions.
         @property int foo() { return 42; }
@@ -4146,7 +4146,7 @@ if (isAggregateType!T)
     static assert(__traits(isSame, FieldSymbols!S, S.tupleof));
 
     // Note that type qualifiers _should_ be passed on to the result, but due
-    // to https://issues.dlang.org/show_bug.cgi?id=24516, they aren't.
+    // to upstream issue 24516, they aren't.
     // FieldTypes does not have this problem, because it aliases the types
     // rather than the symbols, so if you need the types from the symbols, you
     // should use either FieldTypes or tupleof until the compiler bug has been
@@ -4164,7 +4164,7 @@ if (isAggregateType!T)
         static int var;
 
         // Manifest constants are not included.
-        enum lang = "dlang";
+        enum lang = "desti";
 
         // Functions are not included, even if they're @property functions.
         @property int foo() { return 42; }
@@ -4448,7 +4448,7 @@ if (isAggregateType!T)
         static int var;
 
         // Manifest constants are not included.
-        enum lang = "dlang";
+        enum lang = "desti";
 
         // Functions are not included, even if they're @property functions.
         @property int foo() { return 42; }
@@ -4827,7 +4827,7 @@ template hasComplexAssignment(T)
     }
     static assert(!hasComplexAssignment!U);
 
-    // https://issues.dlang.org/show_bug.cgi?id=24833
+    // upstream issue 24833
     // This static assertion fails, because the compiler
     // currently ignores assignment operators for enum types.
     enum E : HasOpAssign { a = HasOpAssign.init }
@@ -4972,7 +4972,7 @@ template hasComplexAssignment(T)
         }
         static assert( hasComplexAssignment!S);
 
-        // See https://issues.dlang.org/show_bug.cgi?id=24854
+        // See upstream issue 24854
         // The compiler won't generate any opAssign (even if it theoretically
         // can) if the member variable has an @disabled opAssign which counts as
         // complex assignment.
@@ -5045,7 +5045,7 @@ template hasComplexAssignment(T)
         static struct S2 { S s; }
         static assert( hasComplexAssignment!S2);
     }
-    // https://issues.dlang.org/show_bug.cgi?id=24834
+    // upstream issue 24834
     /+
     {
         static struct S { this(ref S) {} }
@@ -5289,7 +5289,7 @@ template hasComplexCopying(T)
     }
     static assert(!hasComplexCopying!U);
 
-    // https://issues.dlang.org/show_bug.cgi?id=24833
+    // upstream issue 24833
     // This static assertion fails, because the compiler
     // currently ignores assignment operators for enum types.
     enum E : HasCopyCtor { a = HasCopyCtor.init }
@@ -5662,7 +5662,7 @@ template hasComplexDestruction(T)
     }
     static assert(!hasComplexDestruction!U);
 
-    // https://issues.dlang.org/show_bug.cgi?id=24833
+    // upstream issue 24833
     // This static assertion fails, because the compiler
     // currently ignores assignment operators for enum types.
     enum E : HasDtor { a = HasDtor.init }
@@ -6890,7 +6890,7 @@ else
     enum C : char { a = 'a', b = 'b' }
     static assert(is(OriginalType!C == char));
 
-    enum D : string { d = "dlang" }
+    enum D : string { d = "desti" }
     static assert(is(OriginalType!D == string));
 
     static assert(is(OriginalType!int == int));
@@ -7339,7 +7339,7 @@ if (!is(sym))
     }
 
     static assert( is(SymbolType!42 == int));
-    static assert( is(SymbolType!"dlang" == string));
+    static assert( is(SymbolType!"desti" == string));
 
     int var;
 
@@ -7417,7 +7417,7 @@ if (!is(sym))
     static @property ref S bob();
     static @property void sally(ref S);
 
-    // The aliases are due to https://github.com/dlang/dmd/issues/17505
+    // The aliases are due to upstream dmd issue 17505
     // Apparently, aliases are special-cased to work with function pointer
     // signatures which return by ref, and we can't do it elsewhere.
     alias FooPtr = ref S function();
@@ -9124,17 +9124,17 @@ version (PhobosUnittest)
 
             override void foo() {}
 
-            @property string defaultArgInDerivedProp2(int i = 0) { return "dlang"; }
+            @property string defaultArgInDerivedProp2(int i = 0) { return "desti"; }
             @property void defaultArgInDerivedProp2(string, int i = 0) {}
 
-            string defaultArgInDerived2(int i = 0) { return "dlang"; }
+            string defaultArgInDerived2(int i = 0) { return "desti"; }
             void defaultArgInDerived2(string, int i = 0) {}
 
             void defaultArgInDerived1(string, int i = 0) {}
-            string defaultArgInDerived1(int i = 0) { return "dlang"; }
+            string defaultArgInDerived1(int i = 0) { return "desti"; }
 
             @property void defaultArgInDerivedProp1(string, int i = 0) {}
-            @property string defaultArgInDerivedProp1(int i = 0) { return "dlang"; }
+            @property string defaultArgInDerivedProp1(int i = 0) { return "desti"; }
 
             override void defaultArg2(int, string str = "bar") {}
             override int defaultArg2(string str = "bar") { return 0; }

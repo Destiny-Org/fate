@@ -1,11 +1,11 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 This is a submodule of $(MREF std, math).
 
 It contains several trigonometric functions.
 
-Copyright: Copyright The D Language Foundation 2000 - 2011.
+Copyright: Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 Destiny contributors.
            D implementations of tan, atan, and atan2 functions are based on the
            CEPHES math library, which is Copyright (C) 2001 Stephen L. Moshier
            $(LT)steve@moshier.net$(GT) and are incorporated herein by permission

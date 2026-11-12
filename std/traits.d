@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
  * Templates which extract information about types and symbols at compile time.
@@ -152,7 +152,7 @@
  * )
  * )
  *
- * Copyright: Copyright The D Language Foundation 2005 - 2009.
+ * Copyright: Copyright The D Language Foundation 2005 - 2009; Copyright (C) 2026 Destiny contributors.
  * License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors:   $(HTTP digitalmars.com, Walter Bright),
  *            Tomasz Stachowiak (`isExpressions`),
@@ -164,7 +164,7 @@
  *            Shoichi Kato
  * Source:    $(PHOBOSSRC std/traits.d)
  */
-/*          Copyright The D Language Foundation 2005 - 2009.
+/*          Copyright The D Language Foundation 2005 - 2009; Copyright (C) 2026 Destiny contributors.
  * Distributed under the Boost Software License, Version 1.0.
  *    (See accompanying file LICENSE_1_0.txt or copy at
  *          http://www.boost.org/LICENSE_1_0.txt)
@@ -174,7 +174,7 @@ module std.traits;
 import std.meta : AliasSeq, allSatisfy, anySatisfy, ApplyLeft;
 
 // Legacy inheritance from std.typetuple
-// See also: https://github.com/dlang/phobos/pull/5484#discussion_r122602797
+// See also: upstream phobos pull request 5484
 import std.meta : staticMapMeta = staticMap;
 // TODO: find a way to trigger deprecation warnings
 //deprecated("staticMap is part of std.meta: Please import std.meta")
@@ -469,7 +469,7 @@ version (none) @safe unittest //Please uncomment me when changing packageName to
     static assert(packageName!moduleName == "std");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13741
+// upstream issue 13741
 @safe unittest
 {
     import std.ascii : isWhite;
@@ -533,7 +533,7 @@ template moduleName(alias T)
     static assert(moduleName!(X12287!int.i) == "std.traits");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13741
+// upstream issue 13741
 @safe unittest
 {
     import std.ascii : isWhite;
@@ -1119,7 +1119,7 @@ if (isCallable!func && variadicFunctionStyle!func == Variadic.no)
     static assert(!__traits(compiles, arity!variadicFoo));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11389
+// upstream issue 11389
 @safe unittest
 {
     alias TheType = size_t function( string[] );
@@ -1282,14 +1282,14 @@ template extractParameterStorageClassFlags(Attribs...)
     static assert(dglit_pstc.length == 1);
     static assert(dglit_pstc[0] == STC.ref_);
 
-    // https://issues.dlang.org/show_bug.cgi?id=9317
+    // upstream issue 9317
     static inout(int) func(inout int param) { return param; }
     static assert(ParameterStorageClassTuple!(typeof(func))[0] == STC.none);
 }
 
 @safe unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=14253
+    // upstream issue 14253
     static struct Foo {
         ref Foo opAssign(ref Foo rhs) return { return this; }
     }
@@ -1339,7 +1339,7 @@ if (isCallable!func)
     static assert([ParameterIdentifierTuple!foo] == ["num", "name", ""]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19456
+// upstream issue 19456
 @safe unittest
 {
     struct SomeType {}
@@ -1447,7 +1447,7 @@ if (isCallable!func)
     static assert(   ParameterDefaults!foo[3] == 0);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17192
+// upstream issue 17192
 @safe unittest
 {
     static void func(int i, int PT, int __pd_value, int __pd_val, int __args,
@@ -1459,7 +1459,7 @@ if (isCallable!func)
     static foreach (V; Voids) static assert(is(V == void));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20182
+// upstream issue 20182
 @safe pure nothrow @nogc unittest
 {
     struct S
@@ -1493,7 +1493,7 @@ alias ParameterDefaultValueTuple = ParameterDefaults;
     static assert(is(typeof(PDVT!baz) == typeof(AliasSeq!(void, 1, "hello"))));
 
     // property functions return empty string
-    // https://issues.dlang.org/show_bug.cgi?id=10800
+    // upstream issue 10800
     @property void foo(int x = 3) { }
     static assert(PDVT!foo.length == 1);
     static assert(PDVT!foo[0] == 3);
@@ -1505,11 +1505,11 @@ alias ParameterDefaultValueTuple = ParameterDefaults;
 
         static immutable Colour white = Colour(255,255,255,255);
     }
-    // https://issues.dlang.org/show_bug.cgi?id=8106
+    // upstream issue 8106
     void bug8106(Colour c = Colour.white) {}
     //pragma(msg, PDVT!bug8106);
     static assert(PDVT!bug8106[0] == Colour.white);
-    // https://issues.dlang.org/show_bug.cgi?id=16582
+    // upstream issue 16582
     void bug16582(scope int* val = null) {}
     static assert(PDVT!bug16582[0] is null);
 }
@@ -2832,7 +2832,7 @@ template RepresentationTypeTuple(T)
     alias R1 = RepresentationTypeTuple!C;
     static assert(R1.length == 2 && is(R1[0] == int) && is(R1[1] == float));
 
-    /* https://issues.dlang.org/show_bug.cgi?id=6642 */
+    /* upstream issue 6642 */
     import std.typecons : Rebindable;
 
     struct S5 { int a; Rebindable!(immutable Object) b; }
@@ -2911,7 +2911,7 @@ private template hasRawAliasing(T)
     static assert(!hasRawAliasing!S2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19228
+// upstream issue 19228
 @safe unittest
 {
     static struct C
@@ -3401,7 +3401,7 @@ template hasIndirections(T)
     static assert(!hasIndirections!noreturn);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12000
+// upstream issue 12000
 @safe unittest
 {
     static struct S(T)
@@ -3453,7 +3453,7 @@ template hasUnsharedAliasing(T...)
 
 @safe unittest
 {
-    /* https://issues.dlang.org/show_bug.cgi?id=6642 */
+    /* upstream issue 6642 */
     import std.typecons : Rebindable;
     struct S8 { int a; Rebindable!(immutable Object) b; }
     static assert(!hasUnsharedAliasing!S8);
@@ -3500,7 +3500,7 @@ template hasUnsharedAliasing(T...)
     static assert(!hasUnsharedAliasing!(Rebindable!(shared Object)));
     static assert( hasUnsharedAliasing!(Rebindable!Object));
 
-    /* https://issues.dlang.org/show_bug.cgi?id=6979 */
+    /* upstream issue 6979 */
     static assert(!hasUnsharedAliasing!(int, shared(int)*));
     static assert( hasUnsharedAliasing!(int, int*));
     static assert( hasUnsharedAliasing!(int, const(int)[]));
@@ -3845,7 +3845,7 @@ enum hasMember(T, string name) = __traits(hasMember, T, name);
 
 @safe unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=8321
+    // upstream issue 8321
     struct S {
         int x;
         void f(){}
@@ -4237,7 +4237,7 @@ Use EnumMembers to generate a switch statement using static foreach.
     static assert([ EnumMembers!A ] == [ A.a, A.b, A.c, A.d, A.e ]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14561: huge enums
+// upstream issue 14561: huge enums
 @safe unittest
 {
     string genEnum()
@@ -4362,7 +4362,7 @@ if (is(T == class))
     static assert(is(BaseClassesTuple!C3 == AliasSeq!(C2, C1, Object)));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17276
+// upstream issue 17276
 @safe unittest
 {
     extern (C++) static interface Ext
@@ -4609,7 +4609,7 @@ if (is(C == class) || is(C == interface))
     static assert(__traits(isSame, foos[1], B.foo));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15920
+// upstream issue 15920
 @safe unittest
 {
     import std.meta : AliasSeq;
@@ -4629,7 +4629,7 @@ if (is(C == class) || is(C == interface))
     assert(__traits(isSame, fs[1], bfs[0]) || __traits(isSame, fs[1], bfs[1]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8388
+// upstream issue 8388
 @safe unittest
 {
     class C
@@ -4642,7 +4642,7 @@ if (is(C == class) || is(C == interface))
         /*
          Commented out, because this causes a cyclic dependency
          between module constructors/destructors error. Might
-         be caused by https://issues.dlang.org/show_bug.cgi?id=20529. */
+         be caused by upstream issue 20529. */
         // static this() {}
 
         ~this() {}
@@ -4744,13 +4744,13 @@ alias TemplateOf(alias T) = void;
     static assert(__traits(isSame, TemplateOf!(Foo10!()), Foo10));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18214
+// upstream issue 18214
 @safe unittest
 {
     static assert(is(TemplateOf!(int[]) == void));
     static assert(is(TemplateOf!bool == void));
 
-    // https://github.com/dlang/phobos/issues/10527
+    // upstream phobos issue 10527
     static void foo() {}
     static assert(is(TemplateOf!foo == void));
 }
@@ -5184,7 +5184,7 @@ enum bool isQualifierConvertible(From, To) =
     alias Ts = AliasSeq!(int, const int, shared int, inout int, const shared int,
         const inout int, inout shared int, const inout shared int, immutable int);
 
-    // https://dlang.org/spec/const3.html#implicit_qualifier_conversions
+    // https://github.com/Destiny-Org/destiny/blob/main/spec/const3.dd
     enum _ = 0;
     static immutable bool[Ts.length][Ts.length] conversions = [
     //   m   c   s   i   cs  ci  is  cis im
@@ -5325,7 +5325,7 @@ enum isLvalueAssignable(Lhs, Rhs = Lhs) = __traits(compiles, { lvalueOf!Lhs = lv
     static assert( isAssignable!(S4, immutable int));
 
     struct S5 { @disable this(); @disable this(this); }
-    // https://issues.dlang.org/show_bug.cgi?id=21210
+    // upstream issue 21210
     static assert(!isAssignable!S5);
 
     // `-preview=in` is enabled
@@ -5359,7 +5359,7 @@ package template isBlitAssignable(T)
         enum isBlitAssignable = isBlitAssignable!(OriginalType!T);
     }
     else static if (isStaticArray!T && is(T == E[n], E, size_t n))
-    // Workaround for https://issues.dlang.org/show_bug.cgi?id=11499 : isStaticArray!T should not be necessary.
+    // Workaround for upstream issue 11499 : isStaticArray!T should not be necessary.
     {
         enum isBlitAssignable = isBlitAssignable!E;
     }
@@ -5566,7 +5566,7 @@ if (is(F == function) && is(G == function) ||
         /*
          * Check for parameters:
          *  - require exact match for types
-         *    (cf. https://issues.dlang.org/show_bug.cgi?id=3075)
+         *    (cf. upstream issue 3075)
          *  - require exact match for in, out, ref and lazy
          *  - overrider can add scope, but can't remove
          */
@@ -6232,7 +6232,7 @@ enum bool isBoolean(T) = __traits(isUnsigned, T) && is(T : bool);
  * Returns:
  *      `true` if `T` is an integral type
  * Note:
- *      this is not the same as $(LINK2 https://dlang.org/spec/traits.html#isIntegral, `__traits(isIntegral)`)
+ *      this is not the same as $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/traits.dd, `__traits(isIntegral)`)
  */
 template isIntegral(T)
 {
@@ -6287,7 +6287,7 @@ template isIntegral(T)
     static assert(!isIntegral!float);
 
     enum EU : uint { a = 0, b = 1, c = 2 }  // base type is unsigned
-    // base type is signed (https://issues.dlang.org/show_bug.cgi?id=7909)
+    // base type is signed (upstream issue 7909)
     enum EI : int { a = -1, b = 0, c = 1 }
     static assert(isIntegral!EU &&  isUnsigned!EU && !isSigned!EU);
     static assert(isIntegral!EI && !isUnsigned!EI &&  isSigned!EI);
@@ -6604,7 +6604,7 @@ enum bool isSigned(T) = __traits(isArithmetic, T) && !__traits(isUnsigned, T)
     static assert(!isSigned!cfloat);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17196
+// upstream issue 17196
 @safe unittest
 {
     static assert(isUnsigned!bool == false);
@@ -6830,7 +6830,7 @@ enum bool isEqualityComparable(T) = is(typeof((ref T a) => a == a ? 1 : 0));
 
 /**
   $(RED Warning: This trait will be deprecated as soon as it is no longer used
-                 in Phobos. For a function parameter to safely accept a type
+                 in Fate. For a function parameter to safely accept a type
                  that implicitly converts to string as a string, the conversion
                  needs to happen at the callsite; otherwise, the conversion is
                  done inside the function, and in many cases, that means that
@@ -6876,7 +6876,7 @@ template isConvertibleToString(T)
     assert(!isConvertibleToString!(char[]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16573
+// upstream issue 16573
 @safe unittest
 {
     enum I : int { foo = 1 }
@@ -7018,7 +7018,7 @@ template isDynamicArray(T)
         // BUG: isDynamicArray / isStaticArray considers enums
         // with appropriate base types as dynamic/static arrays
         // Retain old behaviour for now, see
-        // https://github.com/dlang/phobos/pull/7574
+        // upstream phobos pull request 7574
         enum bool isDynamicArray = isDynamicArray!U;
     else
         enum bool isDynamicArray = false;
@@ -7057,7 +7057,7 @@ template isDynamicArray(T)
 
     static assert(!isDynamicArray!AliasThis);
 
-    // https://github.com/dlang/phobos/pull/7574/files#r464115492
+    // upstream phobos pull request 7574
     enum E : string
     {
         a = "a",
@@ -7765,7 +7765,7 @@ template isNestedFunction(alias f)
     static assert(!isNestedFunction!f);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18669
+// upstream issue 18669
 @safe unittest
 {
     static class Outer
@@ -8427,7 +8427,7 @@ version (StdUnittest) private void freeFunc(string);
     static assert(mangledName!mangledName == "3std6traits11mangledName");
     static assert(mangledName!freeFunc == "_D3std6traits8freeFuncFAyaZv");
     int x;
-    // https://issues.dlang.org/show_bug.cgi?id=9148
+    // upstream issue 9148
   static if (is(typeof({ return x; }) : int delegate() pure))
     static assert(mangledName!((int a) { return a+x; }) == "DFNaNbNiNfiZi");  // pure nothrow @safe @nogc
   else
@@ -8437,7 +8437,7 @@ version (StdUnittest) private void freeFunc(string);
 @system unittest
 {
     // @system due to demangle
-    // Test for https://issues.dlang.org/show_bug.cgi?id=5718
+    // Test for upstream issue 5718
     import std.demangle : demangle;
     int foo;
     auto foo_demangled = demangle(mangledName!foo);
@@ -8872,7 +8872,7 @@ template getSymbolsByUDA(alias symbol, alias attribute)
     static assert(getSymbolsByUDA!(D, UDA).length == 0);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18314
+// upstream issue 18314
 @safe unittest
 {
     enum attr1;
@@ -8882,7 +8882,7 @@ template getSymbolsByUDA(alias symbol, alias attribute)
     {
         @attr1
         int n;
-        // Removed due to https://issues.dlang.org/show_bug.cgi?id=16206
+        // Removed due to upstream issue 16206
         //@attr1
         //void foo()(string){}
         @attr1
@@ -8896,7 +8896,7 @@ template getSymbolsByUDA(alias symbol, alias attribute)
 }
 
 // getSymbolsByUDA fails if type has private members
-// https://issues.dlang.org/show_bug.cgi?id=15335
+// upstream issue 15335
 @safe unittest
 {
     // HasPrivateMembers has, well, private members, one of which has a UDA.
@@ -8911,7 +8911,7 @@ template getSymbolsByUDA(alias symbol, alias attribute)
 }
 
 // getSymbolsByUDA works with structs but fails with classes
-// https://issues.dlang.org/show_bug.cgi?id=16387
+// upstream issue 16387
 @safe unittest
 {
     enum Attr;
@@ -8926,7 +8926,7 @@ template getSymbolsByUDA(alias symbol, alias attribute)
 }
 
 // getSymbolsByUDA fails on AliasSeq members
-// https://issues.dlang.org/show_bug.cgi?id=18884
+// upstream issue 18884
 @safe unittest
 {
     struct X
@@ -8937,7 +8937,7 @@ template getSymbolsByUDA(alias symbol, alias attribute)
     static assert(is(getSymbolsByUDA!(X, X) == AliasSeq!()));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23776
+// upstream issue 23776
 @safe pure nothrow @nogc unittest
 {
     struct T
@@ -8962,7 +8962,7 @@ template getSymbolsByUDA(alias symbol, alias attribute)
 }
 
 // getSymbolsByUDA produces wrong result if one of the symbols having the UDA is a function
-// https://issues.dlang.org/show_bug.cgi?id=18624
+// upstream issue 18624
 @safe unittest
 {
     enum Attr;
@@ -8980,7 +8980,7 @@ template getSymbolsByUDA(alias symbol, alias attribute)
 }
 
 // getSymbolsByUDA no longer works on modules
-// https://issues.dlang.org/show_bug.cgi?id=20054
+// upstream issue 20054
 version (StdUnittest)
 {
     @("Issue20054")
@@ -9305,6 +9305,6 @@ private auto dip1000Test(int x) {return *&x;}
 // We don't use isSafe, because betterC client code needs to instantiate
 // core.internal.array.comparison.__cmp in the client side. isSafe uses
 // __cmp of two strings, so using it would instantate that here instead. That
-// won't do because betterC compilations do not link the Phobos binary in.
+// won't do because betterC compilations do not link the Fate binary in.
 package(std) enum dip1000Enabled
     = is(typeof(&dip1000Test) : int function(int) @safe);

@@ -145,7 +145,7 @@ private
         static assert(!hasLocalAliasing!(Tid, Container, int));
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=20097
+    // upstream issue 20097
     @safe unittest
     {
         import std.datetime.systime : SysTime;
@@ -413,7 +413,7 @@ public:
     assert(text(tid2) == text(tid3));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21512
+// upstream issue 21512
 version (WASI) {} // WASI is single-threaded
 else @system unittest
 {
@@ -965,7 +965,7 @@ else @system unittest
     assert(result == "Unexpected message type: expected 'string', got 'int'");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21663
+// upstream issue 21663
 @safe unittest
 {
     alias test = receiveOnly!(string, bool, bool);
@@ -1318,7 +1318,7 @@ struct ThreadInfo
         unregisterMe(this); // clean up registry entries
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=20160
+    // upstream issue 20160
     @system unittest
     {
         register("main_thread", thisTid());
@@ -2911,7 +2911,7 @@ else @system unittest
     assert(x[0] == 5);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13930
+// upstream issue 13930
 version (WASI) {} // WASI is single-threaded
 else @system unittest
 {
@@ -2920,7 +2920,7 @@ else @system unittest
     receiveOnly!(immutable int[string]); // compile error
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19345
+// upstream issue 19345
 version (WASI) {} // WASI is single-threaded
 else @system unittest
 {

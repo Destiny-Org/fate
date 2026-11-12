@@ -24,7 +24,7 @@ module std.internal.test.range;
     assert(r.equal!equal([[ 0, 1, 2 ], [ 3, 4 ]]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24415
+// upstream issue 24415
 @safe unittest
 {
     import std.range : only;

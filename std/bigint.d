@@ -362,7 +362,7 @@ public:
         return this;
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=10565
+    // upstream issue 10565
 @safe unittest
 {
     // Test cases from the issue
@@ -397,7 +397,7 @@ public:
         assert(b == BigInt("200_002_469"));
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=16264
+    // upstream issue 16264
     @safe unittest
     {
         auto a = BigInt(
@@ -446,7 +446,7 @@ public:
         ));
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=24028
+    // upstream issue 24028
     @system unittest
     {
         import std.exception : assertThrown;
@@ -1774,7 +1774,7 @@ unittest
     assert(BigInt(-0x1234_5678_9ABC_5A5AL).toLong() == -0x1234_5678_9ABC_5A5AL);
     assert(BigInt(0xF234_5678_9ABC_5A5AL).toLong() == long.max);
     assert(BigInt(-0x123456789ABCL).toInt() == -int.max);
-    char[] s1 = "123".dup; // https://issues.dlang.org/show_bug.cgi?id=8164
+    char[] s1 = "123".dup; // upstream issue 8164
     assert(BigInt(s1) == 123);
     char[] s2 = "0xABC".dup;
     assert(BigInt(s2) == 2748);
@@ -1786,10 +1786,10 @@ unittest
     b = long.max / a;
     assert( b == long.max /(ulong.max - 5));
     assert(BigInt(1) - 1 == 0);
-    assert((-4) % BigInt(5) == -4); // https://issues.dlang.org/show_bug.cgi?id=5928
+    assert((-4) % BigInt(5) == -4); // upstream issue 5928
     assert(BigInt(-4) % BigInt(5) == -4);
-    assert(BigInt(2)/BigInt(-3) == BigInt(0)); // https://issues.dlang.org/show_bug.cgi?id=8022
-    assert(BigInt("-1") > long.min); // https://issues.dlang.org/show_bug.cgi?id=9548
+    assert(BigInt(2)/BigInt(-3) == BigInt(0)); // upstream issue 8022
+    assert(BigInt("-1") > long.min); // upstream issue 9548
 
     assert(toDecimalString(BigInt("0000000000000000000000000000000000000000001234567"))
         == "1234567");
@@ -1816,7 +1816,7 @@ unittest
     assert((BigInt(int.min)-1)%int.min == -1);
 }
 
- // Recursive division (https://issues.dlang.org/show_bug.cgi?id=5568)
+ // Recursive division (upstream issue 5568)
 @safe unittest
 {
     enum Z = 4843;
@@ -1837,17 +1837,17 @@ unittest
     BigInt w =  c - b + a;
     assert(w % m == 0);
 
-    // https://issues.dlang.org/show_bug.cgi?id=6819
+    // upstream issue 6819
     BigInt z1 = BigInt(10)^^64;
     BigInt w1 = BigInt(10)^^128;
     assert(z1^^2 == w1);
     BigInt z2 = BigInt(1)<<64;
     BigInt w2 = BigInt(1)<<128;
     assert(z2^^2 == w2);
-    // https://issues.dlang.org/show_bug.cgi?id=7993
+    // upstream issue 7993
     BigInt n7793 = 10;
     assert( n7793 / 1 == 10);
-    // https://issues.dlang.org/show_bug.cgi?id=7973
+    // upstream issue 7973
     auto a7973 = 10_000_000_000_000_000;
     const c7973 = 10_000_000_000_000_000;
     immutable i7973 = 10_000_000_000_000_000;
@@ -1858,7 +1858,7 @@ unittest
     assert(v7973 == 2551700137);
     v7973 %= i7973;
     assert(v7973 == 2551700137);
-    // https://issues.dlang.org/show_bug.cgi?id=8165
+    // upstream issue 8165
     BigInt[2] a8165;
     a8165[0] = a8165[1] = 1;
 }
@@ -2016,7 +2016,7 @@ unittest
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6448
+// upstream issue 6448
 @safe unittest
 {
     import std.array;
@@ -2030,7 +2030,7 @@ unittest
     BigInt bx = x;
     formattedWrite(w2, "%010d", bx);
     assert(w1.data == w2.data);
-    // https://issues.dlang.org/show_bug.cgi?id=8011
+    // upstream issue 8011
     BigInt y = -3;
     ++y;
     assert(y.toLong() == -2);
@@ -2046,12 +2046,12 @@ unittest
 @safe unittest
 {
     import std.math.algebraic : abs;
-    auto r = abs(BigInt(-1000)); // https://issues.dlang.org/show_bug.cgi?id=6486
+    auto r = abs(BigInt(-1000)); // upstream issue 6486
     assert(r == 1000);
 
-    auto r2 = abs(const(BigInt)(-500)); // https://issues.dlang.org/show_bug.cgi?id=11188
+    auto r2 = abs(const(BigInt)(-500)); // upstream issue 11188
     assert(r2 == 500);
-    auto r3 = abs(immutable(BigInt)(-733)); // https://issues.dlang.org/show_bug.cgi?id=11188
+    auto r3 = abs(immutable(BigInt)(-733)); // upstream issue 11188
     assert(r3 == 733);
 
     // opCast!bool
@@ -2059,7 +2059,7 @@ unittest
     assert(one && !zero);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6850
+// upstream issue 6850
 @safe unittest
 {
     pure long pureTest() {
@@ -2072,8 +2072,8 @@ unittest
     assert(pureTest() == 1337);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8435
-// https://issues.dlang.org/show_bug.cgi?id=10118
+// upstream issue 8435
+// upstream issue 10118
 @safe unittest
 {
     auto i = BigInt(100);
@@ -2098,7 +2098,7 @@ unittest
     assert(keys.empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11148
+// upstream issue 11148
 @safe unittest
 {
     void foo(BigInt) {}
@@ -2137,7 +2137,7 @@ unittest
     assert(n == 4);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8167
+// upstream issue 8167
 @safe unittest
 {
     BigInt a = BigInt(3);
@@ -2145,7 +2145,7 @@ unittest
     assert(b == 3);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9061
+// upstream issue 9061
 @safe unittest
 {
     long l1 = 0x12345678_90ABCDEF;
@@ -2165,7 +2165,7 @@ unittest
     assert(l5 == b5);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11600
+// upstream issue 11600
 @safe unittest
 {
     import std.conv;
@@ -2181,14 +2181,14 @@ unittest
     assertThrown!ConvException(to!BigInt("-123four"));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11583
+// upstream issue 11583
 @safe unittest
 {
     BigInt x = 0;
     assert((x > 0) == false);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13391
+// upstream issue 13391
 @safe unittest
 {
     BigInt x1 = "123456789";
@@ -2220,7 +2220,7 @@ unittest
     assert(x2 == 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13963
+// upstream issue 13963
 @safe unittest
 {
     BigInt x = 1;
@@ -2272,7 +2272,7 @@ unittest
     assert(-x2 % ulong.max == -x2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14124
+// upstream issue 14124
 @safe unittest
 {
     auto x = BigInt(-3);
@@ -2296,7 +2296,7 @@ unittest
     assert(x.isZero);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15678
+// upstream issue 15678
 @safe unittest
 {
     import std.exception : assertThrown;
@@ -2305,7 +2305,7 @@ unittest
     assertThrown!ConvException(BigInt("1234PUKE"));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6447
+// upstream issue 6447
 @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -2321,14 +2321,14 @@ unittest
     ]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17330
+// upstream issue 17330
 @safe unittest
 {
     auto b = immutable BigInt("123");
     assert(b == 123);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14767
+// upstream issue 14767
 @safe pure unittest
 {
     static immutable a = BigInt("340282366920938463463374607431768211455");
@@ -2377,7 +2377,7 @@ void divMod(const BigInt dividend, const BigInt divisor, out BigInt quotient, ou
     assert(q * b + r == a);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18086
+// upstream issue 18086
 @safe pure nothrow unittest
 {
     BigInt q = 1;
@@ -2406,7 +2406,7 @@ void divMod(const BigInt dividend, const BigInt divisor, out BigInt quotient, ou
     assert(q * d + r == -c);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=22771
+// upstream issue 22771
 @safe pure nothrow unittest
 {
     BigInt quotient, remainder;
@@ -2414,7 +2414,7 @@ void divMod(const BigInt dividend, const BigInt divisor, out BigInt quotient, ou
     assert(remainder == 0);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19740
+// upstream issue 19740
 @safe unittest
 {
     BigInt a = BigInt(

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 `AlignedBlockList` represents a wrapper around a chain of allocators, allowing for fast deallocations
 and preserving a low degree of fragmentation by means of aligned allocations.

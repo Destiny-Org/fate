@@ -107,7 +107,7 @@ They met on 24/01/1970.
   }
   ---
   )
-  See_Also: $(LINK2 https://dlang.org/spec/statement.html#IfCondition, `IfCondition`).
+  See_Also: $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/statement.dd, `IfCondition`).
 
   $(SECTION Syntax and general information)
   The general usage guideline is to keep regex complexity on the side of simplicity,
@@ -118,7 +118,7 @@ They met on 24/01/1970.
 
   The basic syntax shouldn't surprise experienced users of regular expressions.
   For an introduction to `std.regex` see a
-  $(HTTP dlang.org/regular-expression.html, short tour) of the module API
+  short tour of the module API
   and its abilities.
 
   There are other web resources on regular expressions to help newcomers,
@@ -468,7 +468,7 @@ if (isSomeString!(S))
 
     import std.meta : AliasSeq;
     static foreach (C; AliasSeq!(string, wstring, dstring))
-        // Test with const array of patterns - see https://issues.dlang.org/show_bug.cgi?id=20301
+        // Test with const array of patterns - see upstream issue 20301
         static foreach (S; AliasSeq!(C, const C, immutable C))
             test!S();
 }
@@ -773,7 +773,7 @@ public:
         || cast(bool)(c = matchFirst(s, regex("a"))));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19979
+// upstream issue 19979
 @system unittest
 {
     auto c = matchFirst("bad", regex(`(^)(not )?bad($)`));
@@ -948,7 +948,7 @@ private auto matchMany(RegEx, R)(R input, auto ref RegEx re) @safe
     assert("abc".matchOnce(re)[0] == "abc");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18135
+// upstream issue 18135
 @system unittest
 {
     static struct MapResult { RegexMatch!string m; }

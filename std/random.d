@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 Facilities for random number generation.
@@ -154,13 +154,13 @@ import std.traits;
     assert(10.iota.randomSample(3, rnd2).equal([7, 8, 9]));
 
     // Cover all elements in an array in random order
-    version (D_LP64) // https://issues.dlang.org/show_bug.cgi?id=15147
+    version (D_LP64) // upstream issue 15147
         assert(10.iota.randomCover(rnd2).equal([7, 4, 2, 0, 1, 6, 8, 3, 9, 5]));
     else
         assert(10.iota.randomCover(rnd2).equal([4, 8, 7, 3, 5, 9, 2, 6, 0, 1]));
 
     // Shuffle an array
-    version (D_LP64) // https://issues.dlang.org/show_bug.cgi?id=15147
+    version (D_LP64) // upstream issue 15147
         assert([0, 1, 2, 4, 5].randomShuffle(rnd2).equal([2, 0, 4, 5, 1]));
     else
         assert([0, 1, 2, 4, 5].randomShuffle(rnd2).equal([4, 2, 5, 0, 1]));
@@ -285,7 +285,7 @@ enum isUniformRNG(Rng) = isInputRange!Rng &&
 @safe unittest
 {
     // two-argument predicate should not require @property on `front`
-    // https://issues.dlang.org/show_bug.cgi?id=19837
+    // upstream issue 19837
     struct Rng
     {
         float front() {return 0;}
@@ -595,7 +595,7 @@ Always `false` (random generators are infinite ranges).
  */
     enum bool empty = false;
 
-    // https://issues.dlang.org/show_bug.cgi?id=21610
+    // upstream issue 21610
     static if (m)
     {
         private UIntType _x = (a + c) % m;
@@ -734,7 +734,7 @@ alias MinstdRand = LinearCongruentialEngine!(uint, 48_271, 0, 2_147_483_647);
     {{
         auto rnd1 = Type(123_456_789);
         rnd1.popFront();
-        // https://issues.dlang.org/show_bug.cgi?id=15853
+        // upstream issue 15853
         auto rnd2 = ((const ref Type a) => a.save())(rnd1);
         assert(rnd1 == rnd2);
         // Enable next test when RNGs are reference types
@@ -1185,7 +1185,7 @@ alias Mt19937_64 = MersenneTwisterEngine!(ulong, 64, 312, 156, 31,
     {{
         auto gen1 = Type(123_456_789);
         gen1.popFront();
-        // https://issues.dlang.org/show_bug.cgi?id=15853
+        // upstream issue 15853
         auto gen2 = ((const ref Type a) => a.save())(gen1);
         assert(gen1 == gen2);  // Danger, Will Robinson -- no opEquals for MT
         // Enable next test when RNGs are reference types
@@ -1195,7 +1195,7 @@ alias Mt19937_64 = MersenneTwisterEngine!(ulong, 64, 312, 156, 31,
     }}
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11690
+// upstream issue 11690
 @safe @nogc pure nothrow unittest
 {
     alias MT(UIntType, uint w) = MersenneTwisterEngine!(UIntType, w, 624, 397, 31,
@@ -1355,7 +1355,7 @@ if (isUnsigned!UIntType && !(sa > 0 && sb > 0 && sc > 0))
             }
             else
             {
-                static assert(0, "Phobos Error: Xorshift has no instantiation rule for "
+                static assert(0, "Fate Error: Xorshift has no instantiation rule for "
                     ~ UIntType.stringof);
             }
             enum uint rshift = typeof(x0).sizeof * 8 - 2;
@@ -1440,7 +1440,7 @@ if (isUnsigned!UIntType && !(sa > 0 && sb > 0 && sc > 0))
         }
         else
         {
-            static assert(0, "Phobos Error: Xorshift has no `seed` implementation for "
+            static assert(0, "Fate Error: Xorshift has no `seed` implementation for "
                 ~ UIntType.stringof);
         }
 
@@ -1625,7 +1625,7 @@ alias Xorshift    = Xorshift128;                            /// ditto
     {
         auto rnd1 = Type(123_456_789);
         rnd1.popFront();
-        // https://issues.dlang.org/show_bug.cgi?id=15853
+        // upstream issue 15853
         auto rnd2 = ((const ref Type a) => a.save())(rnd1);
         assert(rnd1 == rnd2);
         // Enable next test when RNGs are reference types
@@ -1671,9 +1671,9 @@ version (BSD)
 // For the current purpose of unpredictableSeed the difference between
 // a secure arc4random implementation and a legacy implementation is
 // unimportant. The source code documents this distinction in case in the
-// future Phobos is altered to require cryptographically secure sources
+// future Fate is altered to require cryptographically secure sources
 // of randomness, and also so other people reading this source code (as
-// Phobos is often looked to as an example of good D programming practices)
+// Fate is often looked to as an example of good D programming practices)
 // do not mistakenly use insecure versions of arc4random in contexts where
 // cryptographically secure sources of randomness are needed.
 
@@ -1697,7 +1697,7 @@ else
 {
     private ulong bootstrapSeed() @nogc nothrow
     {
-        // https://issues.dlang.org/show_bug.cgi?id=19580
+        // upstream issue 19580
         // previously used `ulong result = void` to start with an arbitary value
         // but using an uninitialized variable's value is undefined behavior
         // and enabled unwanted optimizations on non-DMD compilers.
@@ -2558,19 +2558,19 @@ if (!is(T == enum) && (isIntegral!T || isSomeChar!T))
     assert(rnd.uniform!ulong == 4838462006927449017);
 
     enum Fruit { apple, mango, pear }
-    version (D_LP64) // https://issues.dlang.org/show_bug.cgi?id=15147
+    version (D_LP64) // upstream issue 15147
     assert(rnd.uniform!Fruit == Fruit.mango);
 }
 
 @safe unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=21383
+    // upstream issue 21383
     auto rng1 = Xorshift32(123456789);
     auto rng2 = rng1.save;
     assert(rng1.uniform!dchar == rng2.uniform!dchar);
-    // https://issues.dlang.org/show_bug.cgi?id=21384
+    // upstream issue 21384
     assert(rng1.uniform!(const shared dchar) <= dchar.max);
-    // https://issues.dlang.org/show_bug.cgi?id=8671
+    // upstream issue 8671
     double t8671 = 1.0 - uniform(0.0, 1.0);
 }
 
@@ -2840,7 +2840,7 @@ auto ref choice(Range)(ref Range range)
     auto rnd = MinstdRand0(42);
 
     auto elem  = [1, 2, 3, 4, 5].choice(rnd);
-    version (D_LP64) // https://issues.dlang.org/show_bug.cgi?id=15147
+    version (D_LP64) // upstream issue 15147
     assert(elem == 3);
 }
 
@@ -2884,7 +2884,7 @@ auto ref choice(Range)(ref Range range)
            "Choice did not return a valid element from the given Range");
 }
 
-@safe unittest // https://issues.dlang.org/show_bug.cgi?id=18631
+@safe unittest // upstream issue 18631
 {
     auto rng = MinstdRand0(42);
     const a = [0,1,2];
@@ -2897,7 +2897,7 @@ auto ref choice(Range)(ref Range range)
     auto z1 = choice(cast(const)[1, 2, 3], rng);
 }
 
-@safe unittest // Ref range (https://issues.dlang.org/show_bug.cgi?id=18631 PR)
+@safe unittest // Ref range (upstream issue 18631 PR)
 {
     struct TestRange
     {
@@ -2955,7 +2955,7 @@ if (isRandomAccessRange!Range)
     auto rnd = MinstdRand0(42);
 
     auto arr = [1, 2, 3, 4, 5].randomShuffle(rnd);
-    version (D_LP64) // https://issues.dlang.org/show_bug.cgi?id=15147
+    version (D_LP64) // upstream issue 15147
     assert(arr == [3, 5, 2, 4, 1]);
 }
 
@@ -2983,13 +2983,13 @@ if (isRandomAccessRange!Range)
     auto gen2 = gen1.save();
     sa[] = sb[];
     // @nogc std.random.randomShuffle.
-    // https://issues.dlang.org/show_bug.cgi?id=19156
+    // upstream issue 19156
     () @nogc nothrow pure { randomShuffle(sa[], gen1); }();
     partialShuffle(sb[], sb.length, gen2);
     assert(sa[] == sb[]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18501
+// upstream issue 18501
 @safe unittest
 {
     import std.algorithm.comparison : among;
@@ -3045,15 +3045,15 @@ if (isRandomAccessRange!Range)
     auto arr = [1, 2, 3, 4, 5, 6];
     arr = arr.dup.partialShuffle(1, rnd);
 
-    version (D_LP64) // https://issues.dlang.org/show_bug.cgi?id=15147
+    version (D_LP64) // upstream issue 15147
     assert(arr == [2, 1, 3, 4, 5, 6]); // 1<->2
 
     arr = arr.dup.partialShuffle(2, rnd);
-    version (D_LP64) // https://issues.dlang.org/show_bug.cgi?id=15147
+    version (D_LP64) // upstream issue 15147
     assert(arr == [1, 4, 3, 2, 5, 6]); // 1<->2, 2<->4
 
     arr = arr.dup.partialShuffle(3, rnd);
-    version (D_LP64) // https://issues.dlang.org/show_bug.cgi?id=15147
+    version (D_LP64) // upstream issue 15147
     assert(arr == [5, 4, 6, 2, 1, 3]); // 1<->5, 2<->4, 3<->6
 }
 
@@ -3106,7 +3106,7 @@ Returns the index in `proportions` that was chosen.
 Note:
     Usually, dice are 'fair', meaning that each side has equal probability
     to come up, in which case `1 + uniform(0, 6)` can simply be used.
-    In future Phobos versions, this function might get renamed to something like
+    In future Fate versions, this function might get renamed to something like
     `weightedChoice` to avoid confusion.
 
 Params:
@@ -3470,7 +3470,7 @@ if (isRandomAccessRange!Range)
     import std.range : iota;
     auto rnd = MinstdRand0(42);
 
-    version (D_LP64) // https://issues.dlang.org/show_bug.cgi?id=15147
+    version (D_LP64) // upstream issue 15147
     assert(10.iota.randomCover(rnd).equal([7, 4, 2, 0, 1, 6, 8, 3, 9, 5]));
 }
 
@@ -3485,7 +3485,7 @@ if (isRandomAccessRange!Range)
 @nogc nothrow pure @safe unittest
 {
     // Optionally @nogc std.random.randomCover
-    // https://issues.dlang.org/show_bug.cgi?id=14001
+    // upstream issue 14001
     auto rng = Xorshift(123_456_789);
     static immutable int[] sa = [1, 2, 3, 4, 5];
     auto r = randomCover(sa, rng);
@@ -3537,13 +3537,13 @@ if (isRandomAccessRange!Range)
 
 @safe unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=12589
+    // upstream issue 12589
     int[] r = [];
     auto rc = randomCover(r);
     assert(rc.length == 0);
     assert(rc.empty);
 
-    // https://issues.dlang.org/show_bug.cgi?id=16724
+    // upstream issue 16724
     import std.range : iota;
     auto range = iota(10);
     auto randy = range.randomCover;
@@ -4067,7 +4067,7 @@ if (isInputRange!Range && hasLength!Range && isUniformRNG!UniformRNG)
 
     foreach (UniformRNG; PseudoRngTypes)
     (){ // avoid workaround optimizations for large functions
-        // https://issues.dlang.org/show_bug.cgi?id=2396
+        // upstream issue 2396
         auto rng = UniformRNG(1234);
         /* First test the most general case: randomSample of input range, with and
          * without a specified random number generator.
@@ -4251,7 +4251,7 @@ if (isInputRange!Range && hasLength!Range && isUniformRNG!UniformRNG)
             }
 
             /* Check that it also works if .index is called before .front.
-             * See: https://issues.dlang.org/show_bug.cgi?id=10322
+             * See: upstream issue 10322
              */
             auto sample3 = randomSample(TestInputRange(), 654, 654_321);
             for (; !sample3.empty; sample3.popFront())
@@ -4359,12 +4359,12 @@ if (isInputRange!Range && hasLength!Range && isUniformRNG!UniformRNG)
         static if (isForwardRange!UniformRNG)
         {
             auto sample1 = randomSample(a, 5, rng);
-            // https://issues.dlang.org/show_bug.cgi?id=15853
+            // upstream issue 15853
             auto sample2 = ((const ref typeof(sample1) a) => a.save)(sample1);
             assert(sample1.array() == sample2.array());
         }
 
-        // https://issues.dlang.org/show_bug.cgi?id=8314
+        // upstream issue 8314
         {
             auto sample(RandomGen)(uint seed) { return randomSample(a, 1, RandomGen(seed)).front; }
 

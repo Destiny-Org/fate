@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 Source: $(PHOBOSSRC std/logger/core.d)
 */
@@ -2949,7 +2949,7 @@ else @system unittest
     stdThreadLocalLog.logLevel = LogLevel.all;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14940
+// upstream issue 14940
 @safe unittest
 {
     import std.typecons : Nullable;
@@ -2979,7 +2979,7 @@ else @system unittest
     assert(tl.msg == SystemToStringMsg);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17328
+// upstream issue 17328
 @safe unittest
 {
     import std.format : format;
@@ -3001,7 +3001,7 @@ else @system unittest
     assert(fs.length == 2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15954
+// upstream issue 15954
 @safe unittest
 {
     import std.conv : to;
@@ -3010,7 +3010,7 @@ else @system unittest
     assert(tl.msg == "123456789");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16256
+// upstream issue 16256
 @safe unittest
 {
     import std.conv : to;
@@ -3019,7 +3019,7 @@ else @system unittest
     assert(tl.msg == "123456789");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15517
+// upstream issue 15517
 @system unittest
 {
     import std.file : exists, remove, tempDir;

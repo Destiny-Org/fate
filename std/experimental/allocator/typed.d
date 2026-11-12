@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 This module defines `TypedAllocator`, a statically-typed allocator that
 aggregates multiple untyped allocators and uses them depending on the static

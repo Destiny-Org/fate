@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 This is a submodule of $(MREF std, format).
@@ -80,7 +80,7 @@ If all else fails, structs are formatted like `Type(field1, field2, ...)`,
 classes and interfaces are formatted with their fully qualified name
 and unions with their base name.
 
-Copyright: Copyright The D Language Foundation 2000-2013.
+Copyright: Copyright The D Language Foundation 2000-2013; Copyright (C) 2026 Destiny contributors.
 
 License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 
@@ -779,7 +779,7 @@ if (isSomeString!(typeof(fmt)))
         == "Incorrect format specifier %$d %3$s");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=3479
+// upstream issue 3479
 @safe unittest
 {
     import std.array : appender;
@@ -789,7 +789,7 @@ if (isSomeString!(typeof(fmt)))
     assert(stream.data == "000000000010", stream.data);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6893
+// upstream issue 6893
 @safe unittest
 {
     import std.array : appender;
@@ -1218,7 +1218,7 @@ if (isSomeString!(typeof(fmt)))
     formattedWrite(stream, "%s", aa);
 }
 
-// https://github.com/dlang/phobos/issues/10699
+// upstream phobos issue 10699
 @safe pure unittest
 {
     import std.array : appender;
@@ -1289,7 +1289,7 @@ void formatValue(Writer, T, Char)(auto ref Writer w, auto ref T val, scope const
     assert(writer.data == "00101010 = +4.200000e+01");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15386
+// upstream issue 15386
 @safe pure unittest
 {
     import std.array : appender;
@@ -1318,7 +1318,7 @@ void formatValue(Writer, T, Char)(auto ref Writer w, auto ref T val, scope const
     assertThrown!FormatException(formattedWrite(w, "%(%0*d%)", new int[1]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=22609
+// upstream issue 22609
 @safe pure unittest
 {
     static enum State: ubyte { INACTIVE }
@@ -1326,7 +1326,7 @@ void formatValue(Writer, T, Char)(auto ref Writer w, auto ref T val, scope const
         State state = State.INACTIVE;
         int generation = 1;
         alias state this;
-        // DMDBUG: https://issues.dlang.org/show_bug.cgi?id=16657
+        // DMDBUG: upstream issue 16657
         auto opEquals(S other) const { return state == other.state && generation == other.generation; }
         auto opEquals(State other) const { return state == other; }
     }
@@ -1341,7 +1341,7 @@ void formatValue(Writer, T, Char)(auto ref Writer w, auto ref T val, scope const
     assert(writer.data == "0");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23400
+// upstream issue 23400
 @safe pure unittest
 {
     import std.range : nullSink;

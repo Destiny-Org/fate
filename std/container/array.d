@@ -134,8 +134,8 @@ pure @system unittest
 
 private struct RangeT(A)
 {
-    /* Workaround for https://issues.dlang.org/show_bug.cgi?id=13629
-       See also: http://forum.dlang.org/post/vbmwhzvawhnkoxrhbnyb@forum.dlang.org
+    /* Workaround for upstream issue 13629
+       See also: https://github.com/Destiny-Org/destiny
     */
     private A[1] _outer_;
     private @property ref inout(A) _outer() inout { return _outer_[0]; }
@@ -570,7 +570,7 @@ if (!is(immutable T == immutable bool))
     this(U)(U[] values...)
     if (isImplicitlyConvertible!(U, T))
     {
-        // [2021-07-17] Checking to see whether *always* calling ensureInitialized works-around-and/or-is-related-to https://issues.dlang.org/show_bug.cgihttps://issues.dlang.org/show_bug.cgi...
+        // [2021-07-17] Checking to see whether *always* calling ensureInitialized works-around-and/or-is-related-to an upstream issue
         //if (values.length)
         {
             _data.refCountedStore.ensureInitialized();
@@ -579,7 +579,7 @@ if (!is(immutable T == immutable bool))
             {
                 // We do not simply write "_data.insertBack(value);"
                 // because that might perform, on each iteration, a now-redundant check of length vs capacity.
-                // Thanks to @dkorpel (https://github.com/dlang/phobos/pull/8162#discussion_r667479090).
+                // Thanks to @dkorpel (upstream phobos pull request 8162).
 
                 import core.lifetime : emplace;
                 emplace(_data._payload.ptr + _data._payload.length, value);
@@ -615,7 +615,7 @@ if (!is(immutable T == immutable bool))
         return opEquals(rhs);
     }
 
-    // fix https://issues.dlang.org/show_bug.cgi?23140
+    // fix upstream issue 23140
     private alias Unshared(T) = T;
     private alias Unshared(T: shared U, U) = U;
 
@@ -1295,14 +1295,14 @@ if (!is(immutable T == immutable bool))
 
 @safe unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=13621
+    // upstream issue 13621
     import std.container : Array, BinaryHeap;
     alias Heap = BinaryHeap!(Array!int);
 }
 
 @system unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=18800
+    // upstream issue 18800
     static struct S { void* p; }
     Array!S a;
     a.length = 10;
@@ -1392,7 +1392,7 @@ if (!is(immutable T == immutable bool))
     assert(equal(a[1 .. 4], [1, 2, 3]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5920
+// upstream issue 5920
 @system unittest
 {
     struct structBug5920
@@ -1432,7 +1432,7 @@ if (!is(immutable T == immutable bool))
     assert(dMask == 0b1111_1111);   // make sure the d'tor is called once only.
 }
 
-// Test for https://issues.dlang.org/show_bug.cgi?id=5792
+// Test for upstream issue 5792
 // (mainly just to check if this piece of code is compilable)
 @system unittest
 {
@@ -1577,7 +1577,7 @@ if (!is(immutable T == immutable bool))
     r2[0 .. 0] += 0;
 }
 
-// Test https://issues.dlang.org/show_bug.cgi?id=11194
+// Test upstream issue 11194
 @system unittest
 {
     static struct S {
@@ -1592,7 +1592,7 @@ if (!is(immutable T == immutable bool))
     arr ~= s;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11459
+// upstream issue 11459
 @safe unittest
 {
     static struct S
@@ -1604,20 +1604,20 @@ if (!is(immutable T == immutable bool))
     alias B = Array!(shared bool);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11884
+// upstream issue 11884
 @system unittest
 {
     import std.algorithm.iteration : filter;
     auto a = Array!int([1, 2, 2].filter!"true"());
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8282
+// upstream issue 8282
 @safe unittest
 {
     auto arr = new Array!int;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6998
+// upstream issue 6998
 @system unittest
 {
     static int i = 0;
@@ -1644,7 +1644,7 @@ if (!is(immutable T == immutable bool))
     assert(c.dummy == 1);
 }
 
-//https://issues.dlang.org/show_bug.cgi?id=6998 (2)
+//upstream issue 6998 (2)
 @system unittest
 {
     static class C {int i;}
@@ -1707,7 +1707,7 @@ if (!is(immutable T == immutable bool))
 
 /*
  * typeof may give wrong result in case of classes defining `opCall` operator
- * https://issues.dlang.org/show_bug.cgi?id=20589
+ * upstream issue 20589
  *
  * destructor std.container.array.Array!(MyClass).Array.~this is @system
  * so the unittest is @system too
@@ -1738,7 +1738,7 @@ if (!is(immutable T == immutable bool))
     assert(equal(a[], [1,2,3,4,5,6,7,8]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=22105
+// upstream issue 22105
 @system unittest
 {
     import core.exception : AssertError;
@@ -1756,7 +1756,7 @@ if (!is(immutable T == immutable bool))
     assertThrown!AssertError(array.length = 5);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23140
+// upstream issue 23140
 @system unittest
 {
     shared class C
@@ -2468,7 +2468,7 @@ if (is(immutable T == immutable bool))
     slice.front = true;
     slice.back = true;
     slice[1] = true;
-    slice = slice[0 .. $]; // https://issues.dlang.org/show_bug.cgi?id=19171
+    slice = slice[0 .. $]; // upstream issue 19171
     assert(slice.front == true);
     assert(slice.back == true);
     assert(slice[1] == true);
@@ -2478,7 +2478,7 @@ if (is(immutable T == immutable bool))
 }
 
 // uncomparable values are valid values for an array
-// https://issues.dlang.org/show_bug.cgi?id=16331
+// upstream issue 16331
 @system unittest
 {
     double[] values = [double.nan, double.nan];
@@ -2701,7 +2701,7 @@ if (is(immutable T == immutable bool))
     assert(a[].equal([false, true, true]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21555
+// upstream issue 21555
 @system unittest
 {
     import std.algorithm.comparison : equal;
@@ -2710,7 +2710,7 @@ if (is(immutable T == immutable bool))
     assert(len == 2);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21556
+// upstream issue 21556
 @system unittest
 {
     import std.algorithm.comparison : equal;
@@ -2753,7 +2753,7 @@ if (is(immutable T == immutable bool))
 }
 
 // Change of length reallocates without calling GC.
-// https://issues.dlang.org/show_bug.cgi?id=13642
+// upstream issue 13642
 @system unittest
 {
     import core.memory;

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 $(H2 Assembling Your Own Allocator)
 

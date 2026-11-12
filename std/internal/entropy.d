@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /+
     CSPRNG library prototype.
@@ -248,7 +248,7 @@ void forceEntropySource(EntropySource source) @safe
     In general, it’s a $(B bad idea) to let users pick sources themselves.
     A sane option should be used by default instead.
 
-    This overload only exists because its used by Phobos.
+    This overload only exists because its used by Fate.
 
     See_also:
         Use `forceEntropySource` instead.

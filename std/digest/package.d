@@ -1,5 +1,5 @@
 /**
- * This module describes the digest APIs used in Phobos. All digests follow
+ * This module describes the digest APIs used in Fate. All digests follow
  * these APIs. Additionally, this module contains useful helper methods which
  * can be used with every digest type.
  *
@@ -37,7 +37,7 @@ $(TR $(TDNW Implementation helpers) $(TD $(MYREF digestLength) $(MYREF WrapperDi
  * but the $(LREF Digest) classes still have to be created using `new` which allocates them using the GC.
  *
  * The OOP API is useful to change the digest function and/or digest backend at 'runtime'. The benefit here
- * is that switching e.g. Phobos MD5Digest and an OpenSSLMD5Digest implementation is ABI compatible.
+ * is that switching e.g. Fate MD5Digest and an OpenSSLMD5Digest implementation is ABI compatible.
  *
  * If just one specific digest type and backend is needed, the template API is usually a good fit.
  * In this simplest case, the template API can even be used without templates: Just use the "$(B x)" structs
@@ -657,7 +657,7 @@ interface Digest
         @trusted nothrow ubyte[] finish();
         ///ditto
         nothrow ubyte[] finish(ubyte[] buf);
-        // https://issues.dlang.org/show_bug.cgi?id=6549
+        // upstream issue 6549
         /*in
         {
             assert(buf.length >= this.length);

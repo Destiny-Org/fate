@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 This is a submodule of $(MREF std, algorithm).
 It contains generic sorting algorithms.
@@ -226,7 +226,7 @@ if (isForwardRange!(Range))
 {
     import std.conv : to;
 
-    // https://issues.dlang.org/show_bug.cgi?id=9457
+    // upstream issue 9457
     auto x = "abcd";
     assert(isSorted(x));
     auto y = "acbd";
@@ -1602,7 +1602,7 @@ private void multiSortImpl(Range, SwapStrategy ss, funs...)(Range r)
     assert(pts4.multiSort!("a > b").release.equal(iota(10).retro));
 }
 
-//https://issues.dlang.org/show_bug.cgi?id=9160 (L-value only comparators)
+//upstream issue 9160 (L-value only comparators)
 @safe unittest
 {
     static struct A
@@ -1628,7 +1628,7 @@ private void multiSortImpl(Range, SwapStrategy ss, funs...)(Range r)
 }
 
 // cannot access frame of function
-// https://issues.dlang.org/show_bug.cgi?id=16179
+// upstream issue 16179
 @safe unittest
 {
     auto arr = [[1, 2], [2, 0], [1, 0], [1, 1]];
@@ -1641,7 +1641,7 @@ private void multiSortImpl(Range, SwapStrategy ss, funs...)(Range r)
     assert(arr == [[1, 0], [1, 1], [1, 2], [2, 0]]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16413 - @system comparison function
+// upstream issue 16413 - @system comparison function
 @system unittest
 {
     static @system bool lt(int a, int b) { return a < b; }
@@ -2099,14 +2099,14 @@ sort(alias less = "a < b", SwapStrategy ss = SwapStrategy.unstable, Range)
     assert(isSorted!("toUpper(a) < toUpper(b)")(b));
 
     {
-        // https://issues.dlang.org/show_bug.cgi?id=10317
+        // upstream issue 10317
         enum E_10317 { a, b }
         auto a_10317 = new E_10317[10];
         sort(a_10317);
     }
 
     {
-        // https://issues.dlang.org/show_bug.cgi?id=7767
+        // upstream issue 7767
         // Unstable sort should complete without an excessive number of predicate calls
         // This would suggest it's running in quadratic time
 
@@ -2148,7 +2148,7 @@ sort(alias less = "a < b", SwapStrategy ss = SwapStrategy.unstable, Range)
         assert(proxySwapCalled);
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=20751
+    // upstream issue 20751
     {
         static bool refPred(ref int a, ref int b)
         {
@@ -2232,7 +2232,7 @@ package(std) template HeapOps(alias less, Range)
 
     alias lessFun = binaryFun!less;
 
-    //template because of https://issues.dlang.org/show_bug.cgi?id=12410
+    //template because of upstream issue 12410
     void heapSort()(Range r)
     {
         // If true, there is nothing to do
@@ -2247,7 +2247,7 @@ package(std) template HeapOps(alias less, Range)
         }
     }
 
-    //template because of https://issues.dlang.org/show_bug.cgi?id=12410
+    //template because of upstream issue 12410
     void buildHeap()(Range r)
     {
         immutable n = r.length;
@@ -2272,7 +2272,7 @@ package(std) template HeapOps(alias less, Range)
 
     // Sifts down r[parent] (which is initially assumed to be messed up) so the
     // heap property is restored for r[parent .. end].
-    // template because of https://issues.dlang.org/show_bug.cgi?id=12410
+    // template because of upstream issue 12410
     void siftDown()(Range r, size_t parent, immutable size_t end)
     {
         for (;;)
@@ -2300,7 +2300,7 @@ package(std) template HeapOps(alias less, Range)
     // restored. So there are more swaps but fewer comparisons. Gains are made
     // when the final position is likely to end toward the bottom of the heap,
     // so not a lot of sifts back are performed.
-    //template because of https://issues.dlang.org/show_bug.cgi?id=12410
+    //template because of upstream issue 12410
     void percolate()(Range r, size_t parent, immutable size_t end)
     {
         immutable root = parent;
@@ -2639,7 +2639,7 @@ private template TimSortImpl(alias pred, R)
                 static assert(!hasElaborateAssign!T,
                               "Structs which have opAssign but cannot be default-initialized " ~
                               "do not currently work with stable sort: " ~
-                              "https://issues.dlang.org/show_bug.cgi?id=24810");
+                              "upstream issue 24810");
                 temp = () @trusted { return uninitializedArray!(T[])(newSize); }();
             }
         }
@@ -3014,7 +3014,7 @@ private template TimSortImpl(alias pred, R)
     assert(result == true, "invalid result");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=4584
+// upstream issue 4584
 @safe unittest
 {
     assert(isSorted!"a < b"(sort!("a < b", SwapStrategy.stable)(
@@ -3036,7 +3036,7 @@ private template TimSortImpl(alias pred, R)
     assert(y == "aebcd"d);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14223
+// upstream issue 14223
 @safe unittest
 {
     import std.array, std.range;
@@ -3078,7 +3078,7 @@ private template TimSortImpl(alias pred, R)
     sort!(cmp, SwapStrategy.stable)(makeArray(minMerge + 5));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23668
+// upstream issue 23668
 @safe unittest
 {
     static struct S
@@ -3090,7 +3090,7 @@ private template TimSortImpl(alias pred, R)
     array.sort!("a < b", SwapStrategy.stable);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24773
+// upstream issue 24773
 @safe unittest
 {
     static struct S
@@ -3103,7 +3103,7 @@ private template TimSortImpl(alias pred, R)
     array.sort!((a, b) => false, SwapStrategy.stable);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24809
+// upstream issue 24809
 @safe unittest
 {
     static struct E
@@ -3362,7 +3362,7 @@ if (isRandomAccessRange!R && hasLength!R && hasSwappableElements!R)
     assert(strings == [ "three", "two", "one" ]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=4909
+// upstream issue 4909
 @safe pure unittest
 {
     import std.typecons : Tuple;
@@ -3370,7 +3370,7 @@ if (isRandomAccessRange!R && hasLength!R && hasSwappableElements!R)
     schwartzSort!"a[0]"(chars);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5924
+// upstream issue 5924
 @safe pure unittest
 {
     import std.typecons : Tuple;
@@ -3378,7 +3378,7 @@ if (isRandomAccessRange!R && hasLength!R && hasSwappableElements!R)
     schwartzSort!((Tuple!(char) c){ return c[0]; })(chars);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13965
+// upstream issue 13965
 @safe pure unittest
 {
     import std.typecons : Tuple;
@@ -3386,7 +3386,7 @@ if (isRandomAccessRange!R && hasLength!R && hasSwappableElements!R)
     schwartzSort!("a[0]", SwapStrategy.stable)(chars);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13965
+// upstream issue 13965
 @safe pure unittest
 {
     import std.algorithm.iteration : map;
@@ -3408,7 +3408,7 @@ if (isRandomAccessRange!R && hasLength!R && hasSwappableElements!R)
     assert(isSorted!("a < b")(map!(entropy)(arr)));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20799
+// upstream issue 20799
 @safe unittest
 {
     import std.range : iota, retro;
@@ -3422,7 +3422,7 @@ if (isRandomAccessRange!R && hasLength!R && hasSwappableElements!R)
     assert(arr.isSorted());
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21183
+// upstream issue 21183
 @safe unittest
 {
     static T get(T)(int) { return T.init; }
@@ -3557,7 +3557,7 @@ if (isRandomAccessRange!(Range) && hasLength!Range &&
     auto ret = r[0 .. nth];
     if (false)
     {
-        // Workaround for https://issues.dlang.org/show_bug.cgi?id=16528
+        // Workaround for upstream issue 16528
         // Safety checks: enumerate all potentially unsafe generic primitives
         // then use a @trusted implementation.
         cast(void) binaryFun!less(r[0], r[r.length - 1]);
@@ -3583,7 +3583,7 @@ if (isRandomAccessRange!(Range) && hasLength!Range &&
     assert(v[n] == 9);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=8341
+// upstream issue 8341
 @safe unittest
 {
     import std.algorithm.comparison : equal;
@@ -4000,7 +4000,7 @@ done:
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12987
+// upstream issue 12987
 @safe unittest
 {
     int[] a = [ 25, 7, 9, 2, 0, 5, 21 ];
@@ -4050,7 +4050,7 @@ if (isRandomAccessRange!(Range1) && hasLength!Range1 &&
     assert(a == [0, 1, 2, 2, 3]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15421
+// upstream issue 15421
 @system unittest
 {
     import std.algorithm.comparison : equal;
@@ -4094,7 +4094,7 @@ if (isRandomAccessRange!(Range1) && hasLength!Range1 &&
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15421
+// upstream issue 15421
 @system unittest
 {
     auto a = [ 9, 8, 0, 3, 5, 25, 43, 4, 2, 0, 7 ];
@@ -4113,7 +4113,7 @@ if (isRandomAccessRange!(Range1) && hasLength!Range1 &&
     assert(a == b);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12987
+// upstream issue 12987
 @system unittest
 {
     int[] a = [ 5, 7, 2, 6, 7 ];
@@ -4123,7 +4123,7 @@ if (isRandomAccessRange!(Range1) && hasLength!Range1 &&
     assert(t == [ 0, 1, 2, 2, 3 ]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15420
+// upstream issue 15420
 @system unittest
 {
     int[] a = [ 5, 7, 2, 6, 7 ];
@@ -4717,7 +4717,7 @@ if (isBidirectionalRange!BidirectionalRange &&
     assert(a == [3,2,1]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13594
+// upstream issue 13594
 @safe unittest
 {
     int[3] a = [1,2,3];
@@ -4892,7 +4892,7 @@ if (isBidirectionalRange!BidirectionalRange &&
     assert(b == [ 1, 3, 2 ]);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13594
+// upstream issue 13594
 @safe unittest
 {
     int[3] a = [1,2,3];

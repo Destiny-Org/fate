@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 This is a submodule of $(MREF std, format).
@@ -34,7 +34,7 @@ Below are highlighted examples on how these combinations are used
 with $(LREF unformatValue), however, they apply for $(LREF
 formattedRead) also
 
-Copyright: Copyright The D Language Foundation 2000-2013.
+Copyright: Copyright The D Language Foundation 2000-2013; Copyright (C) 2026 Destiny contributors.
 
 License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 
@@ -387,7 +387,7 @@ if (!isType!fmt && isSomeString!(typeof(fmt)))
     assert(world == "world");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=23600
+// upstream issue 23600
 @safe pure unittest
 {
     import std.typecons : Tuple, tuple;
@@ -850,7 +850,7 @@ T unformatValue(T, Range, Char)(ref Range input, scope const ref FormatSpec!Char
     assert(unformatValue!int(s, spec) == 42);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=7241
+// upstream issue 7241
 @safe pure unittest
 {
     string input = "a";
@@ -860,7 +860,7 @@ T unformatValue(T, Range, Char)(ref Range input, scope const ref FormatSpec!Char
     assert(result[0] == 'a');
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20393
+// upstream issue 20393
 @safe pure unittest
 {
     import std.exception : assertThrown;
@@ -870,7 +870,7 @@ T unformatValue(T, Range, Char)(ref Range input, scope const ref FormatSpec!Char
     assertThrown(formattedRead(str, "%s %d-%s", &a, &b, &c));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18051
+// upstream issue 18051
 @safe pure unittest
 {
     import std.format : format;

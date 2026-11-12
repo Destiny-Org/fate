@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 $(SCRIPT inhibitQuickIndex = 1;)
 
@@ -1324,7 +1324,7 @@ if (is(typeof(Checked!(T, Hook)(value))))
 
 @system unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=21758
+    // upstream issue 21758
     assert(4 * checked(5L) == 20);
     assert(20 / checked(5L) == 4);
     assert(2 ^^ checked(3L) == 8);
@@ -1915,7 +1915,7 @@ static:
     assert(witness == expected, "'" ~ witness ~ "'");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=22249
+// upstream issue 22249
 @safe unittest
 {
     alias _ = Warn.onLowerBound!(int, int);

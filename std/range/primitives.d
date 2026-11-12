@@ -133,7 +133,7 @@ auto h = r.front; // can get the front of the range of non-void type
 ----
 
 The following are rules of input ranges are assumed to hold true in all
-Phobos code. These rules are not checkable at compile-time, so not conforming
+Fate code. These rules are not checkable at compile-time, so not conforming
 to these rules when writing ranges or range based code will result in
 undefined behavior.
 
@@ -155,7 +155,7 @@ $(UL
     has, or would have, equaled `false`.)
 )
 
-Also, note that Phobos code assumes that the primitives `r.front` and
+Also, note that Fate code assumes that the primitives `r.front` and
 `r.empty` are $(BIGOH 1) time complexity wise or "cheap" in terms of
 running time. $(BIGOH) statements in the documentation of range functions
 are made with this assumption.
@@ -246,7 +246,7 @@ enum bool isInputRange(R, E) =
     }
     static assert(!isInputRange!VoidFront);
 }
-// https://issues.dlang.org/show_bug.cgi?id=16034
+// upstream issue 16034
 @safe unittest
 {
     struct One
@@ -543,7 +543,7 @@ void put(R, E)(ref R r, E e)
 private void putChar(R, E)(ref R r, E e)
 if (isSomeChar!E)
 {
-    // https://issues.dlang.org/show_bug.cgi?id=9186: Can't use (E[]).init
+    // upstream issue 9186: Can't use (E[]).init
     enum csCond = is(typeof(doPut(r, (){ ref const( char)[] cstringInit(); return cstringInit(); }())));
     enum wsCond = is(typeof(doPut(r, (){ ref const(wchar)[] wstringInit(); return wstringInit(); }())));
     enum dsCond = is(typeof(doPut(r, (){ ref const(dchar)[] dstringInit(); return dstringInit(); }())));
@@ -829,7 +829,7 @@ pure @safe unittest
     put(c, "hello"d);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9823
+// upstream issue 9823
 @system unittest
 {
     const(char)[] r;
@@ -838,7 +838,7 @@ pure @safe unittest
     assert(r == "ABC");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10571
+// upstream issue 10571
 @safe unittest
 {
     import std.format.write : formattedWrite;
@@ -1431,7 +1431,7 @@ template ElementType(R)
     static assert(is(ElementType!(char[0]) == dchar));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11336
+// upstream issue 11336
 @safe unittest
 {
     static struct S
@@ -1441,7 +1441,7 @@ template ElementType(R)
     static assert(is(ElementType!(S[]) == S));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=11401
+// upstream issue 11401
 @safe unittest
 {
     // ElementType should also work for non-@propety 'front'
@@ -1832,7 +1832,7 @@ enum bool hasSlicing(R) = isForwardRange!R
     static assert(hasSlicing!InfOnes);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=24348
+// upstream issue 24348
 @safe unittest
 {
     static struct Slice
@@ -2493,7 +2493,7 @@ if (isAutodecodableString!(C[]))
     static assert(checkCTFEW.empty);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16090
+// upstream issue 16090
 @safe unittest
 {
     string s = "\u00E4";

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 Source: $(PHOBOSSRC std/experimental/allocator/building_blocks/scoped_allocator.d)
 */
@@ -230,7 +230,7 @@ version (StdUnittest)
     testAllocator!(() => ScopedAllocator!GCAllocator());
 }
 
-@system unittest // https://issues.dlang.org/show_bug.cgi?id=16046
+@system unittest // upstream issue 16046
 {
     import std.exception;
     import std.experimental.allocator;

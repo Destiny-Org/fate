@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
  * This test program pulls in all the library modules in order to run the unit
@@ -109,7 +109,7 @@ int main(string[] args)
     std.signals.linkin();
 
     bool isEmail = std.net.isemail.isEmail("abc");
-    auto http = std.net.curl.HTTP("dlang.org");
+    auto http = std.net.curl.HTTP("example.com");
     auto uuid = randomUUID();
 
     auto md5 = md5Of("hello");

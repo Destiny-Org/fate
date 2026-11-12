@@ -1,11 +1,11 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 This is a submodule of $(MREF std, math).
 
 It contains several exponential and logarithm functions.
 
-Copyright: Copyright The D Language Foundation 2000 - 2011.
+Copyright: Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 Destiny contributors.
            D implementations of exp, expm1, exp2, log, log10, log1p, and log2
            functions are based on the CEPHES math library, which is Copyright
            (C) 2001 Stephen L. Moshier $(LT)steve@moshier.net$(GT) and are
@@ -157,7 +157,7 @@ if (isFloatingPoint!(F) && isIntegral!(G))
     assert(isClose(pow(2.0L, 10L), 1024, 1e-18));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21601
+// upstream issue 21601
 @safe @nogc nothrow pure unittest
 {
     // When reals are large enough the results of pow(b, e) can be
@@ -347,7 +347,7 @@ if (isIntegral!(F) && isIntegral!(G))
     assert(pow(three, four) == 81);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=7006
+// upstream issue 7006
 @safe pure nothrow @nogc unittest
 {
     assert(pow(5, -1) == 0);
@@ -560,7 +560,7 @@ if (isFloatingPoint!(F) && isFloatingPoint!(G))
     assert(isIdentical(pow(0.0, 6.0), 0.0));
     assert(isIdentical(pow(-0.0, 6.0), 0.0));
 
-    // https://issues.dlang.org/show_bug.cgi?id=14786 fixed
+    // upstream issue 14786 fixed
     immutable real maxOdd = pow(2.0L, real.mant_dig) - 1.0L;
     assert(pow(-1.0L,  maxOdd) == -1.0L);
     assert(pow(-1.0L, -maxOdd) == -1.0L);
@@ -578,7 +578,7 @@ if (isFloatingPoint!(F) && isFloatingPoint!(G))
     assert(isClose(pow(twoI, three), 8.0));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20508
+// upstream issue 20508
 @safe pure nothrow @nogc unittest
 {
     import std.math.traits : isNaN;
@@ -1679,7 +1679,7 @@ private T expm1Impl(T)(T x) @safe pure nothrow @nogc
 
 @safe @nogc nothrow unittest
 {
-    // https://github.com/dlang/phobos/issues/11140
+    // upstream phobos issue 11140
     import std.math.traits : isIdentical;
     import std.math.operations : nextDown, nextUp;
     import std.meta : AliasSeq;
@@ -2132,7 +2132,7 @@ private T exp2Impl(T)(T x) @nogc @safe pure nothrow
 
 @safe @nogc nothrow unittest
 {
-    // https://github.com/dlang/phobos/issues/11114
+    // upstream phobos issue 11114
     import std.math.traits : isIdentical;
     import std.math.operations : nextDown, nextUp;
     import std.meta : AliasSeq;
@@ -2462,7 +2462,7 @@ if (isFloatingPoint!T)
             tuple(T.nan, T.nan, int.min),
             tuple(-T.nan, -T.nan, int.min),
 
-            // https://issues.dlang.org/show_bug.cgi?id=16026:
+            // upstream issue 16026:
             tuple(3 * (T.min_normal * T.epsilon), T( .75), (T.min_exp - T.mant_dig) + 2)
         ];
 
@@ -2520,7 +2520,7 @@ if (isFloatingPoint!T)
             tuple(T.nan, T.nan, int.min),
             tuple(-T.nan, -T.nan, int.min),
 
-            // https://issues.dlang.org/show_bug.cgi?id=16026:
+            // upstream issue 16026:
             tuple(3 * (T.min_normal * T.epsilon), T( .75), (T.min_exp - T.mant_dig) + 2)
         ];
 
@@ -2895,7 +2895,7 @@ float ldexp(float n, int exp)   @safe pure nothrow @nogc { return core.math.ldex
     else static assert(false, "Floating point type real not supported");
 }
 
-/* workaround https://issues.dlang.org/show_bug.cgi?id=14718
+/* workaround upstream issue 14718
    float parsing depends on platform strtold
 @safe pure nothrow @nogc unittest
 {

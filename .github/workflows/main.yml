@@ -1,4 +1,4 @@
-# very similar to the DMD script: https://github.com/dlang/dmd/blob/master/.github/workflows/main.yml
+# very similar to the DMD script: https://github.com/Destiny-Org/destiny/blob/main/.github/workflows/main.yml
 
 name: Main
 on:
@@ -51,7 +51,7 @@ jobs:
       HOST_DMD: ${{ matrix.host_dmd || 'dmd' }}
       # N is set dynamically below
       FULL_BUILD: false
-      # work around https://issues.dlang.org/show_bug.cgi?id=23517
+      # work around upstream issue 23517
       MACOSX_DEPLOYMENT_TARGET: '11'
     defaults:
       run:
@@ -87,12 +87,12 @@ jobs:
 
           ref='${{ github.ref }}'
           if [[ "$ref" =~ ^refs/pull/ ]]; then
-            # PR: clone the DMD head with the same name as this Phobos PR's target branch
-            # e.g., DMD stable when targeting Phobos stable
+            # PR: clone the DMD head with the same name as this Fate PR's target branch
+            # e.g., DMD stable when targeting Fate stable
             REPO_BRANCH="$GITHUB_BASE_REF"
           elif [[ "$ref" =~ ^refs/(heads|tags)/(.*)$ ]]; then
-            # no PR: clone the DMD head with the same name as this Phobos head
-            # e.g., DMD stable for a push to Phobos stable, or DMD v2.105.2 for Phobos tag v2.105.2
+            # no PR: clone the DMD head with the same name as this Fate head
+            # e.g., DMD stable for a push to Fate stable, or DMD v2.105.2 for Fate tag v2.105.2
             REPO_BRANCH="${BASH_REMATCH[2]}"
           else
             echo "Error: unexpected GitHub ref '$ref'" >&2
@@ -129,7 +129,7 @@ jobs:
         run: cd ../destiny_engine && ci/run.sh test_dmd
       - name: Test druntime
         run: cd ../destiny_engine && ci/run.sh test_druntime
-      - name: 'Windows x86: Add 32-bit libcurl.dll to PATH (required for Phobos unittests)'
+      - name: 'Windows x86: Add 32-bit libcurl.dll to PATH (required for Fate unittests)'
         if: runner.os == 'Windows' && env.MODEL == '32'
         run: echo "$(dirname "$DC")/../lib32" >> $GITHUB_PATH
       - name: Test phobos

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 String handling functions.
@@ -131,7 +131,7 @@ See_Also:
     for functions that work with unicode strings
     )
 
-Copyright: Copyright The D Language Foundation 2007-.
+Copyright: Copyright The D Language Foundation 2007-; Copyright (C) 2026 Destiny contributors.
 
 License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 
@@ -433,7 +433,7 @@ pure nothrow @system unittest
     assert(toStringz([]) is toStringz(""));
 }
 
-pure nothrow @system unittest // https://issues.dlang.org/show_bug.cgi?id=15136
+pure nothrow @system unittest // upstream issue 15136
 {
     static struct S
     {
@@ -1562,7 +1562,7 @@ if (isSomeChar!Char1 && isSomeChar!Char2)
     });
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13529
+// upstream issue 13529
 @safe pure unittest
 {
     import std.conv : to;
@@ -1629,7 +1629,7 @@ if (isSomeChar!Char1 && isSomeChar!Char2)
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20783
+// upstream issue 20783
 @safe pure @nogc unittest
 {
     enum lastIndex = "aa".lastIndexOf("ab");
@@ -5339,7 +5339,7 @@ if (isSomeChar!C1 && isSomeChar!C2)
     assert(translate("hello world", transTable2) == "h5llorange worangerld");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13018
+// upstream issue 13018
 @safe pure unittest
 {
     immutable dchar[dchar] transTable1 = ['e' : '5', 'o' : '7', '5': 'q'];
@@ -5362,7 +5362,7 @@ if (isSomeChar!C1 && isSomeChar!C2)
                           wchar[], const(wchar)[], immutable(wchar)[],
                           dchar[], const(dchar)[], immutable(dchar)[]))
     {(){ // workaround slow optimizations for large functions
-         // https://issues.dlang.org/show_bug.cgi?id=2396
+         // upstream issue 2396
         assert(translate(to!S("hello world"), cast(dchar[dchar])['h' : 'q', 'l' : '5']) ==
                to!S("qe55o wor5d"));
         assert(translate(to!S("hello world"), cast(dchar[dchar])['o' : 'l', 'l' : '\U00010143']) ==
@@ -5377,7 +5377,7 @@ if (isSomeChar!C1 && isSomeChar!C2)
                               wchar[], const(wchar)[], immutable(wchar)[],
                               dchar[], const(dchar)[], immutable(dchar)[]))
         (){ // workaround slow optimizations for large functions
-            // https://issues.dlang.org/show_bug.cgi?id=2396
+            // upstream issue 2396
             static foreach (R; AliasSeq!(dchar[dchar], const dchar[dchar],
                         immutable dchar[dchar]))
             {{
@@ -5422,7 +5422,7 @@ if (isSomeChar!C1 && isSomeString!S && isSomeChar!C2)
                           wchar[], const(wchar)[], immutable(wchar)[],
                           dchar[], const(dchar)[], immutable(dchar)[]))
     {(){ // workaround slow optimizations for large functions
-         // https://issues.dlang.org/show_bug.cgi?id=2396
+         // upstream issue 2396
         assert(translate(to!S("hello world"), ['h' : "yellow", 'l' : "42"]) ==
                to!S("yellowe4242o wor42d"));
         assert(translate(to!S("hello world"), ['o' : "owl", 'l' : "\U00010143\U00010143"]) ==
@@ -5441,7 +5441,7 @@ if (isSomeChar!C1 && isSomeString!S && isSomeChar!C2)
                               wchar[], const(wchar)[], immutable(wchar)[],
                               dchar[], const(dchar)[], immutable(dchar)[]))
         (){ // workaround slow optimizations for large functions
-            // https://issues.dlang.org/show_bug.cgi?id=2396
+            // upstream issue 2396
             static foreach (R; AliasSeq!(string[dchar], const string[dchar],
                         immutable string[dchar]))
             {{
@@ -5505,7 +5505,7 @@ if (isSomeChar!C1 && isSomeChar!C2 && isOutputRange!(Buffer, C1))
     assert(buffer.data == "h5llorange worangerld");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=13018
+// upstream issue 13018
 @safe pure unittest
 {
     import std.array : appender;
@@ -5573,7 +5573,7 @@ private void translateImpl(C1, T, C2, Buffer)(const(C1)[] str,
     ASCII characters if you want to (ASCII only actually uses `128`
     characters), but be warned that Extended ASCII characters are not valid
     Unicode and therefore will result in a `UTFException` being thrown from
-    most other Phobos functions.
+    most other Fate functions.
 
     Also, because no decoding occurs, it is possible to use this overload to
     translate ASCII characters within a proper UTF-8 string without altering the
@@ -6972,7 +6972,7 @@ if (isSomeString!S)
     });
 }
 
-@safe pure unittest // https://issues.dlang.org/show_bug.cgi?id=23298
+@safe pure unittest // upstream issue 23298
 {
     assert("1 2 3 4 5 6 7 8 9".wrap(17) == "1 2 3 4 5 6 7 8 9\n");
     assert("1 2 3 4 5 6 7 8 9 ".wrap(17) == "1 2 3 4 5 6 7 8 9\n");

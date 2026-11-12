@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 Source: $(PHOBOSSRC std/experimental/allocator/building_blocks/affix_allocator.d)
 */

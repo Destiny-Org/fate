@@ -761,7 +761,7 @@ real erfc(real a)
 }
 
 
-// https://github.com/dlang/phobos/issues/11123
+// upstream phobos issue 11123
 @safe unittest
 {
     immutable tiny = real.min_normal * real.epsilon;
@@ -1071,7 +1071,7 @@ assert(normalDistributionImpl(-real.infinity) == 0.0L);
 assert(normalDistributionImpl(real.infinity) == 1.0L);
 }
 
-// https://github.com/dlang/phobos/issues/11120
+// upstream phobos issue 11120
 @safe unittest
 {
     // Reference values from a high-precision normal-tail expansion.

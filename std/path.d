@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /** This module is used to manipulate path strings.
 
@@ -1235,7 +1235,7 @@ if (isSomeChar!C1 && is(immutable C1 == immutable C2))
     static assert(setExtension("file"w.dup, "ext"w) == "file.ext");
     static assert(setExtension("file.old"d.dup, "new"d) == "file.new");
 
-    // https://issues.dlang.org/show_bug.cgi?id=10601
+    // upstream issue 10601
     assert(setExtension("file", "") == "file");
     assert(setExtension("file.ext", "") == "file");
 }
@@ -1597,7 +1597,7 @@ if (isSomeChar!C)
 
 @safe unittest
 {
-    // Test for https://issues.dlang.org/show_bug.cgi?id=7397
+    // Test for upstream issue 7397
     string[] ary = ["a", "b"];
     version (Posix)
     {
@@ -1877,7 +1877,7 @@ if (isSomeChar!C)
 
 @safe unittest
 {
-    // Test for https://issues.dlang.org/show_bug.cgi?id=7397
+    // Test for upstream issue 7397
     string[] ary = ["a", "b"];
     version (Posix)
     {
@@ -3586,7 +3586,7 @@ if (isConvertibleToString!Range)
     assert(!globMatch("foo.bar", "[gh]???bar"));
     assert(!globMatch("foo.bar"w, "[!fg]*bar"w));
     assert(!globMatch("foo.bar"d, "[fg]???baz"d));
-    // https://issues.dlang.org/show_bug.cgi?id=6634
+    // upstream issue 6634
     assert(!globMatch("foo.di", "*.d")); // triggered bad assertion
 
     assert(globMatch("foo.bar", "{foo,bif}.bar"));

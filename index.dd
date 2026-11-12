@@ -1,19 +1,19 @@
 Ddoc
 
-$(P Phobos is the standard runtime library that comes with the D language
+$(P Fate is the standard runtime library that comes with the Destiny language
 compiler.)
 
 - The `std` namespace is used for the main modules in the
-  Phobos standard library.
+  Fate standard library.
 - The $(LREF etc) namespace is used for external C/C++ library bindings.
 - The `core` namespace is mainly used for low-level D runtime functions.
 - $(RELATIVE_LINK2 stdc, `core.stdc`) wraps the C standard library.
 - $(RELATIVE_LINK2 stdcpp, `core.stdcpp`) wraps some of the C++ standard library.
 - `core.sys` wraps OS headers.
 
-$(P The following table is a quick reference guide for which Phobos modules to
+$(P The following table is a quick reference guide for which Fate modules to
 use for a given category of functionality. Note that some modules may appear in
-more than one category, as some Phobos modules are quite generic and can be
+more than one category, as some Fate modules are quite generic and can be
 applied in a variety of situations.)
 
 $(BOOKTABLE ,
@@ -559,6 +559,6 @@ $(COMMENT
 )
 
 Macros:
-        TITLE=Phobos Runtime Library
+        TITLE=Fate Runtime Library
         DDOC_BLANKLINE=
         _=

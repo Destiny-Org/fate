@@ -1,5 +1,5 @@
 /++
-Convenience file that allows to import entire Phobos in one import.
+Convenience file that allows to import entire Fate in one import.
 +/
 module std;
 

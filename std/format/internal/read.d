@@ -1,7 +1,7 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /*
-   Copyright: Copyright The D Language Foundation 2000-2013.
+   Copyright: Copyright The D Language Foundation 2000-2013; Copyright (C) 2026 Destiny contributors.
 
    License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 

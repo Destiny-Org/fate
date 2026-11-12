@@ -885,7 +885,7 @@ Complexity: $(BIGOH n)
     auto s = make!(SList!int)(1, 2, 3);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5193
+// upstream issue 5193
 @safe unittest
 {
     static struct Data
@@ -905,7 +905,7 @@ Complexity: $(BIGOH n)
     assert(r.front == 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14920
+// upstream issue 14920
 @safe unittest
 {
     SList!int s;
@@ -913,7 +913,7 @@ Complexity: $(BIGOH n)
     assert(s.front == 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15659
+// upstream issue 15659
 @safe unittest
 {
     SList!int s;

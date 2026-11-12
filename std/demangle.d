@@ -1,9 +1,9 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
  * Demangle D mangled names.
  *
- * Copyright: Copyright The D Language Foundation 2000 - 2009.
+ * Copyright: Copyright The D Language Foundation 2000 - 2009; Copyright (C) 2026 Destiny contributors.
  * License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors:   $(HTTP digitalmars.com, Walter Bright),
  *                        Thomas K$(UUML)hne, Frits van Bommel
@@ -11,7 +11,7 @@
  * $(SCRIPT inhibitQuickIndex = 1;)
  */
 /*
- *          Copyright The D Language Foundation 2000 - 2009.
+ *          Copyright The D Language Foundation 2000 - 2009; Copyright (C) 2026 Destiny contributors.
  * Distributed under the Boost Software License, Version 1.0.
  *    (See accompanying file LICENSE_1_0.txt or copy at
  *          http://www.boost.org/LICENSE_1_0.txt)

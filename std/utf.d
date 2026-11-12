@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /++
     Encode and decode UTF-8, UTF-16 and UTF-32 strings.
@@ -55,7 +55,7 @@ $(TR $(TD Miscellaneous) $(TD
         $(LINK2 http://en.wikipedia.org/wiki/Unicode, Wikipedia)<br>
         $(LINK http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8)<br>
         $(LINK https://web.archive.org/web/20100113043530/https://anubis.dkuug.dk/JTC1/SC2/WG2/docs/n1335)
-    Copyright: Copyright The D Language Foundation 2000 - 2012.
+    Copyright: Copyright The D Language Foundation 2000 - 2012; Copyright (C) 2026 Destiny contributors.
     License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
     Authors:   $(HTTP digitalmars.com, Walter Bright) and
                $(HTTP jmdavisprog.com, Jonathan M Davis)
@@ -94,7 +94,7 @@ class UTFException : UnicodeException
     }
 
     // FIXME: Use std.exception.basicExceptionCtors here once
-    // https://issues.dlang.org/show_bug.cgi?id=11500 is fixed
+    // upstream issue 11500 is fixed
 
     /**
     Standard exception constructors.
@@ -1210,7 +1210,7 @@ do
     assert("ë"w.decode(i) == 'ë' && i == 1);
 }
 
-@safe pure unittest // https://issues.dlang.org/show_bug.cgi?id=22867
+@safe pure unittest // upstream issue 22867
 {
     import std.conv : hexString;
     string data = hexString!"f787a598";
@@ -1266,10 +1266,10 @@ do
     }
     else
     {
-        // https://issues.dlang.org/show_bug.cgi?id=14447 forces canIndex to be
+        // upstream issue 14447 forces canIndex to be
         // done outside of decodeImpl, which is undesirable, since not all
         // overloads of decodeImpl need it. So, it should be moved back into
-        // decodeImpl once https://issues.dlang.org/show_bug.cgi?id=8521
+        // decodeImpl once upstream issue 8521
         // has been fixed.
         enum canIndex = is(S : const char[]) || isRandomAccessRange!S && hasSlicing!S && hasLength!S;
         immutable retval = decodeImpl!(canIndex, useReplacementDchar)(str, numCodeUnits);
@@ -1525,7 +1525,7 @@ if (
     else
         alias pstr = str;
 
-    // https://issues.dlang.org/show_bug.cgi?id=14447 forces this to be done
+    // upstream issue 14447 forces this to be done
     // outside of decodeImpl
     //enum canIndex = is(S : const char[]) || (isRandomAccessRange!S && hasSlicing!S && hasLength!S);
 
@@ -1743,7 +1743,7 @@ if (is(S : const wchar[]) || (isInputRange!S && is(immutable ElementEncodingType
     else
         alias pstr = str;
 
-    // https://issues.dlang.org/show_bug.cgi?id=14447 forces this to be done
+    // upstream issue 14447 forces this to be done
     // outside of decodeImpl
     //enum canIndex = is(S : const wchar[]) || (isRandomAccessRange!S && hasSlicing!S && hasLength!S);
 
@@ -3074,7 +3074,7 @@ if (isSomeString!S)
     assert(!([dchar(0xDFDF)] ~ "\uFFFD"d).isValidUTF());
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12923
+// upstream issue 12923
 @safe unittest
 {
     char[] a = [167, 133, 175];
@@ -3108,7 +3108,7 @@ if (isSomeString!S)
     assertThrown!UTFException(validate(a));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12923
+// upstream issue 12923
 @safe unittest
 {
     import std.exception;

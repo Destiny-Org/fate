@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /++
     This module defines functions related to exceptions and general error
@@ -531,7 +531,7 @@ private noreturn bailOut(E : Throwable = Exception)(string file, size_t line, sc
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=10510
+// upstream issue 10510
 @safe unittest
 {
     extern(C) void cFoo() { }
@@ -571,7 +571,7 @@ private noreturn bailOut(E : Throwable = Exception)(string file, size_t line, sc
     }
 }
 
-// Test for https://issues.dlang.org/show_bug.cgi?id=8637
+// Test for upstream issue 8637
 @system unittest
 {
     struct S
@@ -605,7 +605,7 @@ private noreturn bailOut(E : Throwable = Exception)(string file, size_t line, sc
     enforce!E2(s);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14685
+// upstream issue 14685
 @safe unittest
 {
     class E : Exception
@@ -783,7 +783,7 @@ string collectExceptionMsg(T = Exception, E)(lazy E expression)
  +/
 enum emptyExceptionMsg = "<Empty Exception Message>";
 
-// https://issues.dlang.org/show_bug.cgi?id=22364
+// upstream issue 22364
 @system unittest
 {
     static noreturn foo() { throw new Exception(""); }
@@ -1041,7 +1041,7 @@ Params:
 
 Bugs:
     The function is explicitly annotated `@nogc` because inference could fail,
-    see $(LINK2 https://issues.dlang.org/show_bug.cgi?id=17084, Bugzilla issue 17084).
+    see upstream issue 17084.
 
 Returns: `true` if `source`'s representation embeds a pointer
 that points to `target`'s representation or somewhere inside
@@ -1226,7 +1226,7 @@ bool mayPointTo(S, T)(auto ref const shared S source, ref const shared T target)
 {
     int i;
      // trick the compiler when initializing slice
-     // https://issues.dlang.org/show_bug.cgi?id=18637
+     // upstream issue 18637
     int* p = &i;
     int[]  slice = [0, 1, 2, 3, 4];
     int[5] arr   = [0, 1, 2, 3, 4];
@@ -1293,7 +1293,7 @@ bool mayPointTo(S, T)(auto ref const shared S source, ref const shared T target)
 
 version (StdUnittest)
 {
-    // https://issues.dlang.org/show_bug.cgi?id=17084
+    // upstream issue 17084
     // the bug doesn't happen if these declarations are in the unittest block
     // (static or not).
     private struct Page17084
@@ -1311,7 +1311,7 @@ version (StdUnittest)
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17084
+// upstream issue 17084
 @system unittest
 {
     import std.algorithm.sorting : sort;
@@ -1418,7 +1418,7 @@ version (StdUnittest)
     assert(!doesPointTo(ss, b));  //The array doesn't contains a struct that points to b
     assert(!doesPointTo(ss, ss)); //The array doesn't point itself.
 
-    // https://issues.dlang.org/show_bug.cgi?id=20426
+    // upstream issue 20426
     align((void*).alignof) void[32] voidArr = void;
     (cast(void*[]) voidArr[])[] = null; // Ensure no false pointers
 
@@ -2391,7 +2391,7 @@ pure nothrow @safe unittest
     constructors to be documented in the newly created Exception subclass.
 
     $(RED Current limitation): Due to
-    $(LINK2 https://issues.dlang.org/show_bug.cgi?id=11500, bug #11500),
+    upstream issue 11500,
     currently the constructors specified in this mixin cannot be overloaded with
     any other custom constructors. Thus this mixin can currently only be used
     when no such custom constructors need to be explicitly specified.

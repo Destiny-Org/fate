@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 This is a submodule of $(MREF std, format).
@@ -8,7 +8,7 @@ $(MREF_ALTTEXT format string, std,format) and provides tools for
 parsing this string. Additionally this module contains a function
 $(LREF singleSpec) which helps treating a single format specifier.
 
-Copyright: Copyright The D Language Foundation 2000-2013.
+Copyright: Copyright The D Language Foundation 2000-2013; Copyright (C) 2026 Destiny contributors.
 
 License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 
@@ -738,7 +738,7 @@ if (is(Unqual!Char == Char))
     assert(w.data == "ab%cd%ef" && f.trailing == "g%%h%sij", w.data);
     f.writeUpToNextSpec(w);
     assert(w.data == "ab%cd%efg%h" && f.trailing == "ij");
-    // https://issues.dlang.org/show_bug.cgi?id=4775
+    // upstream issue 4775
     f = FormatSpec!char("%%%s");
     w.clear();
     f.writeUpToNextSpec(w);
@@ -754,7 +754,7 @@ if (is(Unqual!Char == Char))
     assert(w.data == "a%b%c" && f.trailing == "%");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=5237
+// upstream issue 5237
 @safe unittest
 {
     import std.array : appender;
@@ -767,7 +767,7 @@ if (is(Unqual!Char == Char))
     assert(fmt == "%.16f");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=14059
+// upstream issue 14059
 @safe unittest
 {
     import std.array : appender;
@@ -836,7 +836,7 @@ if (is(Unqual!Char == Char))
     assert(res.findSplitBefore("width")[1] == expected);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=15348
+// upstream issue 15348
 @safe pure unittest
 {
     import std.array : appender;
@@ -850,7 +850,7 @@ if (is(Unqual!Char == Char))
            == "$ expected after '*10' in format string");
 }
 
-// https://github.com/dlang/phobos/issues/10713
+// upstream phobos issue 10713
 @safe pure unittest
 {
     import std.array : appender;
@@ -865,7 +865,7 @@ if (is(Unqual!Char == Char))
     assert(f.indexStart == 0);
 }
 
-// https://github.com/dlang/phobos/issues/10699
+// upstream phobos issue 10699
 @safe pure unittest
 {
     import std.array : appender;

@@ -1,9 +1,9 @@
-// Written in the D programming language
+// Written in the Destiny programming language
 /**
  * Implements a signed 128 bit integer type.
  *
     Author:     Walter Bright
-    Copyright:  Copyright (c) 2022, D Language Foundation
+    Copyright:  Copyright (c) 2022, D Language Foundation; Copyright (C) 2026 Destiny contributors
     License:    $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0)
     Source:     $(PHOBOSSRC std/int128.d)
  */

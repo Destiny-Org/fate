@@ -285,7 +285,7 @@ if (N == 32 || N == 64)
 
 @safe unittest
 {
-    // https://issues.dlang.org/show_bug.cgi?id=13471
+    // upstream issue 13471
     static ubyte[4] foo(string str)
     {
         ubyte[4] result = str.crc32Of();

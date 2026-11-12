@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
  * Contains the elementary mathematical functions (powers, roots,
@@ -143,7 +143,7 @@ $(TR $(TDNW $(SUBMODULE Hardware Control, hardware)) $(TD
  *      SUBMODULE = $(MREF_ALTTEXT $1, std, math, $2)
  *      SUBREF = $(REF_ALTTEXT $(TT $2), $2, std, math, $1)$(NBSP)
  *
- * Copyright: Copyright The D Language Foundation 2000 - 2011.
+ * Copyright: Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 Destiny contributors.
  *            D implementations of tan, atan, atan2, exp, expm1, exp2, log, log10, log1p,
  *            log2, floor, ceil and lrint functions are based on the CEPHES math library,
  *            which is Copyright (C) 2001 Stephen L. Moshier $(LT)steve@moshier.net$(GT)

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /++
     $(P The `std.uni` module provides an implementation
@@ -2180,7 +2180,7 @@ public struct InversionList(SP=GcPolicy)
     @property auto byInterval() scope
     {
         // TODO: change this to data[] once the -dip1000 errors have been fixed
-        // see e.g. https://github.com/dlang/phobos/pull/6638
+        // see e.g. upstream phobos pull request 6638
         import std.array : array;
         return Intervals!(typeof(data.array))(data.array);
     }
@@ -2900,7 +2900,7 @@ private:
         //intervals wrapper for a _range_ over packed array
         auto ivals = Intervals!(typeof(data[]))(data[]);
         //@@@BUG@@@ can't use "a.a < b.a" see
-        // https://issues.dlang.org/show_bug.cgi?id=12265
+        // upstream issue 12265
         sort!((a,b) => a.a < b.a, SwapStrategy.stable)(ivals);
         // what follows is a variation on stable remove
         // differences:
@@ -3760,7 +3760,7 @@ pure @safe unittest// iteration & opIndex
                 [tuple(cast(uint)'A', cast(uint)'N'), tuple(cast(uint)'a', cast(uint)'n')]
             ), text(a.byInterval));
 
-        // same @@@BUG as in https://issues.dlang.org/show_bug.cgi?id=8949 ?
+        // same @@@BUG as in upstream issue 8949 ?
         version (bug8949)
         {
             import std.range : retro;
@@ -7796,7 +7796,7 @@ public:
 
     // This is not a good `opEquals`, but formerly the automatically generated
     // opEquals was used, which was inferred `@safe` because of bugzilla 20655:
-    // https://issues.dlang.org/show_bug.cgi?id=20655
+    // upstream issue 20655
     // This `@trusted opEquals` is only here to prevent breakage.
     bool opEquals(R)(const auto ref R other) const @trusted
     {
@@ -8373,12 +8373,12 @@ if (isForwardRange!S1 && isSomeChar!(ElementEncodingType!S1)
     assert(icmp("ᾩ -> \u1F70\u03B9", "\u1F61\u03B9 -> ᾲ") == 0);
     assert(icmp("ΐ"w, "\u03B9\u0308\u0301") == 0);
     assert(sicmp("ΐ", "\u03B9\u0308\u0301") != 0);
-    // https://issues.dlang.org/show_bug.cgi?id=11057
+    // upstream issue 11057
     assert( icmp("K", "L") < 0 );
     });
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=17372
+// upstream issue 17372
 @safe pure unittest
 {
     import std.algorithm.iteration : joiner, map;
@@ -9148,7 +9148,7 @@ else
     import std.internal.unicode_tables; // : toLowerTable, toTitleTable, toUpperTable; // generated file
 
     // hide template instances behind functions
-    // https://issues.dlang.org/show_bug.cgi?id=13232
+    // upstream issue 13232
     ushort toLowerIndex(dchar c) { return toLowerIndexTrie[c]; }
     ushort toLowerSimpleIndex(dchar c) { return toLowerSimpleIndexTrie[c]; }
     dchar toLowerTab(size_t idx) { return toLowerTable[idx]; }
@@ -9329,7 +9329,7 @@ if (isSomeString!S || (isRandomAccessRange!S && hasLength!S && hasSlicing!S && i
     return result.data;
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=12428
+// upstream issue 12428
 @safe unittest
 {
     import std.array : replicate;
@@ -9341,7 +9341,7 @@ if (isSomeString!S || (isRandomAccessRange!S && hasLength!S && hasSlicing!S && i
     assert(s == "abcdefghij");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=18993
+// upstream issue 18993
 @safe unittest
 {
     static assert(`몬스터/A`.toLower.length == `몬스터/a`.toLower.length);
@@ -10134,7 +10134,7 @@ if (!isSomeString!S && (isRandomAccessRange!S && hasLength!S && hasSlicing!S && 
 
     @safe unittest
     {
-        // https://issues.dlang.org/show_bug.cgi?id=16663
+        // upstream issue 16663
 
         static struct String
         {
@@ -10169,7 +10169,7 @@ if (!isSomeString!S && (isRandomAccessRange!S && hasLength!S && hasSlicing!S && 
     assert("\u00df".toUpper == "SS");
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=9629
+// upstream issue 9629
 @safe unittest
 {
     wchar[] test = "hello þ world"w.dup;
@@ -10219,11 +10219,11 @@ if (!isSomeString!S && (isRandomAccessRange!S && hasLength!S && hasSlicing!S && 
     assert(toLower("Some String"w) == "some string"w);
     assert(toLower("Some String"d) == "some string"d);
 
-    // https://issues.dlang.org/show_bug.cgi?id=12455
+    // upstream issue 12455
     dchar c = 'İ'; // '\U0130' LATIN CAPITAL LETTER I WITH DOT ABOVE
     assert(isUpper(c));
     assert(toLower(c) == 'i');
-    // extends on https://issues.dlang.org/show_bug.cgi?id=12455 report
+    // extends on upstream issue 12455 report
     // check simple-case toUpper too
     c = '\u1f87';
     assert(isLower(c));
@@ -10342,7 +10342,7 @@ if (!isSomeString!S && (isRandomAccessRange!S && hasLength!S && hasSlicing!S && 
 
     @safe unittest
     {
-        // https://issues.dlang.org/show_bug.cgi?id=16663
+        // upstream issue 16663
 
         static struct String
         {

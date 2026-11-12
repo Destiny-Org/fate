@@ -1,12 +1,12 @@
 /**
 Internal helpers for retrying interrupted system calls.
 
-These helpers are $(D package(std)) — visible to every Phobos module but
+These helpers are $(D package(std)) — visible to every Fate module but
 not part of the documented public API.
 
 See $(LINK https://man7.org/linux/man-pages/man7/signal.7.html).
 
-Copyright: The D Language Foundation
+Copyright: The D Language Foundation; Copyright (C) 2026 Destiny contributors
 License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 */
 module std.internal.retry;

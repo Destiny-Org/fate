@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 This module is a port of a growing fragment of the $(D_PARAM numeric)
@@ -590,7 +590,7 @@ public:
     /// ditto
     // Define an opBinary `CustomFloat op CustomFloat` so that those below
     // do not match equally, which is disallowed by the spec:
-    // https://dlang.org/spec/operatoroverloading.html#binary
+    // https://github.com/Destiny-Org/destiny/blob/main/spec/operatoroverloading.dd
     real opBinary(string op,T)(T b) const
     if (__traits(compiles, mixin(`get!real`~op~`b.get!real`)))
     {
@@ -635,7 +635,7 @@ public:
     {
         import std.format.spec : FormatSpec;
         import std.format.write : formatValue;
-        // Needs to be a template because of https://issues.dlang.org/show_bug.cgi?id=13737.
+        // Needs to be a template because of upstream issue 13737.
         void toString()(scope void delegate(const(char)[]) sink, scope const ref FormatSpec!char fmt)
         {
             sink.formatValue(get!real, fmt);
@@ -1724,7 +1724,7 @@ T findRoot(T, R)(scope R delegate(T) f, const T a, const T b,
    printf("POWER TOTAL = %d avg = %f ", powercalls,
         (1.0*powercalls)/powerProblems);
 */
-    // https://issues.dlang.org/show_bug.cgi?id=14231
+    // upstream issue 14231
     auto xp = findRoot((float x) => x, 0f, 1f);
     auto xn = findRoot((float x) => x, -1f, -0f);
 }
@@ -3099,7 +3099,7 @@ if (isIntegral!T)
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21834
+// upstream issue 21834
 @safe unittest
 {
     assert(gcd(-120, 10U) == 10);
@@ -3190,7 +3190,7 @@ if (!isIntegral!T)
     }
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=7102
+// upstream issue 7102
 @system pure unittest
 {
     import std.bigint : BigInt;
@@ -3226,7 +3226,7 @@ if (!isIntegral!T)
     assert(gcd(CrippledInt(120U), CrippledInt(-10)) == CrippledInt(10));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=19514
+// upstream issue 19514
 @system pure unittest
 {
     import std.bigint : BigInt;
@@ -3242,7 +3242,7 @@ if (!isIntegral!T)
     assert(__traits(compiles, gcd(a, b)));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21834
+// upstream issue 21834
 @safe unittest
 {
     import std.bigint : BigInt;
@@ -3606,7 +3606,7 @@ private:
     // Also, this is unsafe because the memSpace buffer will be cast
     // to immutable.
     //
-    // Public b/c of https://issues.dlang.org/show_bug.cgi?id=4636.
+    // Public b/c of upstream issue 4636.
     public this(lookup_t[] memSpace)
     {
         immutable size = memSpace.length / 2;
@@ -3940,7 +3940,7 @@ void inverseFft(Ret, R)(R range, Ret buf)
     assert(isClose(twoInv[1].im, 0, 0.0, 1e-10));
 }
 
-// https://github.com/dlang/phobos/issues/10796
+// upstream phobos issue 10796
 @system unittest
 {
     import std.algorithm;

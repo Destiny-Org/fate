@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 Networking client functionality as provided by $(HTTP curl.haxx.se/libcurl,
@@ -24,10 +24,10 @@ SMTP) )
 
 Note:
 You may need to link with the $(B curl) library, e.g. by adding $(D "libs": ["curl"])
-to your $(B dub.json) file if you are using $(LINK2 http://code.dlang.org, DUB).
+to your $(B dub.json) file if you are using $(LINK2 https://github.com/Destiny-Org/destiny, DUB).
 
 Windows x86 note:
-A DMD compatible libcurl static library can be downloaded from the dlang.org
+A DMD compatible libcurl static library can be downloaded from the upstream D
 $(LINK2 https://downloads.dlang.org/other/index.html, download archive page).
 
 This module is not available for iOS, tvOS or watchOS.
@@ -59,31 +59,31 @@ upload("/tmp/downloaded-ftp-file", "ftp.digitalmars.com/sieve.ds");)
 uploads file from file system to URL.)
 )
 $(TR $(TDNW $(LREF get)) $(TD $(D
-get("dlang.org")) returns a char[] containing the dlang.org web page.)
+get("example.com")) returns a char[] containing the example.com web page.)
 )
 $(TR $(TDNW $(LREF put)) $(TD $(D
-put("dlang.org", "Hi")) returns a char[] containing
-the dlang.org web page. after a HTTP PUT of "hi")
+put("example.com", "Hi")) returns a char[] containing
+the example.com web page. after a HTTP PUT of "hi")
 )
 $(TR $(TDNW $(LREF post)) $(TD $(D
-post("dlang.org", "Hi")) returns a char[] containing
-the dlang.org web page. after a HTTP POST of "hi")
+post("example.com", "Hi")) returns a char[] containing
+the example.com web page. after a HTTP POST of "hi")
 )
 $(TR $(TDNW $(LREF byLine)) $(TD $(D
-byLine("dlang.org")) returns a range of char[] containing the
-dlang.org web page.)
+byLine("example.com")) returns a range of char[] containing the
+example.com web page.)
 )
 $(TR $(TDNW $(LREF byChunk)) $(TD $(D
-byChunk("dlang.org", 10)) returns a range of ubyte[10] containing the
-dlang.org web page.)
+byChunk("example.com", 10)) returns a range of ubyte[10] containing the
+example.com web page.)
 )
 $(TR $(TDNW $(LREF byLineAsync)) $(TD $(D
-byLineAsync("dlang.org")) asynchronously returns a range of char[] containing the dlang.org web
+byLineAsync("example.com")) asynchronously returns a range of char[] containing the example.com web
  page.)
 )
 $(TR $(TDNW $(LREF byChunkAsync)) $(TD $(D
-byChunkAsync("dlang.org", 10)) asynchronously returns a range of ubyte[10] containing the
-dlang.org web page.)
+byChunkAsync("example.com", 10)) asynchronously returns a range of ubyte[10] containing the
+example.com web page.)
 )
 $(LEADINGROW Low level
 )
@@ -98,7 +98,7 @@ Example:
 import std.net.curl, std.stdio;
 
 // Return a char[] containing the content specified by a URL
-auto content = get("dlang.org");
+auto content = get("example.com");
 
 // Post data and return a char[] containing the content specified by a URL
 auto content = post("mydomain.com/here.cgi", ["name1" : "value1", "name2" : "value2"]);
@@ -107,13 +107,13 @@ auto content = post("mydomain.com/here.cgi", ["name1" : "value1", "name2" : "val
 auto content = get("ftp.digitalmars.com/sieve.ds");
 
 // Post and print out content line by line. The request is done in another thread.
-foreach (line; byLineAsync("dlang.org", "Post data"))
+foreach (line; byLineAsync("example.com", "Post data"))
     writeln(line);
 
 // Get using a line range and proxy settings
 auto client = HTTP();
 client.proxy = "1.2.3.4";
-foreach (line; byLine("dlang.org", client))
+foreach (line; byLine("example.com", client))
     writeln(line);
 ---
 
@@ -124,7 +124,7 @@ Example:
 import std.net.curl, std.stdio;
 
 // GET with custom data receivers
-auto http = HTTP("dlang.org");
+auto http = HTTP("example.com");
 http.onReceiveHeader =
     (in char[] key, in char[] value) { writeln(key, ": ", value); };
 http.onReceive = (ubyte[] data) { /+ drop +/ return data.length; };
@@ -217,7 +217,7 @@ version (StdUnittest)
             }
             catch (Throwable e)
             {
-                // https://issues.dlang.org/show_bug.cgi?id=7018
+                // upstream issue 7018
                 stderr.writeln(e);
             }
         }
@@ -385,7 +385,7 @@ CALLBACK_PARAMS = $(TABLE ,
   * char[] content;
   *
   * // Explicit connection provided
-  * content = get!HTTP("dlang.org");
+  * content = get!HTTP("example.com");
   *
   * // Guess connection type by looking at the URL
   * content = get!AutoProtocol("ftp://foo.com/file");
@@ -1118,7 +1118,7 @@ private auto _basicHTTP(T)(const(char)[] url, const(void)[] sendData, HTTP clien
 }
 
 // Content length must be reset after post
-// https://issues.dlang.org/show_bug.cgi?id=14760
+// upstream issue 14760
 @system unittest
 {
     import std.algorithm.searching : canFind;
@@ -1290,7 +1290,7 @@ struct ByLineBuffer(Char)
  * Example:
  * ----
  * import std.net.curl, std.stdio;
- * foreach (line; byLine("dlang.org"))
+ * foreach (line; byLine("example.com"))
  *     writeln(line);
  * ----
  *
@@ -1401,7 +1401,7 @@ if (isCurlConn!Conn && isSomeChar!Char && isSomeChar!Terminator)
  * Example:
  * ----
  * import std.net.curl, std.stdio;
- * foreach (chunk; byChunk("dlang.org", 100))
+ * foreach (chunk; byChunk("example.com", 100))
  *     writeln(chunk); // chunk is ubyte[100]
  * ----
  *
@@ -1641,7 +1641,7 @@ private mixin template WorkerThreadProtocol(Unit, alias units)
  * // Get some pages in the background
  * auto range1 = byLineAsync("www.google.com");
  * auto range2 = byLineAsync("www.wikipedia.org");
- * foreach (line; byLineAsync("dlang.org"))
+ * foreach (line; byLineAsync("example.com"))
  *     writeln(line);
  *
  * // Lines already fetched in the background and ready
@@ -1653,7 +1653,7 @@ private mixin template WorkerThreadProtocol(Unit, alias units)
  * import std.net.curl, std.stdio;
  * // Get a line in a background thread and wait in
  * // main thread for 2 seconds for it to arrive.
- * auto range3 = byLineAsync("dlang.com");
+ * auto range3 = byLineAsync("example.com");
  * if (range3.wait(dur!"seconds"(2)))
  *     writeln(range3.front);
  * else
@@ -1768,7 +1768,7 @@ auto byLineAsync(Conn = AutoProtocol, Terminator = char, Char = char)
  * // Get some pages in the background
  * auto range1 = byChunkAsync("www.google.com", 100);
  * auto range2 = byChunkAsync("www.wikipedia.org");
- * foreach (chunk; byChunkAsync("dlang.org"))
+ * foreach (chunk; byChunkAsync("example.com"))
  *     writeln(chunk); // chunk is ubyte[100]
  *
  * // Chunks already fetched in the background and ready
@@ -1780,7 +1780,7 @@ auto byLineAsync(Conn = AutoProtocol, Terminator = char, Char = char)
  * import std.net.curl, std.stdio;
  * // Get a line in a background thread and wait in
  * // main thread for 2 seconds for it to arrive.
- * auto range3 = byChunkAsync("dlang.com", 10);
+ * auto range3 = byChunkAsync("example.com", 10);
  * if (range3.wait(dur!"seconds"(2)))
  *     writeln(range3.front);
  * else
@@ -2102,7 +2102,7 @@ private mixin template Protocol()
         http.setAuthentication("user", "pass");
         http.perform();
 
-        // https://issues.dlang.org/show_bug.cgi?id=17540
+        // upstream issue 17540
         http.setNoProxy("www.example.com");
     }
 
@@ -2142,7 +2142,7 @@ private mixin template Protocol()
      * ----
      * import std.net.curl;
      * string msg = "Hello world";
-     * auto client = HTTP("dlang.org");
+     * auto client = HTTP("example.com");
      * client.onSend = delegate size_t(void[] data)
      * {
      *     auto m = cast(void[]) msg;
@@ -2175,7 +2175,7 @@ private mixin template Protocol()
       * Example:
       * ----
       * import std.net.curl, std.stdio, std.conv;
-      * auto client = HTTP("dlang.org");
+      * auto client = HTTP("example.com");
       * client.onReceive = (ubyte[] data)
       * {
       *     writeln("Got data", bitCast!(const(char)[])(data));
@@ -2205,7 +2205,7 @@ private mixin template Protocol()
       * Example:
       * ----
       * import std.net.curl, std.stdio;
-      * auto client = HTTP("dlang.org");
+      * auto client = HTTP("example.com");
       * client.onProgress = delegate int(size_t dl, size_t dln, size_t ul, size_t uln)
       * {
       *     writeln("Progress: downloaded ", dln, " of ", dl);
@@ -2331,7 +2331,7 @@ private bool decodeLineInto(Terminator, Char = char)(ref const(ubyte)[] basesrc,
   * ---
   * import std.net.curl, std.stdio;
   *
-  * auto http = HTTP("https://dlang.org");
+  * auto http = HTTP("https://github.com/Destiny-Org/destiny");
   * http.onReceiveHeader =
   *     (in char[] key, in char[] value) { writeln(key ~ ": " ~ value); };
   * http.onReceive = (ubyte[] data) { /+ drop +/ return data.length; };
@@ -2346,7 +2346,7 @@ private bool decodeLineInto(Terminator, Char = char)(ref const(ubyte)[] basesrc,
   * ---
   * import std.net.curl, std.stdio;
   *
-  * auto http = HTTP("https://dlang.org");
+  * auto http = HTTP("https://github.com/Destiny-Org/destiny");
   * auto msg = "Hello world";
   * http.contentLength = msg.length;
   * http.onSend = (void[] data)
@@ -2454,7 +2454,7 @@ struct HTTP
 
                     auto m = header.findSplit(": ");
                     const(char)[] lowerFieldName = m[0].toLower();
-                    ///Fixes https://issues.dlang.org/show_bug.cgi?id=24458
+                    ///Fixes upstream issue 24458
                     string fieldName = lowerFieldName is m[0] ? lowerFieldName.idup : assumeUnique(lowerFieldName);
                     auto fieldContent = m[2].chomp;
                     if (fieldName == "content-type")
@@ -2805,7 +2805,7 @@ struct HTTP
          * ----
          * import std.net.curl;
          * string msg = "Hello world";
-         * auto client = HTTP("dlang.org");
+         * auto client = HTTP("example.com");
          * client.onSend = delegate size_t(void[] data)
          * {
          *     auto m = cast(void[]) msg;
@@ -2834,7 +2834,7 @@ struct HTTP
          * Example:
          * ----
          * import std.net.curl, std.stdio, std.conv;
-         * auto client = HTTP("dlang.org");
+         * auto client = HTTP("example.com");
          * client.onReceive = (ubyte[] data)
          * {
          *     writeln("Got data", bitCast!(const(char)[])(data));
@@ -2858,7 +2858,7 @@ struct HTTP
          * Example:
          * ----
          * import std.net.curl, std.stdio;
-         * auto client = HTTP("dlang.org");
+         * auto client = HTTP("example.com");
          * client.onProgress = delegate int(size_t dl, size_t dln, size_t ul, size_t uln)
          * {
          *     writeln("Progress: downloaded ", dln, " of ", dl);
@@ -2892,7 +2892,7 @@ struct HTTP
      * import std.net.curl;
      * auto client = HTTP();
      * client.addRequestHeader("X-Custom-ABC", "This is the custom value");
-     * auto content = get("dlang.org", client);
+     * auto content = get("example.com", client);
      * ---
      */
     void addRequestHeader(const(char)[] name, const(char)[] value)
@@ -2911,7 +2911,7 @@ struct HTTP
 
     /**
      * The default "User-Agent" value send with a request.
-     * It has the form "Phobos-std.net.curl/$(I PHOBOS_VERSION) (libcurl/$(I CURL_VERSION))"
+     * It has the form "Fate-std.net.curl/$(I PHOBOS_VERSION) (libcurl/$(I CURL_VERSION))"
      */
     static string defaultUserAgent() @property
     {
@@ -2919,7 +2919,7 @@ struct HTTP
         import std.format : format, sformat;
 
         // http://curl.haxx.se/docs/versions.html
-        enum fmt = "Phobos-std.net.curl/%d.%03d (libcurl/%d.%d.%d)";
+        enum fmt = "Fate-std.net.curl/%d.%03d (libcurl/%d.%d.%d)";
         enum maxLen = fmt.length - "%d%03d%d%d%d".length + 10 + 10 + 3 + 3 + 3;
 
         static char[maxLen] buf = void;
@@ -2971,7 +2971,7 @@ struct HTTP
      * import std.net.curl;
      * import etc.c.curl : CurlError, CurlInfo;
      *
-     * auto client = HTTP("dlang.org");
+     * auto client = HTTP("example.com");
      * client.perform();
      *
      * double val;
@@ -3168,7 +3168,7 @@ struct HTTP
       * Example:
       * ----
       * import std.net.curl, std.stdio, std.conv;
-      * auto http = HTTP("dlang.org");
+      * auto http = HTTP("example.com");
       * http.onReceive = (ubyte[] data) { writeln(bitCast!(const(char)[])(data)); return data.length; };
       * http.onReceiveHeader = (in char[] key, in char[] value) { writeln(key, " = ", value); };
       * http.perform();
@@ -3323,7 +3323,7 @@ struct HTTP
         http.perform();
         assert(http.p.charset == "foo");
 
-        // https://issues.dlang.org/show_bug.cgi?id=16736
+        // upstream issue 16736
         double val;
         CurlCode code;
 
@@ -4576,7 +4576,7 @@ struct Curl
       * import std.net.curl, std.stdio, std.conv;
       * Curl curl;
       * curl.initialize();
-      * curl.set(CurlOption.url, "http://dlang.org");
+      * curl.set(CurlOption.url, "https://github.com/Destiny-Org/destiny");
       * curl.onReceive = (ubyte[] data) { writeln("Got data", bitCast!(const(char)[])(data)); return data.length;};
       * curl.perform();
       * ----
@@ -4607,7 +4607,7 @@ struct Curl
       * import std.net.curl, std.stdio;
       * Curl curl;
       * curl.initialize();
-      * curl.set(CurlOption.url, "http://dlang.org");
+      * curl.set(CurlOption.url, "https://github.com/Destiny-Org/destiny");
       * curl.onReceiveHeader = (in char[] header) { writeln(header); };
       * curl.perform();
       * ----
@@ -4644,7 +4644,7 @@ struct Curl
       * import std.net.curl;
       * Curl curl;
       * curl.initialize();
-      * curl.set(CurlOption.url, "http://dlang.org");
+      * curl.set(CurlOption.url, "https://github.com/Destiny-Org/destiny");
       *
       * string msg = "Hello world";
       * curl.onSend = (void[] data)
@@ -4687,7 +4687,7 @@ struct Curl
       * import std.net.curl;
       * Curl curl;
       * curl.initialize();
-      * curl.set(CurlOption.url, "http://dlang.org");
+      * curl.set(CurlOption.url, "https://github.com/Destiny-Org/destiny");
       * curl.onSeek = (long p, CurlSeekPos sp)
       * {
       *     return CurlSeek.cantseek;
@@ -4724,7 +4724,7 @@ struct Curl
       * import std.net.curl;
       * Curl curl;
       * curl.initialize();
-      * curl.set(CurlOption.url, "http://dlang.org");
+      * curl.set(CurlOption.url, "https://github.com/Destiny-Org/destiny");
       * curl.onSocketOption = delegate int(curl_socket_t s, CurlSockType t) { /+ do stuff +/ };
       * curl.perform();
       * ----
@@ -4760,7 +4760,7 @@ struct Curl
       * import std.net.curl, std.stdio;
       * Curl curl;
       * curl.initialize();
-      * curl.set(CurlOption.url, "http://dlang.org");
+      * curl.set(CurlOption.url, "https://github.com/Destiny-Org/destiny");
       * curl.onProgress = delegate int(size_t dltotal, size_t dlnow, size_t ultotal, size_t ulnow)
       * {
       *     writeln("Progress: downloaded bytes ", dlnow, " of ", dltotal);
@@ -4923,7 +4923,7 @@ private struct Pool(Data)
 private struct _async()
 {
 static:
-    // https://issues.dlang.org/show_bug.cgi?id=15831
+    // upstream issue 15831
     // this should be inside byLineAsync
     // Range that reads one chunk at a time asynchronously.
     private struct ChunkInputRange
@@ -4952,7 +4952,7 @@ static:
         }
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=15831
+    // upstream issue 15831
     // this should be inside byLineAsync
     // Range that reads one line at a time asynchronously.
     private static struct LineInputRange(Char)

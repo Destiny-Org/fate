@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
  * Mathematical Special Functions
@@ -317,7 +317,7 @@ do
 
 @safe unittest
 {
-    // https://github.com/dlang/phobos/issues/11111
+    // upstream phobos issue 11111
     import std.math : fabs, ldexp;
 
     const quantum = real.min_normal * real.epsilon;

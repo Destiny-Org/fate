@@ -1,4 +1,4 @@
-// Written in the D programming language
+// Written in the Destiny programming language
 
 /++
 
@@ -76,7 +76,7 @@ else version (WatchOS)
 }
 
 // Note: reconsider using specific imports below after
-// https://issues.dlang.org/show_bug.cgi?id=17630 has been fixed
+// upstream issue 17630 has been fixed
 import core.time;// : ClockType, convert, dur, Duration, seconds, TimeException;
 import std.datetime.date;// : _monthNames, AllowDayOverflow, CmpTimeUnits, Date,
     //DateTime, DateTimeException, DayOfWeek, enforceValid, getDayOfWeek, maxDay,
@@ -800,7 +800,7 @@ public:
         st = other;
         assert(st == other);
 
-        version (none) // https://issues.dlang.org/show_bug.cgi?id=21175
+        version (none) // upstream issue 21175
         static void testScope(scope ref SysTime left, const scope SysTime right) @safe
         {
             left = right;
@@ -8231,7 +8231,7 @@ public:
     }
 
 
-    // Temporary hack until bug https://issues.dlang.org/show_bug.cgi?id=4867 is fixed.
+    // Temporary hack until upstream issue 4867 is fixed.
     // This allows assignment from const(SysTime) to SysTime.
     // It may be a good idea to keep it though, since casting from a type to itself
     // should be allowed, and it doesn't work without this opCast() since opCast()
@@ -9101,7 +9101,7 @@ public:
         // pops up when deprecations are moved along around July 2019. At that
         // time, we will update fromISOString so that it is conformant with ISO
         // 8601, and it will no longer accept ISO extended time zones (it does
-        // currently because of https://issues.dlang.org/show_bug.cgi?id=15654
+        // currently because of upstream issue 15654
         // toISOString used to incorrectly use the ISO extended time zone format).
         // These tests will then start failing will need to be updated accordingly.
         // Also, the notes about this issue in toISOString and fromISOString's
@@ -9126,7 +9126,7 @@ public:
         }
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=17801
+    // upstream issue 17801
     @safe unittest
     {
         import std.conv : to;
@@ -9376,7 +9376,7 @@ public:
         }
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=17801
+    // upstream issue 17801
     @safe unittest
     {
         import core.time;
@@ -9630,7 +9630,7 @@ public:
         }
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=17801
+    // upstream issue 17801
     @safe unittest
     {
         import core.time;
@@ -9729,7 +9729,7 @@ private:
         static immutable InitTimeZone _initTimeZone = new immutable(InitTimeZone);
     }
 
-    // https://issues.dlang.org/show_bug.cgi?id=17732
+    // upstream issue 17732
     @safe unittest
     {
         assert(SysTime.init.timezone is InitTimeZone());
@@ -9740,7 +9740,7 @@ private:
     }
 
     // Assigning a value to _timezone in SysTime.init currently doesn't work due
-    // to https://issues.dlang.org/show_bug.cgi?id=17740. So, to hack around
+    // to upstream issue 17740. So, to hack around
     // that problem, these accessors have been added so that we can insert a
     // runtime check for null and then use InitTimeZone for SysTime.init (which
     // which is the only case where _timezone would be null). This thus fixes
@@ -10707,7 +10707,7 @@ version (StdUnittest) private void testBadParse822(alias cr)(string str, size_t 
                            function(string a){return a;},
                            function(string a){return map!(b => cast(char) b)(a.representation);}))
     {(){ // workaround slow optimizations for large functions
-         // https://issues.dlang.org/show_bug.cgi?id=2396
+         // upstream issue 2396
         scope(failure) writeln(typeof(cr).stringof);
         alias test = testParse822!cr;
         alias testBad = testBadParse822!cr;
@@ -10979,7 +10979,7 @@ version (StdUnittest) private void testBadParse822(alias cr)(string str, size_t 
                            function(string a){return a;},
                            function(string a){return map!(b => cast(char) b)(a.representation);}))
     {(){ // workaround slow optimizations for large functions
-         // https://issues.dlang.org/show_bug.cgi?id=2396
+         // upstream issue 2396
         scope(failure) writeln(typeof(cr).stringof);
         alias test = testParse822!cr;
         {

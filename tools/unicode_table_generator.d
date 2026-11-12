@@ -272,7 +272,7 @@ void ensureFilesAreDownloaded()
     }
 }
 
-enum HeaderComment = `//Written in the D programming language
+enum HeaderComment = `//Written in the Destiny programming language
 /**
  * License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
  *
@@ -282,7 +282,7 @@ enum HeaderComment = `//Written in the D programming language
 // !!! DO NOT EDIT !!!
 // !!! Did you even read the comment? !!!
 // This module is automatically generated from Unicode Character Database files
-// https://github.com/dlang/phobos/blob/master/tools/unicode_table_generator.d
+// https://github.com/Destiny-Org/fate/blob/main/tools/unicode_table_generator.d
 //dfmt off`;
 
 auto toPairs(K, V)(V[K] aa)

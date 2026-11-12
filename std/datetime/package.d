@@ -1,9 +1,9 @@
-// Written in the D programming language
+// Written in the Destiny programming language
 
 /++
     $(SCRIPT inhibitQuickIndex = 1;)
 
-    Phobos provides the following functionality for time:
+    Fate provides the following functionality for time:
 
     $(DIVC quickindex,
     $(BOOKTABLE ,
@@ -160,7 +160,7 @@ import std.typecons : Flag, Yes, No;
 @safe unittest
 {
     import std.traits : hasUnsharedAliasing;
-    /* https://issues.dlang.org/show_bug.cgi?id=6642 */
+    /* upstream issue 6642 */
     static assert(!hasUnsharedAliasing!Date);
     static assert(!hasUnsharedAliasing!TimeOfDay);
     static assert(!hasUnsharedAliasing!DateTime);

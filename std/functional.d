@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /**
 Functions that manipulate other functions.
@@ -135,7 +135,7 @@ template unaryFun(alias fun, string parmName = "a")
     }
     else static if (needOpCallAlias!fun)
     {
-        // https://issues.dlang.org/show_bug.cgi?id=9906
+        // upstream issue 9906
         alias unaryFun = fun.opCall;
     }
     else
@@ -166,7 +166,7 @@ template unaryFun(alias fun, string parmName = "a")
     int num = 41;
     assert(unaryFun!"a + 1"(num) == 42);
 
-    // https://issues.dlang.org/show_bug.cgi?id=9906
+    // upstream issue 9906
     struct Seen
     {
         static bool opCall(int n) { return true; }
@@ -229,7 +229,7 @@ template binaryFun(alias fun, string parm1Name = "a",
     }
     else static if (needOpCallAlias!fun)
     {
-        // https://issues.dlang.org/show_bug.cgi?id=9906
+        // upstream issue 9906
         alias binaryFun = fun.opCall;
     }
     else
@@ -259,7 +259,7 @@ template binaryFun(alias fun, string parm1Name = "a",
     //@@BUG
     //assert(binaryFun!("return a + b;")(41, 1) == 42);
 
-    // https://issues.dlang.org/show_bug.cgi?id=9906
+    // upstream issue 9906
     struct Seen
     {
         static bool opCall(int x, int y) { return true; }
@@ -780,7 +780,7 @@ template partial(alias fun, alias arg)
     // functions without committing to a particular type of the function.
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21457
+// upstream issue 21457
 ///
 @safe unittest
 {
@@ -887,7 +887,7 @@ template partial(alias fun, alias arg)
     assert(dg2() == 1);
 }
 
-// Fix https://issues.dlang.org/show_bug.cgi?id=15732
+// Fix upstream issue 15732
 @safe unittest
 {
     // Test whether it works with functions.
@@ -923,7 +923,7 @@ template curry(alias F)
 if (isCallable!F && Parameters!F.length)
 {
     //inspired from the implementation from Artur Skawina here:
-    //https://forum.dlang.org/post/mailman.1626.1340110492.24740.digitalmars-d@puremagic.com
+    //https://github.com/Destiny-Org/destiny
     //This implementation stores a copy of all filled in arguments with each curried result
     //this way, the curried functions are independent and don't share any references
     //eg: auto fc = curry!f;  auto fc1 = fc(1); auto fc2 = fc(2); fc1(3) != fc2(3)
@@ -1181,7 +1181,7 @@ if (F.length >= 1)
     enum Tuple!(IS, IS, IS, IS) ret2 = adjoin!(bar, bar, bar, bar)();
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=21347
+// upstream issue 21347
 @safe @betterC unittest
 {
     alias f = (int n) => n + 1;
@@ -1239,7 +1239,7 @@ if (fun.length > 0)
     assert(compose!(map!(to!(int)), split)("1 2 3").equal([1, 2, 3]));
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=6484
+// upstream issue 6484
 @safe unittest
 {
     int f(int a) { return a; }
@@ -1436,7 +1436,7 @@ template memoize(alias fun, uint maxSize)
             {
                 emplace(&memo[idx1], args, fun(args));
                 // only set to initialized after setting args and value
-                // https://issues.dlang.org/show_bug.cgi?id=14025
+                // upstream issue 14025
                 bts(initialized.ptr, idx1);
                 return memo[idx1].res;
             }
@@ -1584,7 +1584,7 @@ unittest
     }
     assert(fact(10) == 3628800);
 
-    // https://issues.dlang.org/show_bug.cgi?id=12568
+    // upstream issue 12568
     static uint len2(const string s) { // Error
     alias mLen2 = memoize!len2;
     if (s.length == 0)
@@ -1599,7 +1599,7 @@ unittest
     assert(func(int.init) == 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16079
+// upstream issue 16079
 // memoize should work with arrays
 @system unittest // not @safe with -dip1000 due to memoize
 {
@@ -1624,7 +1624,7 @@ unittest
     assert(executed == 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16079: memoize should work with structs
+// upstream issue 16079: memoize should work with structs
 @safe unittest
 {
     int executed = 0;
@@ -1643,7 +1643,7 @@ unittest
     assert(executed == 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20439 memoize should work with void opAssign
+// upstream issue 20439 memoize should work with void opAssign
 @safe unittest
 {
     static struct S
@@ -1654,7 +1654,7 @@ unittest
     assert(memoize!(() => S()) == S());
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=16079: memoize should work with classes
+// upstream issue 16079: memoize should work with classes
 @system unittest // not @safe with -dip1000 due to memoize
 {
     int executed = 0;
@@ -1688,7 +1688,7 @@ unittest
     assert(executed == 1);
 }
 
-// https://issues.dlang.org/show_bug.cgi?id=20302
+// upstream issue 20302
 @system unittest
 {
     version (none) // TODO change `none` to `all` and fix remaining limitations
@@ -2027,7 +2027,7 @@ private template buildDelegate(F)
 /**
  * Passes the fields of a struct as arguments to a function.
  *
- * Can be used with a $(LINK2 https://dlang.org/spec/expression.html#function_literals,
+ * Can be used with a $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/expression.dd,
  * function literal) to give temporary names to the fields of a struct or
  * tuple.
  *
@@ -2190,7 +2190,7 @@ template bind(alias fun)
  * Params:
  *   expr = expression to evaluate
  * See_also:
- *   $(LINK https://dlang.org/spec/function.html#interpretation)
+ *   $(LINK https://github.com/Destiny-Org/destiny/blob/main/spec/function.dd)
  */
 enum ctEval(alias expr) = expr;
 

@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 /**
 Source: $(PHOBOSSRC std/experimental/allocator/building_blocks/allocator_list.d)
 */
@@ -678,8 +678,8 @@ private:
     SpinLock lock = SpinLock(SpinLock.Contention.brief);
 
     // This could be potentially removed in the future,
-    // should a successor to <https://github.com/dlang/druntime/pull/2156>
-    // or a solution to <https://github.com/dlang/dmd/issues/17128> get merged.
+    // should a successor to <upstream druntime pull request 2156>
+    // or a solution to <upstream dmd issue 17128> get merged.
     static ref T assumeUnshared(T)(ref shared T val) @trusted @nogc pure nothrow
     {
         return *cast(T*) &val;
@@ -698,7 +698,7 @@ public:
     /*
     Note: This does not work well with rvalues because it copies them once more.
     Probably not a problem here because all parameters are cheap.
-    <https://github.com/dlang/phobos/pull/6465/files#r189629862>
+    <upstream phobos pull request 6465>
     */
 
     /**
@@ -1334,7 +1334,7 @@ else @system unittest
 }
 
 //BUG: this test freezes spuriously on FreeBSD, Alpine, macOS and probably more.
-// See also https://github.com/dlang/phobos/issues/10730.
+// See also upstream phobos issue 10730
 // The lock in a.allocate() below blocks in all remaining threads causing the join to never complete.
 // This might also hint at problems in the spinlock implementation.
 version (none)

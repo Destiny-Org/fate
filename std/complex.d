@@ -1,4 +1,4 @@
-// Written in the D programming language.
+// Written in the Destiny programming language.
 
 /** This module contains the $(LREF Complex) type, which is used to represent
     complex numbers, along with related mathematical operations and functions.
@@ -1099,7 +1099,7 @@ Complex!T asin(T)(Complex!T z)  @safe pure nothrow @nogc
 {
     import std.math.operations : isClose;
     import std.math.constants : PI;
-    version (DigitalMars) {} else // Disabled because of https://issues.dlang.org/show_bug.cgi?id=21376
+    version (DigitalMars) {} else // Disabled because of upstream issue 21376
     assert(isClose(asin(complex(0.5f)), float(PI) / 6));
 }
 
@@ -1125,7 +1125,7 @@ Complex!T acos(T)(Complex!T z)  @safe pure nothrow @nogc
 {
     import std.math.operations : isClose;
     import std.math.constants : PI;
-    version (DigitalMars) {} else // Disabled because of https://issues.dlang.org/show_bug.cgi?id=21376
+    version (DigitalMars) {} else // Disabled because of upstream issue 21376
     assert(isClose(acos(complex(0.5f)), float(PI) / 3));
 }
 
@@ -1401,7 +1401,7 @@ Complex!T sqrt(T)(Complex!T z)  @safe pure nothrow @nogc
 }
 
 // support %f formatting of complex numbers
-// https://issues.dlang.org/show_bug.cgi?id=10881
+// upstream issue 10881
 @safe unittest
 {
     import std.format : format;

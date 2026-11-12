@@ -524,7 +524,7 @@ do
 
     REG_VALUE_TYPE type;
 
-    // See https://issues.dlang.org/show_bug.cgi?id=961 on this
+    // See upstream issue 961 on this
     union U
     {
         uint    dw;

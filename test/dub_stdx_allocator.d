@@ -5,7 +5,7 @@ dependency "phobos:allocator" path=".."
 
 void main(string[] args)
 {
-    import stdx.allocator.mallocator : Mallocator; // From latest Phobos
+    import stdx.allocator.mallocator : Mallocator; // From latest Fate
     import std.stdio; // current phobos
     auto buf = Mallocator.instance.allocate(10);
     writeln("allocate: ", buf);
