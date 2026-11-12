@@ -1,36 +1,47 @@
-![D Logo](http://dlang.org/images/dlogo.png) Phobos Standard Library
-===================================================================
+# Fate
 
-[![GitHub tag](https://img.shields.io/github/tag/dlang/phobos.svg?maxAge=86400)](https://github.com/dlang/phobos/releases)
-[![CircleCi](https://img.shields.io/circleci/project/dlang/phobos/master.svg?maxAge=86400)](https://circleci.com/gh/dlang/phobos)
-[![Buildkite](https://badge.buildkite.com/01509e75200b3e9576028fe52c4546d6a6a9ad81aaf31a8790.svg?branch=master)](https://buildkite.com/dlang/phobos)
-[![Code coverage](https://img.shields.io/codecov/c/github/dlang/phobos.svg?maxAge=86400)](https://codecov.io/gh/dlang/phobos)
-[![license](https://img.shields.io/github/license/dlang/phobos.svg)](https://github.com/dlang/phobos/blob/master/LICENSE_1_0.txt)
+Fate is the standard library of the Destiny programming language. It
+started as a fork of Phobos, the D standard library.
 
-Phobos is the standard library that comes with the
-[D Programming Language](http://dlang.org) Compiler.
+## Building
 
+Fate is built with the Destiny compiler, which must be checked out next
+to it:
 
-* [Bugzilla bug tracker](http://d.puremagic.com/issues/)
-* [Forum](http://forum.dlang.org/)
-* [API Documentation](http://dlang.org/phobos/)
-* [Wiki](http://wiki.dlang.org/)
+```
+Destiny/
+├── destiny_engine/   https://github.com/Destiny-Org/destiny
+└── fate/             https://github.com/Destiny-Org/fate
+```
 
-Download
---------
+From `destiny_engine/`, build the compiler, druntime and Fate together:
 
-Phobos is packaged together with the compiler.
-You should
-[download the whole precompiled package](http://dlang.org/download.html).
+```
+make -j$(nproc) HOST_DMD=dmd
+make -j$(nproc) fate
+```
 
-To [build everything yourself](http://wiki.dlang.org/Building_DMD),
-there is a [description in the wiki](http://wiki.dlang.org/Building_DMD).
+or, once the compiler is built, build Fate on its own from this folder:
 
-Phobos is distributed under Boost Software License.
-See the [license file](LICENSE_1_0.txt).
+```
+make -j$(nproc)
+```
 
-I Want to Contribute
---------------------
+The Makefile looks for the compiler at
+`../destiny_engine/generated/<os>/<build>/<model>/destiny`. Set
+`DMD_DIR` to use a compiler checkout in another location.
 
-Great!
-See the [CONTRIBUTING.md file](CONTRIBUTING.md).
+## Testing
+
+```
+make -j$(nproc) unittest
+```
+
+## Names inherited from Phobos
+
+Modules keep their `std.*` and `etc.*` names, so `import std.stdio;`
+works as before. The compiled library is still called `libphobos2`.
+
+## License
+
+Boost Software License 1.0; see [LICENSE_1_0.txt](LICENSE_1_0.txt).
