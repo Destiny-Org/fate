@@ -119,9 +119,8 @@ jobs:
         run: cd ../destiny_engine && ci/run.sh install_host_compiler
       - name: 'Windows: Install host compiler'
         if: runner.os == 'Windows'
-        uses: dlang-community/setup-dlang@v2
-        with:
-          compiler: ldc-latest
+        shell: bash
+        run: bash ../destiny_engine/ci/host_compiler.sh ldc-latest
 
       - name: Build
         run: cd ../destiny_engine && ci/run.sh build

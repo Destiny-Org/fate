@@ -24,7 +24,6 @@
 # make DEBUGGER=ddd std/XXXXX.debug => builds the module XXXXX and executes it
 #                                      in the debugger ddd
 #
-# make build-html => makes html documentation
 #
 # make install => copies library to /usr/lib
 #
@@ -91,11 +90,9 @@ endif
 # Configurable stuff that's rarely edited
 INSTALL_DIR = ../install
 DRUNTIME_PATH = $(DMD_DIR)/druntime
-DLANG_ORG_DIR = ../dlang.org
 ZIPFILE = phobos.zip
 ROOT_OF_THEM_ALL = generated
 ROOT = $(ROOT_OF_THEM_ALL)/$(OS)/$(BUILD)/$(MODEL)
-DUB=dub
 TOOLS_DIR=../tools
 DSCANNER_DIR=$(ROOT_OF_THEM_ALL)/dscanner
 
@@ -525,8 +522,7 @@ $(JSON) : $(ALL_D_FILES)
 
 ###########################################################
 # HTML documentation
-# the following variables will be set by dlang.org:
-#     DOC_OUTPUT_DIR, STDDOC
+# set DOC_OUTPUT_DIR (and optionally STDDOC) when building the docs
 ###########################################################
 SRC_DOCUMENTABLES = index.dd $(addsuffix .d,$(STD_MODULES) $(EXTRA_DOCUMENTABLES))
 # Set DDOC, the documentation generator
@@ -549,11 +545,7 @@ $(foreach p,$(SRC_DOCUMENTABLES),$(eval \
 $(DOC_OUTPUT_DIR)/$(call D2HTML,$p) : $p $(STDDOC) ;\
   $(DDOC) project.ddoc $(STDDOC) -Df$$@ $$<))
 
-# this target is called by dlang.org
 html : $(DOC_OUTPUT_DIR)/. $(HTMLS)
-
-build-html:
-	${MAKE} -C $(DLANG_ORG_DIR) -f posix.mak phobos-prerelease
 
 ################################################################################
 # Automatically clone the Destiny-Org/tools repository if non-existent
@@ -652,9 +644,9 @@ style_lint: style_lint_shellcmds dscanner
 # - extracts and runs @betterC unittests
 ################################################################################
 
-$(TESTS_EXTRACTOR): $(TOOLS_DIR)/tests_extractor.d | $(LIB)
-	DFLAGS="$(DFLAGS) $(LIB) $(NODEFAULTLIB) $(LINKDL)" $(DUB) build --force --compiler=$(abspath $(DMD)) --single $<
-	mv $(TOOLS_DIR)/tests_extractor$(DOTEXE) $@
+$(TESTS_EXTRACTOR): $(TOOLS_DIR)/tests_extractor.d | $(LIB) $(DSCANNER_DIR)
+	# libdparse comes from the Destiny-Org/d-scanner checkout
+	$(DMD) $(DFLAGS) $(LIB) $(NODEFAULTLIB) $(LINKDL) -i -I$(DSCANNER_DIR)/libdparse/src $< -of$@
 
 test_extractor: $(TESTS_EXTRACTOR)
 

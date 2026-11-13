@@ -23,12 +23,12 @@ SMTP) )
 )
 
 Note:
-You may need to link with the $(B curl) library, e.g. by adding $(D "libs": ["curl"])
-to your $(B dub.json) file if you are using $(LINK2 https://github.com/Destiny-Org/destiny, DUB).
+You may need to link with the $(B curl) library, e.g. by passing $(D -L-lcurl)
+to the compiler.
 
 Windows x86 note:
-A DMD compatible libcurl static library can be downloaded from the upstream D
-$(LINK2 https://downloads.dlang.org/other/index.html, download archive page).
+A destiny compatible libcurl static library can be built with the
+$(LINK2 https://github.com/Destiny-Org/tools, get_dlibcurl32 tool).
 
 This module is not available for iOS, tvOS or watchOS.
 

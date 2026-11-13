@@ -5,8 +5,8 @@
    cleaned up by Jonas Drewsen (jdrewsen)
 
    Windows x86 note:
-   A DMD compatible libcurl static library can be downloaded from the upstream D
-   $(LINK2 https://github.com/Destiny-Org/destiny, download page).
+   A destiny compatible libcurl static library can be built with the
+   $(LINK2 https://github.com/Destiny-Org/tools, get_dlibcurl32 tool).
 */
 
 /* **************************************************************************

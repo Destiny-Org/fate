@@ -19,10 +19,8 @@ obj/
 
 # Rule for VS Code config folder
 .vscode
-dub.selections.json
 *.html
 
-.dub/
 libphobos_*
 source/
 
