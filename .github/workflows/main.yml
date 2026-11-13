@@ -45,6 +45,8 @@ jobs:
     container: ${{ matrix.container_image }}
     timeout-minutes: ${{ matrix.timeout-minutes || 40 }}
     env:
+      # read access to the private Destiny-Org repositories, for every clone in the build
+      DESTINY_REPO_TOKEN: ${{ secrets.DESTINY_REPO_TOKEN }}
       # for ci/run.sh:
       OS_NAME: ${{ matrix.vm_os || (startsWith(matrix.os, 'ubuntu') && 'linux' || (startsWith(matrix.os, 'macos') && 'osx' || (startsWith(matrix.os, 'windows') && 'windows' || ''))) }}
       MODEL: ${{ matrix.model || '64' }}
@@ -57,7 +59,7 @@ jobs:
       run:
         # cpa.sh comes with cross-platform-actions and delegates to the VM.
         # Use it by default for all `run` steps below, i.e., run them in the VM (with a bash shell).
-        shell: ${{ matrix.vm_os && 'cpa.sh {0} --sync-files runner-to-vm --environment-variables OS_NAME MODEL HOST_DMD CI_DFLAGS N FULL_BUILD' || 'bash' }}
+        shell: ${{ matrix.vm_os && 'cpa.sh {0} --sync-files runner-to-vm --environment-variables OS_NAME MODEL HOST_DMD CI_DFLAGS N FULL_BUILD DESTINY_REPO_TOKEN' || 'bash' }}
     steps:
       - name: Start VM
         if: matrix.vm_os

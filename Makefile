@@ -36,7 +36,13 @@
 QUIET:=@
 
 DEBUGGER=gdb
+# Destiny-Org repository base URL; DESTINY_REPO_TOKEN (read access) is used when set,
+# so CI can clone the private repositories
+ifneq ($(DESTINY_REPO_TOKEN),)
+GIT_HOME=https://x-access-token:$(DESTINY_REPO_TOKEN)@github.com/Destiny-Org
+else
 GIT_HOME=https://github.com/Destiny-Org
+endif
 DMD_DIR=../destiny_engine
 
 include $(DMD_DIR)/compiler/src/osmodel.mak
