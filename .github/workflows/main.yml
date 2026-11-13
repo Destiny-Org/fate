@@ -81,7 +81,9 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 50
-      - name: Clone DMD
+      - name: Clone destiny
+        env:
+          DESTINY_REPO_TOKEN: ${{ secrets.DESTINY_REPO_TOKEN }}
         run: |
           set -uexo pipefail
 
@@ -99,7 +101,10 @@ jobs:
             exit 1
           fi
 
-          git clone --branch "$REPO_BRANCH" --depth 1 https://github.com/Destiny-Org/destiny.git ../destiny_engine
+          # DESTINY_REPO_TOKEN (read access) is needed while Destiny-Org/destiny is private
+          url=https://github.com/Destiny-Org/destiny.git
+          [ -z "${DESTINY_REPO_TOKEN:-}" ] || url="https://x-access-token:${DESTINY_REPO_TOKEN}@github.com/Destiny-Org/destiny.git"
+          git clone --branch "$REPO_BRANCH" --depth 1 "$url" ../destiny_engine
 
       - name: Set environment variable N (parallelism)
         run: echo "N=$(${{ runner.os == 'macOS' && 'sysctl -n hw.logicalcpu' || 'nproc' }})" >> $GITHUB_ENV
