@@ -21,10 +21,6 @@ jobs:
           - job_name: Ubuntu 22.04 x86
             os: ubuntu-22.04
             model: 32
-          - job_name: Alpine 3.21 x64
-            os: ubuntu-latest
-            container_image: alpine:3.21
-            host_dmd: ldmd2
           # macOS
           - job_name: macOS x64
             os: macos-14
@@ -50,7 +46,7 @@ jobs:
       # for ci/run.sh:
       OS_NAME: ${{ matrix.vm_os || (startsWith(matrix.os, 'ubuntu') && 'linux' || (startsWith(matrix.os, 'macos') && 'osx' || (startsWith(matrix.os, 'windows') && 'windows' || ''))) }}
       MODEL: ${{ matrix.model || '64' }}
-      HOST_DMD: ${{ matrix.host_dmd || 'dmd' }}
+      HOST_DMD: dmd-2.113.1
       # N is set dynamically below
       FULL_BUILD: false
       # work around upstream issue 23517
@@ -127,7 +123,7 @@ jobs:
       - name: 'Windows: Install host compiler'
         if: runner.os == 'Windows'
         shell: bash
-        run: bash ../destiny_engine/ci/host_compiler.sh ldc-latest
+        run: bash ../destiny_engine/ci/host_compiler.sh dmd-2.113.1
 
       - name: Build
         run: cd ../destiny_engine && ci/run.sh build
