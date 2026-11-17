@@ -46,7 +46,7 @@ jobs:
       # for ci/run.sh:
       OS_NAME: ${{ matrix.vm_os || (startsWith(matrix.os, 'ubuntu') && 'linux' || (startsWith(matrix.os, 'macos') && 'osx' || (startsWith(matrix.os, 'windows') && 'windows' || ''))) }}
       MODEL: ${{ matrix.model || '64' }}
-      HOST_DMD: dmd-2.113.1
+      HOST_DC: dmd-2.113.1
       # N is set dynamically below
       FULL_BUILD: false
       # work around upstream issue 23517
@@ -55,7 +55,7 @@ jobs:
       run:
         # cpa.sh comes with cross-platform-actions and delegates to the VM.
         # Use it by default for all `run` steps below, i.e., run them in the VM (with a bash shell).
-        shell: ${{ matrix.vm_os && 'cpa.sh {0} --sync-files runner-to-vm --environment-variables OS_NAME MODEL HOST_DMD CI_DFLAGS N FULL_BUILD DESTINY_REPO_TOKEN' || 'bash' }}
+        shell: ${{ matrix.vm_os && 'cpa.sh {0} --sync-files runner-to-vm --environment-variables OS_NAME MODEL HOST_DC CI_DFLAGS N FULL_BUILD DESTINY_REPO_TOKEN' || 'bash' }}
     steps:
       - name: Start VM
         if: matrix.vm_os
@@ -127,12 +127,12 @@ jobs:
 
       - name: Build
         run: cd ../destiny_engine && ci/run.sh build
-      - name: Test dmd
-        run: cd ../destiny_engine && ci/run.sh test_dmd
+      - name: Test destiny
+        run: cd ../destiny_engine && ci/run.sh test_destiny
       - name: Test druntime
         run: cd ../destiny_engine && ci/run.sh test_druntime
       - name: 'Windows x86: Add 32-bit libcurl.dll to PATH (required for Fate unittests)'
         if: runner.os == 'Windows' && env.MODEL == '32'
         run: echo "$(dirname "$DC")/../lib32" >> $GITHUB_PATH
-      - name: Test phobos
-        run: cd ../destiny_engine && ci/run.sh test_phobos
+      - name: Test Fate
+        run: cd ../destiny_engine && ci/run.sh test_fate

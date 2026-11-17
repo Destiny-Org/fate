@@ -17,7 +17,7 @@ Destiny/
 From `destiny_engine/`, build the compiler, druntime and Fate together:
 
 ```
-make -j$(nproc) HOST_DMD=dmd
+make -j$(nproc) HOST_DC=dmd
 make -j$(nproc) fate
 ```
 
