@@ -18,10 +18,10 @@ jobs:
           # Built with a released Destiny compiler (Destiny-Org/host-compilers),
           # which exists for Linux x86_64 only; other platforms return once
           # Destiny is packaged for them.
-          - job_name: Ubuntu 22.04 x64
-            os: ubuntu-22.04
-          - job_name: Ubuntu 22.04 x86
-            os: ubuntu-22.04
+          - job_name: Ubuntu 24.04 x64
+            os: ubuntu-24.04
+          - job_name: Ubuntu 24.04 x86
+            os: ubuntu-24.04
             model: 32
     name: ${{ matrix.job_name }}
     runs-on: ${{ matrix.os }}
