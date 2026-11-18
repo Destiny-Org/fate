@@ -1362,6 +1362,14 @@ version (Posix)
             {
                 return false;
             }
+            // Destiny: also restore the default action; a parent started in
+            // the background by a non-interactive shell ignores SIGINT, and
+            // the child would inherit that and never die from it.
+            import core.stdc.signal : signal, SIG_DFL, SIG_ERR;
+            if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+            {
+                return false;
+            }
             return true;
         },
     };
@@ -1529,7 +1537,7 @@ private Pid spawnProcessWin(scope const(char)[] commandLine,
 // environment should be inherited without modification, this function
 // returns null.
 version (Posix)
-private const(char*)* createEnv(const string[string] childEnv,
+@system private const(char*)* createEnv(const string[string] childEnv,
                                 bool mergeWithParentEnv)
 {
     // Determine the number of strings in the parent's environment.
@@ -1679,7 +1687,7 @@ version (Posix) @safe unittest
 
 // Sets or unsets the FD_CLOEXEC flag on the given file descriptor.
 version (Posix)
-private void setCLOEXEC(int fd, bool on) nothrow @nogc
+@system private void setCLOEXEC(int fd, bool on) nothrow @nogc
 {
     import core.sys.posix.fcntl : fcntl, F_GETFD, FD_CLOEXEC, F_SETFD;
     auto flags = fcntl(fd, F_GETFD);
@@ -2816,7 +2824,7 @@ $(LREF ProcessException) on error (e.g. if codeOrSignal is invalid).
     Note that failure to terminate the process is considered a "normal"
     outcome, not an error.$(BR)
 */
-void kill(Pid pid)
+@trusted void kill(Pid pid) // safe interface: signals a process this Pid owns; no memory access
 {
     version (Windows) kill(pid, 1);
     else version (Posix)
@@ -2827,7 +2835,7 @@ void kill(Pid pid)
 }
 
 /// ditto
-void kill(Pid pid, int codeOrSignal)
+@trusted void kill(Pid pid, int codeOrSignal) // safe interface: signals a process this Pid owns; no memory access
 {
     import std.exception : enforce;
     enforce!ProcessException(pid.owned, "Can't kill detached process");
@@ -4369,7 +4377,7 @@ version (Posix)
     import core.sys.posix.stdlib;
 }
 
-private const(char)** toAStringz(in string[] a)
+@system private const(char)** toAStringz(in string[] a)
 {
     import std.string : toStringz;
     auto p = (new const(char)*[1 + a.length]).ptr;
@@ -4477,19 +4485,19 @@ version (StdDdoc)
 }
 else version (Posix)
 {
-    int execv(in string pathname, in string[] argv)
+    @system int execv(in string pathname, in string[] argv)
     {
         return execv_(pathname, argv);
     }
-    int execve(in string pathname, in string[] argv, in string[] envp)
+    @system int execve(in string pathname, in string[] argv, in string[] envp)
     {
         return execve_(pathname, argv, envp);
     }
-    int execvp(in string pathname, in string[] argv)
+    @system int execvp(in string pathname, in string[] argv)
     {
         return execvp_(pathname, argv);
     }
-    int execvpe(in string pathname, in string[] argv, in string[] envp)
+    @system int execvpe(in string pathname, in string[] argv, in string[] envp)
     {
         return execvpe_(pathname, argv, envp);
     }
@@ -4504,22 +4512,22 @@ extern(C)
     version (Windows) int execvpe(scope const(char)*, scope const(char*)*, scope const(char*)*);
 }
 
-private int execv_(in string pathname, in string[] argv)
+@system private int execv_(in string pathname, in string[] argv)
 {
     return execv(pathname.tempCString(), toAStringz(argv));
 }
 
-private int execve_(in string pathname, in string[] argv, in string[] envp)
+@system private int execve_(in string pathname, in string[] argv, in string[] envp)
 {
     return execve(pathname.tempCString(), toAStringz(argv), toAStringz(envp));
 }
 
-private int execvp_(in string pathname, in string[] argv)
+@system private int execvp_(in string pathname, in string[] argv)
 {
     return execvp(pathname.tempCString(), toAStringz(argv));
 }
 
-private int execvpe_(in string pathname, in string[] argv, in string[] envp)
+@system private int execvpe_(in string pathname, in string[] argv, in string[] envp)
 {
 version (Posix)
 {

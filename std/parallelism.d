@@ -367,7 +367,7 @@ private struct AbstractTask
     Throwable exception;
     ubyte taskStatus = TaskStatus.notStarted;
 
-    bool done() @property
+    @system bool done() @property
     {
         if (atomicReadUbyte(taskStatus) == TaskStatus.done)
         {
@@ -382,7 +382,7 @@ private struct AbstractTask
         return false;
     }
 
-    void job()
+    @system void job()
     {
         runTask(&this);
     }
@@ -1084,7 +1084,7 @@ This class serves two purposes:
 */
 private final class ParallelismThread : Thread
 {
-    this(void delegate() dg)
+    @system this(void delegate() dg)
     {
         super(dg);
     }
@@ -1093,7 +1093,7 @@ private final class ParallelismThread : Thread
 }
 
 // Kill daemon threads.
-shared static ~this()
+@system shared static ~this()
 {
     foreach (ref thread; Thread)
     {
@@ -1170,7 +1170,7 @@ private:
         stopNow
     }
 
-    void doJob(AbstractTask* job)
+    @system void doJob(AbstractTask* job)
     {
         assert(job.taskStatus == TaskStatus.inProgress);
         assert(job.next is null);
@@ -1199,7 +1199,7 @@ private:
     }
 
     // This function is used for dummy pools created by Task.executeInNewThread().
-    void doSingleTask()
+    @system void doSingleTask()
     {
         // No synchronization.  Pool is guaranteed to only have one thread,
         // and the queue is submitted to before this thread is created.
@@ -1212,7 +1212,7 @@ private:
     // This function performs initialization for each thread that affects
     // thread local storage and therefore must be done from within the
     // worker thread.  It then calls executeWorkLoop().
-    void startWorkLoop()
+    @system void startWorkLoop()
     {
         // Initialize thread index.
         {
@@ -1228,7 +1228,7 @@ private:
     // This is the main work loop that worker threads spend their time in
     // until they terminate.  It's also entered by non-worker threads when
     // finish() is called with the blocking variable set to true.
-    void executeWorkLoop()
+    @system void executeWorkLoop()
     {
         while (atomicReadUbyte(status) != PoolState.stopNow)
         {
@@ -1373,7 +1373,7 @@ private:
         notifyAll();
     }
 
-    void tryDeleteExecute(AbstractTask* toExecute)
+    @system void tryDeleteExecute(AbstractTask* toExecute)
     {
         if (isSingleTask) return;
 
@@ -1498,7 +1498,7 @@ private:
     // Private constructor for creating dummy pools that only have one thread,
     // only execute one Task, and then terminate.  This is used for
     // Task.executeInNewThread().
-    this(AbstractTask* task, int priority = int.max)
+    @system this(AbstractTask* task, int priority = int.max) // raw task pointer
     {
         assert(task);
 
@@ -3692,7 +3692,7 @@ private template randLen(R)
     enum randLen = isRandomAccessRange!R && hasLength!R;
 }
 
-private void submitAndExecute(
+@system private void submitAndExecute(
     TaskPool pool,
     scope void delegate() doIt
 )

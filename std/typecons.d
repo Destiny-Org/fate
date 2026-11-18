@@ -7591,8 +7591,8 @@ private template TypeMod(T)
     }
     alias methods = GetOverloadedMethods!A;
 
-    alias F1 = int();
-    alias F2 = @property int();
+    alias F1 = int() @safe;      // Destiny: methods are @safe by default
+    alias F2 = @property int() @safe;
     alias F3 = string();
     alias F4 = nothrow @trusted uint();
     alias F5 = int(Object);
@@ -10976,7 +10976,7 @@ private template replaceTypeInFunctionTypeUnless(alias pred, From, To, fun)
     struct S2 { void bar() { x = 2; } }
 
     alias Pass = Test!(
-        int, float, typeof(&func), float delegate(float),
+        int, float, typeof(&func), float delegate(float) @safe,
         int, float, typeof(&printf), typeof(&floatPrintf),
         int, float, int function(out long, ...),
             float function(out long, ...),

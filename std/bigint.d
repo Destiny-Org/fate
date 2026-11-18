@@ -1466,14 +1466,14 @@ public:
 
     // for backwards compatibility, see unittest below
     /// ditto
-    void toString(scope void delegate(scope const(char)[]) sink, string formatString) const
+    @system void toString(scope void delegate(scope const(char)[]) sink, string formatString) const
     {
         toString!(void delegate(scope const(char)[]))(sink, formatString);
     }
 
     // for backwards compatibility, see unittest below
     /// ditto
-    void toString(scope void delegate(scope const(char)[]) sink, scope const ref FormatSpec!char f) const
+    @system void toString(scope void delegate(scope const(char)[]) sink, scope const ref FormatSpec!char f) const
     {
         toString!(void delegate(scope const(char)[]))(sink, f);
     }

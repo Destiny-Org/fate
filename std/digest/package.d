@@ -842,9 +842,12 @@ string toHexString(LetterCase letterCase, Order order = Order.increasing)(in uby
  * This helper is used internally in the WrapperDigest template to wrap the template API's
  * finish function.
  */
-ref T[N] asArray(size_t N, T)(ref T[] source, string errorMsg = "")
+ref T[N] asArray(size_t N, T)(ref T[] source, string errorMsg = "") @trusted
 {
-     assert(source.length >= N, errorMsg);
+     // Destiny: `assert(0)` is kept in release builds, so the length is always
+     // checked and the cast below cannot read past the end of `source`.
+     if (source.length < N)
+         assert(0, errorMsg);
      return *cast(T[N]*) source.ptr;
 }
 

@@ -327,33 +327,33 @@ nothrow:
     /**
     Allocates `n` bytes of memory.
     */
-    void[] allocate(size_t, TypeInfo ti = null);
+    @system void[] allocate(size_t, TypeInfo ti = null);
 
     /**
     Allocates `n` bytes of memory with specified alignment `a`. Implementations
     that do not support this primitive should always return `null`.
     */
-    void[] alignedAllocate(size_t n, uint a);
+    @system void[] alignedAllocate(size_t n, uint a);
 
     /**
     Allocates and returns all memory available to this allocator.
     Implementations that do not support this primitive should always return
     `null`.
     */
-    void[] allocateAll();
+    @system void[] allocateAll();
 
     /**
     Expands a memory block in place and returns `true` if successful.
     Implementations that don't support this primitive should always return
     `false`.
     */
-    bool expand(ref void[], size_t);
+    @system bool expand(ref void[], size_t);
 
     /// Reallocates a memory block.
-    bool reallocate(ref void[], size_t);
+    @system bool reallocate(ref void[], size_t);
 
     /// Reallocates a memory block with specified alignment.
-    bool alignedReallocate(ref void[] b, size_t size, uint alignment);
+    @system bool alignedReallocate(ref void[] b, size_t size, uint alignment);
 
     /**
     Returns `Ternary.yes` if the allocator owns `b`, `Ternary.no` if
@@ -374,13 +374,13 @@ nothrow:
     primitive should always return `false`. A simple way to check that an
     allocator supports deallocation is to call `deallocate(null)`.
     */
-    bool deallocate(void[] b);
+    @system bool deallocate(void[] b);
 
     /**
     Deallocates all memory. Implementations that don't support this primitive
     should always return `false`.
     */
-    bool deallocateAll();
+    @system bool deallocateAll();
 
     /**
     Returns `Ternary.yes` if no memory is currently allocated from this
@@ -491,37 +491,37 @@ nothrow:
         return _alloc.goodAllocSize(s);
     }
 
-    void[] allocate(size_t n, TypeInfo ti = null)
+    @system void[] allocate(size_t n, TypeInfo ti = null)
     {
         assert(_alloc);
         return _alloc.allocate(n, ti);
     }
 
-    void[] alignedAllocate(size_t n, uint a)
+    @system void[] alignedAllocate(size_t n, uint a)
     {
         assert(_alloc);
         return _alloc.alignedAllocate(n, a);
     }
 
-    void[] allocateAll()
+    @system void[] allocateAll()
     {
         assert(_alloc);
         return _alloc.allocateAll();
     }
 
-    bool expand(ref void[] b, size_t size)
+    @system bool expand(ref void[] b, size_t size)
     {
         assert(_alloc);
         return _alloc.expand(b, size);
     }
 
-    bool reallocate(ref void[] b, size_t size)
+    @system bool reallocate(ref void[] b, size_t size)
     {
         assert(_alloc);
         return _alloc.reallocate(b, size);
     }
 
-    bool alignedReallocate(ref void[] b, size_t size, uint alignment)
+    @system bool alignedReallocate(ref void[] b, size_t size, uint alignment)
     {
         assert(_alloc);
         return _alloc.alignedReallocate(b, size, alignment);
@@ -539,13 +539,13 @@ nothrow:
         return _alloc.resolveInternalPointer(p, result);
     }
 
-    bool deallocate(void[] b)
+    @system bool deallocate(void[] b)
     {
         assert(_alloc);
         return _alloc.deallocate(b);
     }
 
-    bool deallocateAll()
+    @system bool deallocateAll()
     {
         assert(_alloc);
         return _alloc.deallocateAll();
@@ -670,33 +670,33 @@ nothrow:
     /**
     Allocates `n` bytes of memory.
     */
-    void[] allocate(size_t, TypeInfo ti = null) shared;
+    @system void[] allocate(size_t, TypeInfo ti = null) shared;
 
     /**
     Allocates `n` bytes of memory with specified alignment `a`. Implementations
     that do not support this primitive should always return `null`.
     */
-    void[] alignedAllocate(size_t n, uint a) shared;
+    @system void[] alignedAllocate(size_t n, uint a) shared;
 
     /**
     Allocates and returns all memory available to this allocator.
     Implementations that do not support this primitive should always return
     `null`.
     */
-    void[] allocateAll() shared;
+    @system void[] allocateAll() shared;
 
     /**
     Expands a memory block in place and returns `true` if successful.
     Implementations that don't support this primitive should always return
     `false`.
     */
-    bool expand(ref void[], size_t) shared;
+    @system bool expand(ref void[], size_t) shared;
 
     /// Reallocates a memory block.
-    bool reallocate(ref void[], size_t) shared;
+    @system bool reallocate(ref void[], size_t) shared;
 
     /// Reallocates a memory block with specified alignment.
-    bool alignedReallocate(ref void[] b, size_t size, uint alignment) shared;
+    @system bool alignedReallocate(ref void[] b, size_t size, uint alignment) shared;
 
     /**
     Returns `Ternary.yes` if the allocator owns `b`, `Ternary.no` if
@@ -717,13 +717,13 @@ nothrow:
     primitive should always return `false`. A simple way to check that an
     allocator supports deallocation is to call `deallocate(null)`.
     */
-    bool deallocate(void[] b) shared;
+    @system bool deallocate(void[] b) shared;
 
     /**
     Deallocates all memory. Implementations that don't support this primitive
     should always return `false`.
     */
-    bool deallocateAll() shared;
+    @system bool deallocateAll() shared;
 
     /**
     Returns `Ternary.yes` if no memory is currently allocated from this
@@ -839,37 +839,37 @@ nothrow:
         return _alloc.goodAllocSize(s);
     }
 
-    void[] allocate(size_t n, TypeInfo ti = null)
+    @system void[] allocate(size_t n, TypeInfo ti = null)
     {
         assert(_alloc);
         return _alloc.allocate(n, ti);
     }
 
-    void[] alignedAllocate(size_t n, uint a)
+    @system void[] alignedAllocate(size_t n, uint a)
     {
         assert(_alloc);
         return _alloc.alignedAllocate(n, a);
     }
 
-    void[] allocateAll()
+    @system void[] allocateAll()
     {
         assert(_alloc);
         return _alloc.allocateAll();
     }
 
-    bool expand(ref void[] b, size_t size)
+    @system bool expand(ref void[] b, size_t size)
     {
         assert(_alloc);
         return _alloc.expand(b, size);
     }
 
-    bool reallocate(ref void[] b, size_t size)
+    @system bool reallocate(ref void[] b, size_t size)
     {
         assert(_alloc);
         return _alloc.reallocate(b, size);
     }
 
-    bool alignedReallocate(ref void[] b, size_t size, uint alignment)
+    @system bool alignedReallocate(ref void[] b, size_t size, uint alignment)
     {
         assert(_alloc);
         return _alloc.alignedReallocate(b, size, alignment);
@@ -887,13 +887,13 @@ nothrow:
         return _alloc.resolveInternalPointer(p, result);
     }
 
-    bool deallocate(void[] b)
+    @system bool deallocate(void[] b)
     {
         assert(_alloc);
         return _alloc.deallocate(b);
     }
 
-    bool deallocateAll()
+    @system bool deallocateAll()
     {
         assert(_alloc);
         return _alloc.deallocateAll();
@@ -936,32 +936,32 @@ private ref RCIAllocator setupThreadAllocator()
             return _allocator.goodAllocSize(s);
         }
 
-        override void[] allocate(size_t n, TypeInfo ti = null)
+        @system override void[] allocate(size_t n, TypeInfo ti = null)
         {
             return _allocator.allocate(n, ti);
         }
 
-        override void[] alignedAllocate(size_t n, uint a)
+        @system override void[] alignedAllocate(size_t n, uint a)
         {
             return _allocator.alignedAllocate(n, a);
         }
 
-        override void[] allocateAll()
+        @system override void[] allocateAll()
         {
             return _allocator.allocateAll();
         }
 
-        override bool expand(ref void[] b, size_t size)
+        @system override bool expand(ref void[] b, size_t size)
         {
             return _allocator.expand(b, size);
         }
 
-        override bool reallocate(ref void[] b, size_t size)
+        @system override bool reallocate(ref void[] b, size_t size)
         {
             return _allocator.reallocate(b, size);
         }
 
-        override bool alignedReallocate(ref void[] b, size_t size, uint alignment)
+        @system override bool alignedReallocate(ref void[] b, size_t size, uint alignment)
         {
             return _allocator.alignedReallocate(b, size, alignment);
         }
@@ -976,12 +976,12 @@ private ref RCIAllocator setupThreadAllocator()
             return _allocator.resolveInternalPointer(p, result);
         }
 
-        override bool deallocate(void[] b)
+        @system override bool deallocate(void[] b)
         {
             return _allocator.deallocate(b);
         }
 
-        override bool deallocateAll()
+        @system override bool deallocateAll()
         {
             return _allocator.deallocateAll();
         }
@@ -2640,14 +2640,14 @@ void disposeMultidimensionalArray(T, Allocator)(auto ref Allocator alloc, auto r
 
         enum uint alignment = platformAlignment;
 
-        void[] allocate(size_t numBytes)
+        @system void[] allocate(size_t numBytes)
         {
              auto ret = allocator.allocate(numBytes);
              _allocations ~= ByteRange(ret.ptr, ret.length);
              return ret;
         }
 
-        bool deallocate(void[] bytes)
+        @system bool deallocate(void[] bytes)
         {
             import std.algorithm.mutation : remove;
             import std.algorithm.searching : canFind;
@@ -2909,7 +2909,7 @@ nothrow:
     /**
     Returns `impl.allocate(s)`.
     */
-    override void[] allocate(size_t s, TypeInfo ti = null)
+    @system override void[] allocate(size_t s, TypeInfo ti = null)
     {
         return impl.allocate(s);
     }
@@ -2918,7 +2918,7 @@ nothrow:
     If `impl.alignedAllocate` exists, calls it and returns the result.
     Otherwise, always returns `null`.
     */
-    override void[] alignedAllocate(size_t s, uint a)
+    @system override void[] alignedAllocate(size_t s, uint a)
     {
         static if (__traits(hasMember, Allocator, "alignedAllocate"))
             return impl.alignedAllocate(s, a);
@@ -2937,7 +2937,7 @@ nothrow:
     }
 
     /// Returns $(D impl.expand(b, s)) if defined, `false` otherwise.
-    override bool expand(ref void[] b, size_t s)
+    @system override bool expand(ref void[] b, size_t s)
     {
         static if (__traits(hasMember, Allocator, "expand"))
             return impl.expand(b, s);
@@ -2946,13 +2946,13 @@ nothrow:
     }
 
     /// Returns $(D impl.reallocate(b, s)).
-    override bool reallocate(ref void[] b, size_t s)
+    @system override bool reallocate(ref void[] b, size_t s)
     {
         return impl.reallocate(b, s);
     }
 
     /// Forwards to `impl.alignedReallocate` if defined, `false` otherwise.
-    bool alignedReallocate(ref void[] b, size_t s, uint a)
+    @system bool alignedReallocate(ref void[] b, size_t s, uint a)
     {
         static if (!__traits(hasMember, Allocator, "alignedAllocate"))
         {
@@ -2981,7 +2981,7 @@ nothrow:
     If `impl.deallocate` is not defined, returns `false`. Otherwise it forwards
     the call.
     */
-    override bool deallocate(void[] b)
+    @system override bool deallocate(void[] b)
     {
         static if (__traits(hasMember, Allocator, "deallocate"))
         {
@@ -2997,7 +2997,7 @@ nothrow:
     Calls `impl.deallocateAll()` and returns the result if defined,
     otherwise returns `false`.
     */
-    override bool deallocateAll()
+    @system override bool deallocateAll()
     {
         static if (__traits(hasMember, Allocator, "deallocateAll"))
         {
@@ -3027,7 +3027,7 @@ nothrow:
     /**
     Returns `impl.allocateAll()` if present, `null` otherwise.
     */
-    override void[] allocateAll()
+    @system override void[] allocateAll()
     {
         static if (__traits(hasMember, Allocator, "allocateAll"))
         {
@@ -3138,7 +3138,7 @@ nothrow:
     /**
     Returns `impl.allocate(s)`.
     */
-    override void[] allocate(size_t s, TypeInfo ti = null) shared
+    @system override void[] allocate(size_t s, TypeInfo ti = null) shared
     {
         return impl.allocate(s);
     }
@@ -3147,7 +3147,7 @@ nothrow:
     If `impl.alignedAllocate` exists, calls it and returns the result.
     Otherwise, always returns `null`.
     */
-    override void[] alignedAllocate(size_t s, uint a) shared
+    @system override void[] alignedAllocate(size_t s, uint a) shared
     {
         static if (__traits(hasMember, Allocator, "alignedAllocate"))
             return impl.alignedAllocate(s, a);
@@ -3166,7 +3166,7 @@ nothrow:
     }
 
     /// Returns $(D impl.expand(b, s)) if defined, `false` otherwise.
-    override bool expand(ref void[] b, size_t s) shared
+    @system override bool expand(ref void[] b, size_t s) shared
     {
         static if (__traits(hasMember, Allocator, "expand"))
             return impl.expand(b, s);
@@ -3175,13 +3175,13 @@ nothrow:
     }
 
     /// Returns $(D impl.reallocate(b, s)).
-    override bool reallocate(ref void[] b, size_t s) shared
+    @system override bool reallocate(ref void[] b, size_t s) shared
     {
         return impl.reallocate(b, s);
     }
 
     /// Forwards to `impl.alignedReallocate` if defined, `false` otherwise.
-    bool alignedReallocate(ref void[] b, size_t s, uint a) shared
+    @system bool alignedReallocate(ref void[] b, size_t s, uint a) shared
     {
         static if (!__traits(hasMember, Allocator, "alignedAllocate"))
         {
@@ -3210,7 +3210,7 @@ nothrow:
     If `impl.deallocate` is not defined, returns `false`. Otherwise it forwards
     the call.
     */
-    override bool deallocate(void[] b) shared
+    @system override bool deallocate(void[] b) shared
     {
         static if (__traits(hasMember, Allocator, "deallocate"))
         {
@@ -3226,7 +3226,7 @@ nothrow:
     Calls `impl.deallocateAll()` and returns the result if defined,
     otherwise returns `false`.
     */
-    override bool deallocateAll() shared
+    @system override bool deallocateAll() shared
     {
         static if (__traits(hasMember, Allocator, "deallocateAll"))
         {
@@ -3256,7 +3256,7 @@ nothrow:
     /**
     Returns `impl.allocateAll()` if present, `null` otherwise.
     */
-    override void[] allocateAll() shared
+    @system override void[] allocateAll() shared
     {
         static if (__traits(hasMember, Allocator, "allocateAll"))
         {
@@ -3645,7 +3645,7 @@ private struct InternalPointersTree(Allocator)
     else alias parent = Parent.instance;
 
     /// Allocator API.
-    void[] allocate(size_t bytes)
+    @system void[] allocate(size_t bytes)
     {
         auto r = parent.allocate(bytes);
         if (!r.ptr) return r;
@@ -3656,7 +3656,7 @@ private struct InternalPointersTree(Allocator)
     }
 
     /// Ditto
-    bool deallocate(void[] b)
+    @system bool deallocate(void[] b)
     {
         if (!b.ptr) return true;
         Tree.Node* n = &parent.prefix(b);
@@ -3667,7 +3667,7 @@ private struct InternalPointersTree(Allocator)
 
     /// Ditto
     static if (__traits(hasMember, Allocator, "reallocate"))
-    bool reallocate(ref void[] b, size_t s)
+    @system bool reallocate(ref void[] b, size_t s)
     {
         auto n = &parent.prefix(b);
         assert(n.payload == b.length);

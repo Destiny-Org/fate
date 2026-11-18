@@ -50,7 +50,7 @@ struct MmapAllocator
 
         /// Ditto
         pure nothrow @nogc
-        bool deallocate(void[] b) shared const
+        @system bool deallocate(void[] b) shared const
         {
             // Because we assert(0) on error we don't need to reset errno for purity.
             if (b.ptr) fakePureMunmap(b.ptr, b.length) == 0 || assert(0);

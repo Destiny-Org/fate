@@ -1306,7 +1306,7 @@ public:
     static class S
     {
         int x;
-        int opApply(scope int delegate(ref int _x) dg) { return dg(x); }
+        @system int opApply(scope int delegate(ref int _x) dg) { return dg(x); }
     }
 
     auto s = new S;

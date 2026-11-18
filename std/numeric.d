@@ -3607,7 +3607,7 @@ private:
     // to immutable.
     //
     // Public b/c of upstream issue 4636.
-    public this(lookup_t[] memSpace)
+    @system public this(lookup_t[] memSpace)
     {
         immutable size = memSpace.length / 2;
 
@@ -3669,7 +3669,7 @@ public:
      * power of two sizes of `size` or smaller.  `size` must be a
      * power of two.
      */
-    this(size_t size)
+    @system this(size_t size)
     {
         // Allocate all twiddle factor buffers in one contiguous block so that,
         // when one is done being used, the next one is next in cache.

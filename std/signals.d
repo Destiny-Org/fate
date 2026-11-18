@@ -320,7 +320,7 @@ mixin template Signal(T1...)
     {
         int value() { return _value; }
 
-        int value(int v)
+        @system int value(int v)
         {
             if (v != _value)
             {   _value = v;
@@ -389,7 +389,7 @@ void linkin() { }
     {
         @property int value() { return _value; }
 
-        @property int value(int v)
+        @system @property int value(int v)
         {
             if (v != _value)
             {   _value = v;
@@ -463,9 +463,9 @@ void linkin() { }
 
     class Bar
     {
-        @property void value1(int v)  { s1.emit("str1", v); }
-        @property void value2(int v)  { s2.emit("str2", v); }
-        @property void value3(long v) { s3.emit("str3", v); }
+        @system @property void value1(int v)  { s1.emit("str1", v); }
+        @system @property void value2(int v)  { s2.emit("str2", v); }
+        @system @property void value3(long v) { s3.emit("str3", v); }
 
         mixin Signal!(string, int)  s1;
         mixin Signal!(string, int)  s2;
@@ -541,9 +541,9 @@ void linkin() { }
 
     class BarDerived: Bar
     {
-        @property void value4(int v)  { s4.emit("str4", v); }
-        @property void value5(int v)  { s5.emit("str5", v); }
-        @property void value6(long v) { s6.emit("str6", v); }
+        @system @property void value4(int v)  { s4.emit("str4", v); }
+        @system @property void value5(int v)  { s5.emit("str5", v); }
+        @system @property void value6(long v) { s6.emit("str6", v); }
 
         mixin Signal!(string, int)  s4;
         mixin Signal!(string, int)  s5;
@@ -668,7 +668,7 @@ version (none) // Disabled because of upstream issue 5028
     {
         mixin Signal!( myLINE, int );
 
-        void value( int v )
+        @system void value( int v )
         {
             if ( v >= 0 ) emit( this, v );
             else          emit( new myLINE, v );
@@ -680,7 +680,7 @@ version (none) // Disabled because of upstream issue 5028
         int value;
 
         myLINE line_;
-        void line( myLINE line_x )
+        @system void line( myLINE line_x )
         {
             if ( line_ is line_x ) return;
 
@@ -692,7 +692,7 @@ version (none) // Disabled because of upstream issue 5028
             line_.connect( &watch );
         }
 
-        void watch( myLINE line_x, int value_x )
+        @system void watch( myLINE line_x, int value_x )
         {
             line = line_x;
             value = value_x;
@@ -734,7 +734,7 @@ version (none) // Disabled because of upstream issue 5028
     {
         int value() { return _value; }
 
-        int value(int v)
+        @system int value(int v)
         {
             if (v != _value)
             {

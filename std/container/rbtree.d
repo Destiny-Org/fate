@@ -1212,7 +1212,7 @@ if (isSuitablePredicate!(less, T))
                 return typeid(x).getHash(&x) ^ 0xF0F0_F0F0;
             }
 
-            int opCmp(const MyInt2 that) const
+            int opCmp(scope const MyInt2 that) const scope
             {
                 return (x > that.x) - (x < that.x);
             }

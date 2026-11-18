@@ -115,7 +115,7 @@ class ZlibException : Exception
  *     $(LINK http://en.wikipedia.org/wiki/Adler-32)
  */
 
-uint adler32(uint adler, const(void)[] buf)
+@system uint adler32(uint adler, const(void)[] buf)
 {
     import std.range : chunks;
     foreach (chunk; (cast(ubyte[]) buf).chunks(0xFFFF0000))
@@ -158,7 +158,7 @@ uint adler32(uint adler, const(void)[] buf)
  *     $(LINK http://en.wikipedia.org/wiki/Cyclic_redundancy_check)
  */
 
-uint crc32(uint crc, const(void)[] buf)
+@system uint crc32(uint crc, const(void)[] buf)
 {
     import std.range : chunks;
     foreach (chunk; (cast(ubyte[]) buf).chunks(0xFFFF0000))
@@ -193,7 +193,7 @@ uint crc32(uint crc, const(void)[] buf)
  *     the compressed data
  */
 
-ubyte[] compress(const(void)[] srcbuf, int level)
+@system ubyte[] compress(const(void)[] srcbuf, int level)
 in
 {
     assert(-1 <= level && level <= 9, "Compression level needs to be within [-1, 9].");
@@ -219,7 +219,7 @@ do
  * ditto
  */
 
-ubyte[] compress(const(void)[] srcbuf)
+@system ubyte[] compress(const(void)[] srcbuf)
 {
     return compress(srcbuf, Z_DEFAULT_COMPRESSION);
 }
@@ -235,7 +235,7 @@ ubyte[] compress(const(void)[] srcbuf)
  * Returns: the decompressed data.
  */
 
-void[] uncompress(const(void)[] srcbuf, size_t destlen = 0u, int winbits = 15)
+@system void[] uncompress(const(void)[] srcbuf, size_t destlen = 0u, int winbits = 15)
 {
     import std.conv : to;
     int err;
@@ -350,7 +350,7 @@ class Compress
     int inited;
     immutable bool gzip;
 
-    void error(int err)
+    @system void error(int err)
     {
         if (inited)
         {   deflateEnd(&zs);
@@ -390,7 +390,7 @@ class Compress
         this.gzip = header == HeaderFormat.gzip;
     }
 
-    ~this()
+    @system ~this()
     {   int err;
 
         if (inited)
@@ -409,7 +409,7 @@ class Compress
      *    the compressed data. The buffers returned from successive calls to this should be concatenated together.
      *
      */
-    const(void)[] compress(const(void)[] buf)
+    @system const(void)[] compress(const(void)[] buf)
     {
         import core.memory : GC;
         import std.array : uninitializedArray;
@@ -465,7 +465,7 @@ class Compress
                     $(DD (default) Used when finished compressing the data. )
                 )
      */
-    void[] flush(int mode = Z_FINISH)
+    @system void[] flush(int mode = Z_FINISH)
     in
     {
         assert(mode == Z_FINISH || mode == Z_SYNC_FLUSH || mode == Z_FULL_FLUSH,
@@ -536,7 +536,7 @@ class UnCompress
 
     HeaderFormat format;
 
-    void error(int err)
+    @system void error(int err)
     {
         if (inited)
         {   inflateEnd(&zs);
@@ -561,7 +561,7 @@ class UnCompress
         this.format = format;
     }
 
-    ~this()
+    @system ~this()
     {   int err;
 
         if (inited)
@@ -577,7 +577,7 @@ class UnCompress
      * The buffers returned from successive calls to this should be concatenated
      * together.
      */
-    const(void)[] uncompress(const(void)[] buf)
+    @system const(void)[] uncompress(const(void)[] buf)
     in
     {
         assert(!done, "Buffer has been flushed.");

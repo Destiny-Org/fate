@@ -1033,7 +1033,7 @@ public:
 
     Params: ba = Source array of `bool` values.
     */
-    this(in bool[] ba) nothrow pure
+    @system this(in bool[] ba) nothrow pure
     {
         length = ba.length;
         foreach (i, b; ba)
@@ -1104,7 +1104,7 @@ public:
         numbits = Number of bits to be mapped from the source array, i.e.
                   length of the created `BitArray`.
     */
-    this(void[] v, size_t numbits) @nogc nothrow pure
+    @system this(void[] v, size_t numbits) @nogc nothrow pure
     in
     {
         assert(numbits <= v.length * 8,
@@ -1256,7 +1256,7 @@ public:
     /**********************************************
      * Gets the `i`'th bit in the `BitArray`.
      */
-    bool opIndex(size_t i) const @nogc pure nothrow
+    @system bool opIndex(size_t i) const @nogc pure nothrow
     in
     {
         assert(i < _len, "i must be less than the length");
@@ -1283,7 +1283,7 @@ public:
     /**********************************************
      * Sets the `i`'th bit in the `BitArray`.
      */
-    bool opIndexAssign(bool b, size_t i) @nogc pure nothrow
+    @system bool opIndexAssign(bool b, size_t i) @nogc pure nothrow
     in
     {
         assert(i < _len, "i must be less than the length");
@@ -1301,7 +1301,7 @@ public:
       Sets all the values in the `BitArray` to the
       value specified by `val`.
      */
-    void opSliceAssign(bool val) @nogc pure nothrow
+    @system void opSliceAssign(bool val) @nogc pure nothrow
     {
         _ptr[0 .. fullWords] = val ? ~size_t(0) : 0;
         if (endBits)
@@ -1334,7 +1334,7 @@ public:
       at index `start` and ends at index $(D end - 1)
       with the values specified by `val`.
      */
-    void opSliceAssign(bool val, size_t start, size_t end) @nogc pure nothrow
+    @system void opSliceAssign(bool val, size_t start, size_t end) @nogc pure nothrow
     in
     {
         assert(start <= end, "start must be less or equal to end");
@@ -1412,7 +1412,7 @@ public:
     /**
       Flips all the bits in the `BitArray`
      */
-    void flip() @nogc pure nothrow
+    @system void flip() @nogc pure nothrow
     {
         foreach (i; 0 .. fullWords)
             _ptr[i] = ~_ptr[i];
@@ -1442,7 +1442,7 @@ public:
     /**
       Flips a single bit, specified by `pos`
      */
-    void flip(size_t pos) @nogc pure nothrow
+    @system void flip(size_t pos) @nogc pure nothrow
     {
         bt(_ptr, pos) ? btr(_ptr, pos) : bts(_ptr, pos);
     }
@@ -1499,7 +1499,7 @@ public:
     /**********************************************
      * Duplicates the `BitArray` and its contents.
      */
-    @property BitArray dup() const pure nothrow
+    @system @property BitArray dup() const pure nothrow
     {
         BitArray ba;
 
@@ -1526,7 +1526,7 @@ public:
     /**********************************************
      * Support for `foreach` loops for `BitArray`.
      */
-    int opApply(scope int delegate(ref bool) dg)
+    @system int opApply(scope int delegate(ref bool) dg)
     {
         int result;
 
@@ -1542,7 +1542,7 @@ public:
     }
 
     /** ditto */
-    int opApply(scope int delegate(bool) dg) const
+    @system int opApply(scope int delegate(bool) dg) const
     {
         int result;
 
@@ -1557,7 +1557,7 @@ public:
     }
 
     /** ditto */
-    int opApply(scope int delegate(size_t, ref bool) dg)
+    @system int opApply(scope int delegate(size_t, ref bool) dg)
     {
         int result;
 
@@ -1573,7 +1573,7 @@ public:
     }
 
     /** ditto */
-    int opApply(scope int delegate(size_t, bool) dg) const
+    @system int opApply(scope int delegate(size_t, bool) dg) const
     {
         int result;
 
@@ -1623,7 +1623,7 @@ public:
     /**********************************************
      * Reverses the bits of the `BitArray`.
      */
-    @property BitArray reverse() @nogc pure nothrow return
+    @system @property BitArray reverse() @nogc pure nothrow return
     out (result)
     {
         assert(result == this, "the result must be equal to this");
@@ -1663,7 +1663,7 @@ public:
     /**********************************************
      * Sorts the `BitArray`'s elements.
      */
-    @property BitArray sort() @nogc pure nothrow return
+    @system @property BitArray sort() @nogc pure nothrow return
     out (result)
     {
         assert(result == this, "the result must be equal to this");
@@ -1723,7 +1723,7 @@ public:
     /***************************************
      * Support for operators == and != for `BitArray`.
      */
-    bool opEquals(const ref BitArray a2) const @nogc pure nothrow
+    @system bool opEquals(const ref BitArray a2) const @nogc pure nothrow
     {
         if (this.length != a2.length)
             return false;
@@ -1769,7 +1769,7 @@ public:
     /***************************************
      * Supports comparison operators for `BitArray`.
      */
-    int opCmp(const BitArray a2) const @nogc pure nothrow
+    @system int opCmp(const BitArray a2) const @nogc pure nothrow
     {
         const lesser = this.length < a2.length ? &this : &a2;
         immutable fullWords = lesser.fullWords;
@@ -1872,7 +1872,7 @@ public:
     /***************************************
      * Support for hashing for `BitArray`.
      */
-    size_t toHash() const @nogc pure nothrow
+    @system size_t toHash() const @nogc pure nothrow
     {
         size_t hash = 3557;
         auto fullBytes = _len / 8;

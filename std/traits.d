@@ -954,10 +954,10 @@ private template fqnType(T,
         static assert(fqn!(typeof(data)) == format("shared(const(%s[string])[])", inner_name));
 
         // Function types + function attributes
-        static assert(fqn!(typeof(func)) == format("const(%s[string])(ref %s, scope lazy string) ref",
+        static assert(fqn!(typeof(func)) == format("const(%s[string])(ref %s, scope lazy string) ref @safe",
                     inner_name, inner_name));
-        static assert(fqn!(typeof(retfunc)) == format("const(%s[string])(return %s) ref", inner_name, inner_name));
-        static assert(fqn!(typeof(inoutFunc)) == format("inout(%s(inout(%s)))", inner_name, inner_name));
+        static assert(fqn!(typeof(retfunc)) == format("const(%s[string])(return %s) ref @safe", inner_name, inner_name));
+        static assert(fqn!(typeof(inoutFunc)) == format("inout(%s(inout(%s)) @safe)", inner_name, inner_name));
         static assert(fqn!(typeof(deleg)) == format("const(%s delegate(double, string) nothrow @safe)", inner_name));
         static assert(fqn!(typeof(inoutDeleg)) == "inout(int) delegate(inout(int)) inout");
         static assert(fqn!(typeof(funcPtr)) == format("%s function(out double, string)", inner_name));
@@ -969,9 +969,9 @@ private template fqnType(T,
 
         // Variable argument function types
         static assert(fqn!(typeof(cVarArg)) == "extern(C) void(int, ...)");
-        static assert(fqn!(typeof(dVarArg)) == "void(...)");
-        static assert(fqn!(typeof(dVarArg2)) == "void(int, ...)");
-        static assert(fqn!(typeof(typesafeVarArg)) == "void(int[] ...)");
+        static assert(fqn!(typeof(dVarArg)) == "void(...) @safe");
+        static assert(fqn!(typeof(dVarArg2)) == "void(int, ...) @safe");
+        static assert(fqn!(typeof(typesafeVarArg)) == "void(int[] ...) @safe");
 
         // SIMD vector
         static if (is(__vector(float[4])))
@@ -1597,32 +1597,32 @@ if (isCallable!func)
         int liveF() @live { return 0; }
     }
 
-    static assert(functionAttributes!(S.noF) == FA.system);
-    static assert(functionAttributes!(typeof(S.noF)) == FA.system);
+    static assert(functionAttributes!(S.noF) == FA.safe);
+    static assert(functionAttributes!(typeof(S.noF)) == FA.safe);
 
-    static assert(functionAttributes!(S.constF) == (FA.const_ | FA.system));
-    static assert(functionAttributes!(typeof(S.constF)) == (FA.const_ | FA.system));
+    static assert(functionAttributes!(S.constF) == (FA.const_ | FA.safe));
+    static assert(functionAttributes!(typeof(S.constF)) == (FA.const_ | FA.safe));
 
-    static assert(functionAttributes!(S.immutableF) == (FA.immutable_ | FA.system));
-    static assert(functionAttributes!(typeof(S.immutableF)) == (FA.immutable_ | FA.system));
+    static assert(functionAttributes!(S.immutableF) == (FA.immutable_ | FA.safe));
+    static assert(functionAttributes!(typeof(S.immutableF)) == (FA.immutable_ | FA.safe));
 
-    static assert(functionAttributes!(S.inoutF) == (FA.inout_ | FA.system));
-    static assert(functionAttributes!(typeof(S.inoutF)) == (FA.inout_ | FA.system));
+    static assert(functionAttributes!(S.inoutF) == (FA.inout_ | FA.safe));
+    static assert(functionAttributes!(typeof(S.inoutF)) == (FA.inout_ | FA.safe));
 
-    static assert(functionAttributes!(S.sharedF) == (FA.shared_ | FA.system));
-    static assert(functionAttributes!(typeof(S.sharedF)) == (FA.shared_ | FA.system));
+    static assert(functionAttributes!(S.sharedF) == (FA.shared_ | FA.safe));
+    static assert(functionAttributes!(typeof(S.sharedF)) == (FA.shared_ | FA.safe));
 
-    static assert(functionAttributes!(S.refF) == (FA.ref_ | FA.system | FA.return_));
-    static assert(functionAttributes!(typeof(S.refF)) == (FA.ref_ | FA.system | FA.return_));
+    static assert(functionAttributes!(S.refF) == (FA.ref_ | FA.safe | FA.return_));
+    static assert(functionAttributes!(typeof(S.refF)) == (FA.ref_ | FA.safe | FA.return_));
 
-    static assert(functionAttributes!(S.propertyF) == (FA.property | FA.system));
-    static assert(functionAttributes!(typeof(&S.propertyF)) == (FA.property | FA.system));
+    static assert(functionAttributes!(S.propertyF) == (FA.property | FA.safe));
+    static assert(functionAttributes!(typeof(&S.propertyF)) == (FA.property | FA.safe));
 
-    static assert(functionAttributes!(S.nothrowF) == (FA.nothrow_ | FA.system));
-    static assert(functionAttributes!(typeof(S.nothrowF)) == (FA.nothrow_ | FA.system));
+    static assert(functionAttributes!(S.nothrowF) == (FA.nothrow_ | FA.safe));
+    static assert(functionAttributes!(typeof(S.nothrowF)) == (FA.nothrow_ | FA.safe));
 
-    static assert(functionAttributes!(S.nogcF) == (FA.nogc | FA.system));
-    static assert(functionAttributes!(typeof(S.nogcF)) == (FA.nogc | FA.system));
+    static assert(functionAttributes!(S.nogcF) == (FA.nogc | FA.safe));
+    static assert(functionAttributes!(typeof(S.nogcF)) == (FA.nogc | FA.safe));
 
     static assert(functionAttributes!(S.systemF) == FA.system);
     static assert(functionAttributes!(typeof(S.systemF)) == FA.system);
@@ -1633,28 +1633,28 @@ if (isCallable!func)
     static assert(functionAttributes!(S.safeF) == FA.safe);
     static assert(functionAttributes!(typeof(S.safeF)) == FA.safe);
 
-    static assert(functionAttributes!(S.pureF) == (FA.pure_ | FA.system));
-    static assert(functionAttributes!(typeof(S.pureF)) == (FA.pure_ | FA.system));
+    static assert(functionAttributes!(S.pureF) == (FA.pure_ | FA.safe));
+    static assert(functionAttributes!(typeof(S.pureF)) == (FA.pure_ | FA.safe));
 
-    static assert(functionAttributes!(S.liveF) == (FA.live | FA.system));
-    static assert(functionAttributes!(typeof(S.liveF)) == (FA.live | FA.system));
+    static assert(functionAttributes!(S.liveF) == (FA.live | FA.safe));
+    static assert(functionAttributes!(typeof(S.liveF)) == (FA.live | FA.safe));
 
     int pure_nothrow() nothrow pure;
     void safe_nothrow() @safe nothrow;
     static ref int static_ref_property() @property;
     ref int ref_property() @property;
 
-    static assert(functionAttributes!(pure_nothrow) == (FA.pure_ | FA.nothrow_ | FA.system));
-    static assert(functionAttributes!(typeof(pure_nothrow)) == (FA.pure_ | FA.nothrow_ | FA.system));
+    static assert(functionAttributes!(pure_nothrow) == (FA.pure_ | FA.nothrow_ | FA.safe));
+    static assert(functionAttributes!(typeof(pure_nothrow)) == (FA.pure_ | FA.nothrow_ | FA.safe));
 
     static assert(functionAttributes!(safe_nothrow) == (FA.safe | FA.nothrow_));
     static assert(functionAttributes!(typeof(safe_nothrow)) == (FA.safe | FA.nothrow_));
 
-    static assert(functionAttributes!(static_ref_property) == (FA.property | FA.ref_ | FA.system));
-    static assert(functionAttributes!(typeof(&static_ref_property)) == (FA.property | FA.ref_ | FA.system));
+    static assert(functionAttributes!(static_ref_property) == (FA.property | FA.ref_ | FA.safe));
+    static assert(functionAttributes!(typeof(&static_ref_property)) == (FA.property | FA.ref_ | FA.safe));
 
-    static assert(functionAttributes!(ref_property) == (FA.property | FA.ref_ | FA.system));
-    static assert(functionAttributes!(typeof(&ref_property)) == (FA.property | FA.ref_ | FA.system));
+    static assert(functionAttributes!(ref_property) == (FA.property | FA.ref_ | FA.safe));
+    static assert(functionAttributes!(typeof(&ref_property)) == (FA.property | FA.ref_ | FA.safe));
 
     struct S2
     {
@@ -1662,11 +1662,11 @@ if (isCallable!func)
         int pure_sharedconst() const shared pure { return 0; }
     }
 
-    static assert(functionAttributes!(S2.pure_const) == (FA.const_ | FA.pure_ | FA.system));
-    static assert(functionAttributes!(typeof(S2.pure_const)) == (FA.const_ | FA.pure_ | FA.system));
+    static assert(functionAttributes!(S2.pure_const) == (FA.const_ | FA.pure_ | FA.safe));
+    static assert(functionAttributes!(typeof(S2.pure_const)) == (FA.const_ | FA.pure_ | FA.safe));
 
-    static assert(functionAttributes!(S2.pure_sharedconst) == (FA.const_ | FA.shared_ | FA.pure_ | FA.system));
-    static assert(functionAttributes!(typeof(S2.pure_sharedconst)) == (FA.const_ | FA.shared_ | FA.pure_ | FA.system));
+    static assert(functionAttributes!(S2.pure_sharedconst) == (FA.const_ | FA.shared_ | FA.pure_ | FA.safe));
+    static assert(functionAttributes!(typeof(S2.pure_sharedconst)) == (FA.const_ | FA.shared_ | FA.pure_ | FA.safe));
 
     static assert(functionAttributes!((int a) { }) == (FA.pure_ | FA.nothrow_ | FA.nogc | FA.safe));
     static assert(functionAttributes!(typeof((int a) { })) == (FA.pure_ | FA.nothrow_ | FA.nogc | FA.safe));
@@ -1787,41 +1787,41 @@ if (args.length > 0 && isCallable!(args[0])
     // true if no args passed
     static assert(hasFunctionAttributes!(S.noF));
 
-    static assert(hasFunctionAttributes!(S.noF, "@system"));
-    static assert(hasFunctionAttributes!(typeof(S.noF), "@system"));
-    static assert(!hasFunctionAttributes!(S.noF, "@system", "pure"));
+    static assert(hasFunctionAttributes!(S.noF, "@safe"));
+    static assert(hasFunctionAttributes!(typeof(S.noF), "@safe"));
+    static assert(!hasFunctionAttributes!(S.noF, "@safe", "pure"));
 
-    static assert(hasFunctionAttributes!(S.constF, "const", "@system"));
-    static assert(hasFunctionAttributes!(typeof(S.constF), "const", "@system"));
-    static assert(!hasFunctionAttributes!(S.constF, "const", "@system", "@nogc"));
+    static assert(hasFunctionAttributes!(S.constF, "const", "@safe"));
+    static assert(hasFunctionAttributes!(typeof(S.constF), "const", "@safe"));
+    static assert(!hasFunctionAttributes!(S.constF, "const", "@safe", "@nogc"));
 
-    static assert(hasFunctionAttributes!(S.immutableF, "immutable", "@system"));
-    static assert(hasFunctionAttributes!(typeof(S.immutableF), "immutable", "@system"));
-    static assert(!hasFunctionAttributes!(S.immutableF, "immutable", "@system", "pure"));
+    static assert(hasFunctionAttributes!(S.immutableF, "immutable", "@safe"));
+    static assert(hasFunctionAttributes!(typeof(S.immutableF), "immutable", "@safe"));
+    static assert(!hasFunctionAttributes!(S.immutableF, "immutable", "@safe", "pure"));
 
-    static assert(hasFunctionAttributes!(S.inoutF, "inout", "@system"));
-    static assert(hasFunctionAttributes!(typeof(S.inoutF), "inout", "@system"));
-    static assert(!hasFunctionAttributes!(S.inoutF, "inout", "@system", "pure"));
+    static assert(hasFunctionAttributes!(S.inoutF, "inout", "@safe"));
+    static assert(hasFunctionAttributes!(typeof(S.inoutF), "inout", "@safe"));
+    static assert(!hasFunctionAttributes!(S.inoutF, "inout", "@safe", "pure"));
 
-    static assert(hasFunctionAttributes!(S.sharedF, "shared", "@system"));
-    static assert(hasFunctionAttributes!(typeof(S.sharedF), "shared", "@system"));
-    static assert(!hasFunctionAttributes!(S.sharedF, "shared", "@system", "@trusted"));
+    static assert(hasFunctionAttributes!(S.sharedF, "shared", "@safe"));
+    static assert(hasFunctionAttributes!(typeof(S.sharedF), "shared", "@safe"));
+    static assert(!hasFunctionAttributes!(S.sharedF, "shared", "@safe", "@trusted"));
 
-    static assert(hasFunctionAttributes!(S.refF, "ref", "@system", "return"));
-    static assert(hasFunctionAttributes!(typeof(S.refF), "ref", "@system", "return"));
-    static assert(!hasFunctionAttributes!(S.refF, "ref", "@system", "return", "pure"));
+    static assert(hasFunctionAttributes!(S.refF, "ref", "@safe", "return"));
+    static assert(hasFunctionAttributes!(typeof(S.refF), "ref", "@safe", "return"));
+    static assert(!hasFunctionAttributes!(S.refF, "ref", "@safe", "return", "pure"));
 
-    static assert(hasFunctionAttributes!(S.propertyF, "@property", "@system"));
-    static assert(hasFunctionAttributes!(typeof(&S.propertyF), "@property", "@system"));
-    static assert(!hasFunctionAttributes!(S.propertyF, "@property", "@system", "ref"));
+    static assert(hasFunctionAttributes!(S.propertyF, "@property", "@safe"));
+    static assert(hasFunctionAttributes!(typeof(&S.propertyF), "@property", "@safe"));
+    static assert(!hasFunctionAttributes!(S.propertyF, "@property", "@safe", "ref"));
 
-    static assert(hasFunctionAttributes!(S.nothrowF, "nothrow", "@system"));
-    static assert(hasFunctionAttributes!(typeof(S.nothrowF), "nothrow", "@system"));
-    static assert(!hasFunctionAttributes!(S.nothrowF, "nothrow", "@system", "@trusted"));
+    static assert(hasFunctionAttributes!(S.nothrowF, "nothrow", "@safe"));
+    static assert(hasFunctionAttributes!(typeof(S.nothrowF), "nothrow", "@safe"));
+    static assert(!hasFunctionAttributes!(S.nothrowF, "nothrow", "@safe", "@trusted"));
 
-    static assert(hasFunctionAttributes!(S.nogcF, "@nogc", "@system"));
-    static assert(hasFunctionAttributes!(typeof(S.nogcF), "@nogc", "@system"));
-    static assert(!hasFunctionAttributes!(S.nogcF, "@nogc", "@system", "ref"));
+    static assert(hasFunctionAttributes!(S.nogcF, "@nogc", "@safe"));
+    static assert(hasFunctionAttributes!(typeof(S.nogcF), "@nogc", "@safe"));
+    static assert(!hasFunctionAttributes!(S.nogcF, "@nogc", "@safe", "ref"));
 
     static assert(hasFunctionAttributes!(S.systemF, "@system"));
     static assert(hasFunctionAttributes!(typeof(S.systemF), "@system"));
@@ -1835,13 +1835,13 @@ if (args.length > 0 && isCallable!(args[0])
     static assert(hasFunctionAttributes!(typeof(S.safeF), "@safe"));
     static assert(!hasFunctionAttributes!(S.safeF, "@safe", "nothrow"));
 
-    static assert(hasFunctionAttributes!(S.pureF, "pure", "@system"));
-    static assert(hasFunctionAttributes!(typeof(S.pureF), "pure", "@system"));
-    static assert(!hasFunctionAttributes!(S.pureF, "pure", "@system", "ref"));
+    static assert(hasFunctionAttributes!(S.pureF, "pure", "@safe"));
+    static assert(hasFunctionAttributes!(typeof(S.pureF), "pure", "@safe"));
+    static assert(!hasFunctionAttributes!(S.pureF, "pure", "@safe", "ref"));
 
-    static assert(hasFunctionAttributes!(S.liveF, "@live", "@system"));
-    static assert(hasFunctionAttributes!(typeof(S.liveF), "@live", "@system"));
-    static assert(!hasFunctionAttributes!(S.liveF, "@live", "@system", "ref"));
+    static assert(hasFunctionAttributes!(S.liveF, "@live", "@safe"));
+    static assert(hasFunctionAttributes!(typeof(S.liveF), "@live", "@safe"));
+    static assert(!hasFunctionAttributes!(S.liveF, "@live", "@safe", "ref"));
 
     int pure_nothrow() nothrow pure { return 0; }
     void safe_nothrow() @safe nothrow { }
@@ -1872,13 +1872,13 @@ if (args.length > 0 && isCallable!(args[0])
         int pure_sharedconst() const shared pure { return 0; }
     }
 
-    static assert(hasFunctionAttributes!(S2.pure_const, "const", "pure", "@system"));
-    static assert(hasFunctionAttributes!(typeof(S2.pure_const), "const", "pure", "@system"));
-    static assert(!hasFunctionAttributes!(S2.pure_const, "const", "pure", "@system", "ref"));
+    static assert(hasFunctionAttributes!(S2.pure_const, "const", "pure", "@safe"));
+    static assert(hasFunctionAttributes!(typeof(S2.pure_const), "const", "pure", "@safe"));
+    static assert(!hasFunctionAttributes!(S2.pure_const, "const", "pure", "@safe", "ref"));
 
-    static assert(hasFunctionAttributes!(S2.pure_sharedconst, "const", "shared", "pure", "@system"));
-    static assert(hasFunctionAttributes!(typeof(S2.pure_sharedconst), "const", "shared", "pure", "@system"));
-    static assert(!hasFunctionAttributes!(S2.pure_sharedconst, "const", "shared", "pure", "@system", "@nogc"));
+    static assert(hasFunctionAttributes!(S2.pure_sharedconst, "const", "shared", "pure", "@safe"));
+    static assert(hasFunctionAttributes!(typeof(S2.pure_sharedconst), "const", "shared", "pure", "@safe"));
+    static assert(!hasFunctionAttributes!(S2.pure_sharedconst, "const", "shared", "pure", "@safe", "@nogc"));
 
     static assert(hasFunctionAttributes!((int a) { }, "pure", "nothrow", "@nogc", "@safe"));
     static assert(hasFunctionAttributes!(typeof((int a) { }), "pure", "nothrow", "@nogc", "@safe"));
@@ -2240,14 +2240,14 @@ if (isCallable!func)
     int test(int a);
     int propGet() @property;
     int propSet(int a) @property;
-    int function(int) test_fp;
-    int delegate(int) test_dg;
+    int function(int) @safe test_fp;
+    int delegate(int) @safe test_dg;
     static assert(is( typeof(test) == FunctionTypeOf!(typeof(test)) ));
     static assert(is( typeof(test) == FunctionTypeOf!test ));
     static assert(is( typeof(test) == FunctionTypeOf!test_fp ));
     static assert(is( typeof(test) == FunctionTypeOf!test_dg ));
-    alias GetterType = int() @property;
-    alias SetterType = int(int) @property;
+    alias GetterType = int() @property @safe;   // Destiny: @safe by default
+    alias SetterType = int(int) @property @safe;
     static assert(is( FunctionTypeOf!propGet == GetterType ));
     static assert(is( FunctionTypeOf!propSet == SetterType ));
 
@@ -2285,10 +2285,10 @@ if (isCallable!func)
     alias F_ov1 = FunctionTypeOf!(ov[1]);
     alias F_ov2 = FunctionTypeOf!(ov[2]);
     alias F_ov3 = FunctionTypeOf!(ov[3]);
-    static assert(is(F_ov0* == void function(string)));
-    static assert(is(F_ov1* == real function(real)));
-    static assert(is(F_ov2* == int function(int)));
-    static assert(is(F_ov3* == int function() @property));
+    static assert(is(F_ov0* == void function(string) @safe));
+    static assert(is(F_ov1* == real function(real) @safe));
+    static assert(is(F_ov2* == int function(int) @safe));
+    static assert(is(F_ov3* == int function() @property @safe));
 
     alias F_dglit = FunctionTypeOf!((int a){ return a; });
     static assert(is(F_dglit* : int function(int)));
@@ -2422,11 +2422,11 @@ version (StdUnittest)
 {
 private:
     // Some function types to test.
-    int sc(scope int, ref int, out int, lazy int, int);
+    int sc(scope int, ref int, out int, lazy int, int) @system; // Destiny: no attributes
     extern(System) int novar();
     extern(C) int cstyle(int, ...);
-    extern(D) int dstyle(...);
-    extern(D) int typesafe(int[]...);
+    extern(D) int dstyle(...) @system;
+    extern(D) int typesafe(int[]...) @system;
 }
 @safe unittest
 {
@@ -4699,9 +4699,9 @@ if (is(C == class) || is(C == interface))
     interface Test : Test_I {}
     alias Test_foo = MemberFunctionsTuple!(Test, "foo");
     static assert(Test_foo.length == 3);
-    static assert(is(typeof(&Test_foo[0]) == void function()));
-    static assert(is(typeof(&Test_foo[2]) == void function(int)));
-    static assert(is(typeof(&Test_foo[1]) == void function(int, int)));
+    static assert(is(typeof(&Test_foo[0]) == void function() @safe));
+    static assert(is(typeof(&Test_foo[2]) == void function(int) @safe));
+    static assert(is(typeof(&Test_foo[1]) == void function(int, int) @safe));
 }
 
 
@@ -5678,7 +5678,7 @@ if (is(F == function) && is(G == function) ||
     static assert(!isCovariantWith!(BaseC.test, DerivC_1.test));
 
     // increasing safety
-    interface BaseE            {          void test()         ; }
+    interface BaseE            { @system  void test()         ; } // Destiny: explicit, @safe is the default
     interface DerivE_1 : BaseE { override void test() @safe   ; }
     interface DerivE_2 : BaseE { override void test() @trusted; }
     static assert( isCovariantWith!(DerivE_1.test, BaseE.test));
@@ -8423,9 +8423,9 @@ version (StdUnittest) private void freeFunc(string);
     static assert(mangledName!int == int.mangleof);
     static assert(mangledName!C == C.mangleof);
     static assert(mangledName!(C.value) == C.value.mangleof);
-    static assert(mangledName!(C.value)[$ - 12 .. $] == "5valueMFNdZi");
+    static assert(mangledName!(C.value)[$ - 14 .. $] == "5valueMFNdNfZi"); // Nf: @safe by default
     static assert(mangledName!mangledName == "3std6traits11mangledName");
-    static assert(mangledName!freeFunc == "_D3std6traits8freeFuncFAyaZv");
+    static assert(mangledName!freeFunc == "_D3std6traits8freeFuncFNfAyaZv");
     int x;
     // upstream issue 9148
   static if (is(typeof({ return x; }) : int delegate() pure))
@@ -8446,7 +8446,7 @@ version (StdUnittest) private void freeFunc(string);
 
     void bar();
     auto bar_demangled = demangle(mangledName!bar);
-    assert(bar_demangled[0 .. 5] == "void " && bar_demangled[$-5 .. $] == "bar()");
+    assert(bar_demangled[0 .. 11] == "@safe void " && bar_demangled[$-5 .. $] == "bar()", bar_demangled); // @safe by default
 }
 
 

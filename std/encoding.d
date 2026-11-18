@@ -2594,7 +2594,7 @@ abstract class EncodingScheme
     }
 
     deprecated("Please pass the EncodingScheme subclass as template argument instead.")
-    static void register(string className)
+    @system static void register(string className)
     {
         auto scheme = cast(EncodingScheme) ClassInfo.find(className).create();
         if (scheme is null)
@@ -2617,7 +2617,7 @@ abstract class EncodingScheme
      * auto scheme = EncodingScheme.create("Amiga-1251");
      * ---------------------------------------------------
      */
-    static EncodingScheme create(string encodingName)
+    @system static EncodingScheme create(string encodingName)
     {
         static bool registerDefaultEncodings()
         {

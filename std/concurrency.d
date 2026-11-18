@@ -258,7 +258,7 @@ private
         }
     }
 
-    @property ref ThreadInfo thisInfo() nothrow
+    @system @property ref ThreadInfo thisInfo() nothrow
     {
         import core.atomic : atomicLoad;
 
@@ -269,7 +269,7 @@ private
     }
 }
 
-static ~this()
+@system static ~this()
 {
     thisInfo.cleanup();
 }
@@ -328,7 +328,7 @@ class LinkTerminated : Exception
 class PriorityMessageException : Exception
 {
     ///
-    this(Variant vals)
+    @system this(Variant vals)
     {
         super("Priority message");
         message = vals;
@@ -446,7 +446,7 @@ else @system unittest
  * Throws: A `TidMissingException` exception if
  * there is no owner thread.
  */
-@property Tid ownerTid()
+@system @property Tid ownerTid()
 {
     import std.exception : enforce;
 
@@ -1113,14 +1113,14 @@ private
     __gshared string[][Tid] namesByTid;
 }
 
-private @property Mutex registryLock()
+@system private @property Mutex registryLock()
 {
     __gshared Mutex impl;
     initOnce!impl(new Mutex);
     return impl;
 }
 
-private void unregisterMe(ref ThreadInfo me)
+@system private void unregisterMe(ref ThreadInfo me)
 {
     if (me.ident != Tid.init)
     {
@@ -1151,7 +1151,7 @@ private void unregisterMe(ref ThreadInfo me)
  *  true if the name is available and tid is not known to represent a
  *  defunct thread.
  */
-bool register(string name, Tid tid)
+@system bool register(string name, Tid tid)
 in (tid.mbox !is null)
 {
     synchronized (registryLock)
@@ -1175,7 +1175,7 @@ in (tid.mbox !is null)
  * Returns:
  *  true if the name is registered, false if not.
  */
-bool unregister(string name)
+@system bool unregister(string name)
 {
     import std.algorithm.mutation : remove, SwapStrategy;
     import std.algorithm.searching : countUntil;
@@ -1203,7 +1203,7 @@ bool unregister(string name)
  * Returns:
  *  The associated `Tid` or `Tid.init` if name is not registered.
  */
-Tid locate(string name)
+@system Tid locate(string name)
 {
     synchronized (registryLock)
     {
@@ -1307,7 +1307,7 @@ struct ThreadInfo
      * the messaging system for the thread and notifies interested parties of
      * the thread's termination.
      */
-    void cleanup()
+    @system void cleanup()
     {
         if (ident.mbox !is null)
             ident.mbox.close();
@@ -1378,7 +1378,7 @@ interface Scheduler
      *       absence of a custom scheduler.  It will be automatically executed
      *       via a call to spawn by the `Scheduler`.
      */
-    void start(void delegate() op);
+    @system void start(void delegate() op);
 
     /**
      * Assigns a logical thread to execute the supplied op.
@@ -1393,7 +1393,7 @@ interface Scheduler
      *  op = The function to execute.  This may be the actual function passed
      *       by the user to spawn itself, or may be a wrapper function.
      */
-    void spawn(void delegate() op);
+    @system void spawn(void delegate() op);
 
     /**
      * Yields execution to another logical thread.
@@ -1447,7 +1447,7 @@ class ThreadScheduler : Scheduler
      * This simply runs op directly, since no real scheduling is needed by
      * this approach.
      */
-    void start(void delegate() op)
+    @system void start(void delegate() op)
     {
         op();
     }
@@ -1455,7 +1455,7 @@ class ThreadScheduler : Scheduler
     /**
      * Creates a new kernel thread and assigns it to run the supplied op.
      */
-    void spawn(void delegate() op)
+    @system void spawn(void delegate() op)
     {
         auto t = new Thread(op);
         t.start();
@@ -1500,7 +1500,7 @@ else class FiberScheduler : Scheduler
      * This creates a new `Fiber` for the supplied op and then starts the
      * dispatcher.
      */
-    void start(void delegate() op)
+    @system void start(void delegate() op)
     {
         create(op);
         dispatch();
@@ -1510,7 +1510,7 @@ else class FiberScheduler : Scheduler
      * This created a new `Fiber` for the supplied op and adds it to the
      * dispatch list.
      */
-    void spawn(void delegate() op) nothrow
+    @system void spawn(void delegate() op) nothrow
     {
         create(op);
         yield();
@@ -1569,7 +1569,7 @@ protected:
      * Params:
      *   op = The delegate the fiber should call
      */
-    void create(void delegate() op) nothrow
+    @system void create(void delegate() op) nothrow
     {
         void wrap()
         {
@@ -1590,12 +1590,12 @@ protected:
     {
         ThreadInfo info;
 
-        this(void delegate() op) nothrow
+        @system this(void delegate() op) nothrow
         {
             super(op);
         }
 
-        this(void delegate() op, size_t sz) nothrow
+        @system this(void delegate() op, size_t sz) nothrow
         {
             super(op, sz);
         }
@@ -1744,7 +1744,7 @@ __gshared Scheduler scheduler;
  * If the caller is a `Fiber` and is not a $(LREF Generator), this function will call
  * `scheduler.yield()` or `Fiber.yield()`, as appropriate.
  */
-void yield() nothrow
+@system void yield() nothrow
 {
     version (WebAssembly) // No Fiber support on Wasm yet
     {
@@ -1933,7 +1933,11 @@ else class Generator(T) :
         }
     }
 
-    final int opApply(scope int delegate(T) loopBody)
+    /// `@safe` loop bodies use the `@trusted` overloads from `InputRange`.
+    alias opApply = InputRange!T.opApply;
+
+    /// Any loop body; `@system` because it runs code that was never checked.
+    @system final int opApply(scope int delegate(T) loopBody)
     {
         int broken;
         for (; !empty; popFront())
@@ -1944,7 +1948,7 @@ else class Generator(T) :
         return broken;
     }
 
-    final int opApply(scope int delegate(size_t, T) loopBody)
+    @system final int opApply(scope int delegate(size_t, T) loopBody)
     {
         int broken;
         for (size_t i; !empty; ++i, popFront())
@@ -2167,7 +2171,7 @@ private
          * Throws:
          *  An exception if the queue is full and onCrowdingDoThis throws.
          */
-        final void put(ref Message msg)
+        @system final void put(ref Message msg)
         {
             synchronized (m_lock)
             {
@@ -2440,7 +2444,7 @@ private
          * control messages, clears out message queues, and sets a flag to
          * reject any future messages.
          */
-        final void close()
+        @system final void close()
         {
             static void onLinkDeadMsg(ref Message msg)
             {

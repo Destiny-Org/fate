@@ -172,7 +172,7 @@ struct MD5
             S44 = 21,
         }
 
-        private void transform(const(ubyte[64])* block) pure nothrow @nogc
+        @system private void transform(const(ubyte[64])* block) pure nothrow @nogc
         {
             uint a = _state[0],
                  b = _state[1],

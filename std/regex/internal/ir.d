@@ -518,7 +518,7 @@ abstract class GenericFactory(alias EngineType, Char) : MatcherFactory!Char
     // round up to next multiple of size_t for alignment purposes
     enum classSize = (__traits(classInstanceSize, EngineType!Char) + size_t.sizeof - 1) & ~(size_t.sizeof - 1);
 
-    EngineType!Char construct(const ref Regex!Char re, in Char[] input, void[] memory) const;
+    @system EngineType!Char construct(const ref Regex!Char re, in Char[] input, void[] memory) const;
 
     override EngineType!Char create(const ref Regex!Char re, in Char[] input) const @trusted
     {
@@ -566,7 +566,7 @@ abstract class GenericFactory(alias EngineType, Char) : MatcherFactory!Char
 // A factory for run-time engines
 class RuntimeFactory(alias EngineType, Char) : GenericFactory!(EngineType, Char)
 {
-    override EngineType!Char construct(const ref Regex!Char re, in Char[] input, void[] memory) const
+    @system override EngineType!Char construct(const ref Regex!Char re, in Char[] input, void[] memory) const
     {
         import core.lifetime : emplace;
         return emplace!(EngineType!Char)(memory[0 .. classSize],
@@ -577,7 +577,7 @@ class RuntimeFactory(alias EngineType, Char) : GenericFactory!(EngineType, Char)
 // A factory for compile-time engine
 class CtfeFactory(alias EngineType, Char, alias func) : GenericFactory!(EngineType, Char)
 {
-    override EngineType!Char construct(const ref Regex!Char re, in Char[] input, void[] memory) const
+    @system override EngineType!Char construct(const ref Regex!Char re, in Char[] input, void[] memory) const
     {
         import core.lifetime : emplace;
         return emplace!(EngineType!Char)(memory[0 .. classSize],

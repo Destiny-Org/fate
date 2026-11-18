@@ -14,7 +14,7 @@ import std.experimental.allocator.common;
 // Common implementations for shared and thread local AscendingPageAllocator
 private mixin template AscendingPageAllocatorImpl(bool isShared)
 {
-    bool deallocate(void[] buf) nothrow @nogc
+    @system bool deallocate(void[] buf) nothrow @nogc
     {
         size_t goodSize = goodAllocSize(buf.length);
         version (Posix)
@@ -48,14 +48,14 @@ private mixin template AscendingPageAllocatorImpl(bool isShared)
         return true;
     }
 
-    Ternary owns(void[] buf) nothrow @nogc
+    Ternary owns(void[] buf) nothrow @nogc @trusted // only compares addresses
     {
         if (!data)
             return Ternary.no;
-        return Ternary(buf.ptr >= data && buf.ptr < buf.ptr + numPages * pageSize);
+        return Ternary(buf.ptr >= data && buf.ptr < data + numPages * pageSize);
     }
 
-    bool deallocateAll() nothrow @nogc
+    @system bool deallocateAll() nothrow @nogc
     {
         version (Posix)
         {
@@ -86,7 +86,7 @@ private mixin template AscendingPageAllocatorImpl(bool isShared)
         return n.roundUpToMultipleOf(cast(uint) pageSize);
     }
 
-    this(size_t n) nothrow @nogc
+    this(size_t n) nothrow @nogc @trusted // only reserves fresh pages
     {
         static if (isShared)
         {
@@ -125,7 +125,7 @@ private mixin template AscendingPageAllocatorImpl(bool isShared)
         readWriteLimit = data;
     }
 
-    size_t getAvailableSize() nothrow @nogc
+    size_t getAvailableSize() nothrow @nogc @trusted // only computes a size
     {
         static if (isShared)
         {
@@ -141,7 +141,7 @@ private mixin template AscendingPageAllocatorImpl(bool isShared)
     }
 
     // Sets the protection of a memory range to read/write
-    private bool extendMemoryProtection(void* start, size_t size) nothrow @nogc
+    @system private bool extendMemoryProtection(void* start, size_t size) nothrow @nogc
     {
         version (Posix)
         {
@@ -270,7 +270,7 @@ public:
     Returns:
     `null` on failure or if the requested size exceeds the remaining capacity.
     */
-    void[] allocate(size_t n) nothrow @nogc
+    @system void[] allocate(size_t n) nothrow @nogc
     {
         import std.algorithm.comparison : min;
 
@@ -318,7 +318,7 @@ public:
     Returns:
     `null` on failure or if the requested size exceeds the remaining capacity.
     */
-    void[] alignedAllocate(size_t n, uint a) nothrow @nogc
+    @system void[] alignedAllocate(size_t n, uint a) nothrow @nogc
     {
         void* alignedStart = cast(void*) roundUpToMultipleOf(cast(size_t) offset, a);
         assert(alignedStart.alignedAt(a));
@@ -343,7 +343,7 @@ public:
     Otherwise, we can expand the last allocation until the end of the virtual
     address range.
     */
-    bool expand(ref void[] b, size_t delta) nothrow @nogc
+    @system bool expand(ref void[] b, size_t delta) nothrow @nogc
     {
         import std.algorithm.comparison : min;
 
@@ -407,7 +407,7 @@ public:
     /**
     Unmaps the whole virtual address range on destruction.
     */
-    ~this() nothrow @nogc
+    @system ~this() nothrow @nogc // unmaps all pages, including blocks still handed out
     {
         if (data)
             deallocateAll();
@@ -525,7 +525,7 @@ public:
     Returns:
     `null` on failure or if the requested size exceeds the remaining capacity.
     */
-    void[] allocate(size_t n) nothrow @nogc
+    @system void[] allocate(size_t n) nothrow @nogc
     {
         return allocateImpl(n, 1);
     }
@@ -544,13 +544,13 @@ public:
     Returns:
     `null` on failure or if the requested size exceeds the remaining capacity.
     */
-    void[] alignedAllocate(size_t n, uint a) nothrow @nogc
+    @system void[] alignedAllocate(size_t n, uint a) nothrow @nogc
     {
         // For regular `allocate` calls, `a` will be set to 1
         return allocateImpl(n, a);
     }
 
-    private void[] allocateImpl(size_t n, uint a) nothrow @nogc
+    @system private void[] allocateImpl(size_t n, uint a) nothrow @nogc
     {
         import std.algorithm.comparison : min;
 
@@ -593,7 +593,7 @@ public:
     Otherwise, we can expand the last allocation until the end of the virtual
     address range.
     */
-    bool expand(ref void[] b, size_t delta) nothrow @nogc
+    @system bool expand(ref void[] b, size_t delta) nothrow @nogc
     {
         import std.algorithm.comparison : min;
 
@@ -668,7 +668,7 @@ public:
 
 version (StdUnittest)
 {
-    private static void testrw(void[] b) @nogc nothrow
+    @system private static void testrw(void[] b) @nogc nothrow
     {
         ubyte* buf = cast(ubyte*) b.ptr;
         buf[0] = 100;

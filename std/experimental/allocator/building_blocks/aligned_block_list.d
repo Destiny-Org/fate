@@ -566,7 +566,7 @@ else @system unittest
 
 version (StdUnittest)
 {
-    static void testrw(void[] b)
+    @system static void testrw(void[] b)
     {
         ubyte* buf = cast(ubyte*) b.ptr;
         size_t len = (b.length).roundUpToMultipleOf(4096);

@@ -735,7 +735,7 @@ version (USE_SSSE3)
     /**
      *
      */
-    public void transformSSSE3(uint[5]* state, const(ubyte[64])* buffer, ExtraArgs) pure nothrow @nogc
+    @system public void transformSSSE3(uint[5]* state, const(ubyte[64])* buffer, ExtraArgs) pure nothrow @nogc
     {
         mixin(wrap(["naked"] ~ prologue()));
         // Precalc first 4*16=64 bytes

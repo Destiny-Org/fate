@@ -190,7 +190,7 @@ version (StdUnittest)
 
         string addr() { return _addr; }
 
-        void handle(void function(Socket s) dg)
+        @system void handle(void function(Socket s) dg)
         {
             import std.concurrency : send;
             tid.send(dg);
@@ -201,7 +201,7 @@ version (StdUnittest)
         Tid tid;
         TcpSocket sock;
 
-        static void loop(shared TcpSocket listener)
+        @system static void loop(shared TcpSocket listener)
         {
             import std.concurrency : OwnerTerminated, receiveOnly;
             import std.stdio : stderr;
@@ -223,7 +223,7 @@ version (StdUnittest)
         }
     }
 
-    private TestServer startServer()
+    @system private TestServer startServer()
     {
         import std.concurrency : spawn;
         import std.socket : INADDR_LOOPBACK, InternetAddress, TcpSocket;
@@ -242,13 +242,13 @@ version (StdUnittest)
     /** Thread-local storage init */
     bool tlsInit;
 
-    private ref TestServer testServer()
+    @system private ref TestServer testServer()
     {
         import std.concurrency : initOnce;
         return initOnce!server(startServer());
     }
 
-    static ~this()
+    @system static ~this()
     {
         // terminate server from a thread local dtor of the thread that started it,
         //  because thread_joinall is called before shared module dtors
@@ -1890,7 +1890,7 @@ private mixin template Protocol()
     /**
        The curl handle used by this connection.
     */
-    @property ref Curl handle() return
+    @system @property ref Curl handle() return
     {
         return p.curl;
     }
@@ -1898,13 +1898,13 @@ private mixin template Protocol()
     /**
        True if the instance is stopped. A stopped instance is not usable.
     */
-    @property bool isStopped()
+    @system @property bool isStopped()
     {
         return p.curl.stopped;
     }
 
     /// Stop and invalidate this instance.
-    void shutdown()
+    @system void shutdown()
     {
         p.curl.shutdown();
     }
@@ -1912,7 +1912,7 @@ private mixin template Protocol()
     /** Set verbose.
         This will print request information to stderr.
      */
-    @property void verbose(bool on)
+    @system @property void verbose(bool on)
     {
         p.curl.set(CurlOption.verbose, on ? 1L : 0L);
     }
@@ -1920,7 +1920,7 @@ private mixin template Protocol()
     // Connection settings
 
     /// Set timeout for activity on connection.
-    @property void dataTimeout(Duration d)
+    @system @property void dataTimeout(Duration d)
     {
         p.curl.set(CurlOption.low_speed_limit, 1);
         p.curl.set(CurlOption.low_speed_time, d.total!"seconds");
@@ -1929,13 +1929,13 @@ private mixin template Protocol()
     /** Set maximum time an operation is allowed to take.
         This includes dns resolution, connecting, data transfer, etc.
      */
-    @property void operationTimeout(Duration d)
+    @system @property void operationTimeout(Duration d)
     {
         p.curl.set(CurlOption.timeout_ms, d.total!"msecs");
     }
 
     /// Set timeout for connecting.
-    @property void connectTimeout(Duration d)
+    @system @property void connectTimeout(Duration d)
     {
         p.curl.set(CurlOption.connecttimeout_ms, d.total!"msecs");
     }
@@ -1945,7 +1945,7 @@ private mixin template Protocol()
     /** Proxy
      *  See: $(HTTP curl.haxx.se/libcurl/c/curl_easy_setopt.html#CURLOPTPROXY, _proxy)
      */
-    @property void proxy(const(char)[] host)
+    @system @property void proxy(const(char)[] host)
     {
         p.curl.set(CurlOption.proxy, host);
     }
@@ -1953,7 +1953,7 @@ private mixin template Protocol()
     /** Proxy port
      *  See: $(HTTP curl.haxx.se/libcurl/c/curl_easy_setopt.html#CURLOPTPROXYPORT, _proxy_port)
      */
-    @property void proxyPort(ushort port)
+    @system @property void proxyPort(ushort port)
     {
         p.curl.set(CurlOption.proxyport, cast(long) port);
     }
@@ -1964,13 +1964,13 @@ private mixin template Protocol()
     /** Proxy type
      *  See: $(HTTP curl.haxx.se/libcurl/c/curl_easy_setopt.html#CURLOPTPROXY, _proxy_type)
      */
-    @property void proxyType(CurlProxy type)
+    @system @property void proxyType(CurlProxy type)
     {
         p.curl.set(CurlOption.proxytype, cast(long) type);
     }
 
     /// DNS lookup timeout.
-    @property void dnsTimeout(Duration d)
+    @system @property void dnsTimeout(Duration d)
     {
         p.curl.set(CurlOption.dns_cache_timeout, d.total!"msecs");
     }
@@ -1986,13 +1986,13 @@ private mixin template Protocol()
      *
      * See: $(REF InternetAddress, std,socket)
      */
-    @property void netInterface(const(char)[] i)
+    @system @property void netInterface(const(char)[] i)
     {
         p.curl.set(CurlOption.intrface, i);
     }
 
     /// ditto
-    @property void netInterface(const(ubyte)[4] i)
+    @system @property void netInterface(const(ubyte)[4] i)
     {
         import std.format : format;
         const str = format("%d.%d.%d.%d", i[0], i[1], i[2], i[3]);
@@ -2000,7 +2000,7 @@ private mixin template Protocol()
     }
 
     /// ditto
-    @property void netInterface(InternetAddress i)
+    @system @property void netInterface(InternetAddress i)
     {
         netInterface = i.toAddrString();
     }
@@ -2010,7 +2010,7 @@ private mixin template Protocol()
        Params:
        port = the first outgoing port number to try and use
     */
-    @property void localPort(ushort port)
+    @system @property void localPort(ushort port)
     {
         p.curl.set(CurlOption.localport, cast(long) port);
     }
@@ -2021,7 +2021,7 @@ private mixin template Protocol()
        test = a list of comma host names that do not require
               proxy to get reached
     */
-    void setNoProxy(string hosts)
+    @system void setNoProxy(string hosts)
     {
         p.curl.set(CurlOption.noproxy, hosts);
     }
@@ -2033,7 +2033,7 @@ private mixin template Protocol()
        range = if the first port is occupied then try this many
                port number forwards
     */
-    @property void localPortRange(ushort range)
+    @system @property void localPortRange(ushort range)
     {
         p.curl.set(CurlOption.localportrange, cast(long) range);
     }
@@ -2041,7 +2041,7 @@ private mixin template Protocol()
     /** Set the tcp no-delay socket option on or off.
         See: $(HTTP curl.haxx.se/libcurl/c/curl_easy_setopt.html#CURLOPTTCPNODELAY, nodelay)
     */
-    @property void tcpNoDelay(bool on)
+    @system @property void tcpNoDelay(bool on)
     {
         p.curl.set(CurlOption.tcp_nodelay, cast(long) (on ? 1 : 0) );
     }
@@ -2049,7 +2049,7 @@ private mixin template Protocol()
     /** Sets whether SSL peer certificates should be verified.
         See: $(HTTP curl.haxx.se/libcurl/c/curl_easy_setopt.html#CURLOPTSSLVERIFYPEER, verifypeer)
     */
-    @property void verifyPeer(bool on)
+    @system @property void verifyPeer(bool on)
     {
       p.curl.set(CurlOption.ssl_verifypeer, on ? 1 : 0);
     }
@@ -2057,7 +2057,7 @@ private mixin template Protocol()
     /** Sets whether the host within an SSL certificate should be verified.
         See: $(HTTP curl.haxx.se/libcurl/c/curl_easy_setopt.html#CURLOPTSSLVERIFYHOST, verifypeer)
     */
-    @property void verifyHost(bool on)
+    @system @property void verifyHost(bool on)
     {
       p.curl.set(CurlOption.ssl_verifyhost, on ? 2 : 0);
     }
@@ -2077,7 +2077,7 @@ private mixin template Protocol()
        domain = used for NTLM authentication only and is set to the NTLM domain
                 name
     */
-    void setAuthentication(const(char)[] username, const(char)[] password,
+    @system void setAuthentication(const(char)[] username, const(char)[] password,
                            const(char)[] domain = "")
     {
         import std.format : format;
@@ -2113,7 +2113,7 @@ private mixin template Protocol()
        username = the username
        password = the password
     */
-    void setProxyAuthentication(const(char)[] username, const(char)[] password)
+    @system void setProxyAuthentication(const(char)[] username, const(char)[] password)
     {
         import std.array : replace;
         import std.format : format;
@@ -2155,7 +2155,7 @@ private mixin template Protocol()
      * client.perform();
      * ----
      */
-    @property void onSend(size_t delegate(void[]) callback)
+    @system @property void onSend(size_t delegate(void[]) callback)
     {
         p.curl.clear(CurlOption.postfields); // cannot specify data when using callback
         p.curl.onSend = callback;
@@ -2184,7 +2184,7 @@ private mixin template Protocol()
       * client.perform();
       * ----
       */
-    @property void onReceive(size_t delegate(ubyte[]) callback)
+    @system @property void onReceive(size_t delegate(ubyte[]) callback)
     {
         p.curl.onReceive = callback;
     }
@@ -2215,7 +2215,7 @@ private mixin template Protocol()
       * client.perform();
       * ----
       */
-    @property void onProgress(int delegate(size_t dlTotal, size_t dlNow,
+    @system @property void onProgress(int delegate(size_t dlTotal, size_t dlNow,
                                            size_t ulTotal, size_t ulNow) callback)
     {
         p.curl.onProgress = callback;
@@ -2401,7 +2401,7 @@ struct HTTP
 
     private struct Impl
     {
-        ~this()
+        @system ~this()
         {
             if (headersOut !is null)
                 Curl.curl.slist_free_all(headersOut);
@@ -2533,7 +2533,7 @@ struct HTTP
     /**
        Constructor taking the url as parameter.
     */
-    static HTTP opCall(const(char)[] url)
+    @system static HTTP opCall(const(char)[] url)
     {
         HTTP http;
         http.initialize();
@@ -2542,7 +2542,7 @@ struct HTTP
     }
 
     ///
-    static HTTP opCall()
+    @system static HTTP opCall()
     {
         HTTP http;
         http.initialize();
@@ -2550,7 +2550,7 @@ struct HTTP
     }
 
     ///
-    HTTP dup()
+    @system HTTP dup()
     {
         HTTP copy;
         copy.initialize();
@@ -2570,7 +2570,7 @@ struct HTTP
         return copy;
     }
 
-    private void initialize()
+    @system private void initialize()
     {
         p.curl.initialize();
         maxRedirects = HTTP.defaultMaxRedirects;
@@ -2593,7 +2593,7 @@ struct HTTP
        Params:
        throwOnError = whether to throw an exception or return a CurlCode on error
     */
-    CurlCode perform(ThrowOnError throwOnError = Yes.throwOnError)
+    @system CurlCode perform(ThrowOnError throwOnError = Yes.throwOnError)
     {
         p.status.reset();
 
@@ -2644,7 +2644,7 @@ struct HTTP
     }
 
     /// The URL to specify the location of the resource.
-    @property void url(const(char)[] url)
+    @system @property void url(const(char)[] url)
     {
         import std.algorithm.searching : startsWith;
         import std.uni : toLower;
@@ -2654,7 +2654,7 @@ struct HTTP
     }
 
     /// Set the CA certificate bundle file to use for SSL peer verification
-    @property void caInfo(const(char)[] caFile)
+    @system @property void caInfo(const(char)[] caFile)
     {
         p.curl.set(CurlOption.cainfo, caFile);
     }
@@ -2874,7 +2874,7 @@ struct HTTP
 
     /** Clear all outgoing headers.
     */
-    void clearRequestHeaders()
+    @system void clearRequestHeaders()
     {
         if (p.headersOut !is null)
             Curl.curl.slist_free_all(p.headersOut);
@@ -2895,7 +2895,7 @@ struct HTTP
      * auto content = get("example.com", client);
      * ---
      */
-    void addRequestHeader(const(char)[] name, const(char)[] value)
+    @system void addRequestHeader(const(char)[] name, const(char)[] value)
     {
         import std.format : format;
         import std.internal.cstring : tempCString;
@@ -2913,7 +2913,7 @@ struct HTTP
      * The default "User-Agent" value send with a request.
      * It has the form "Fate-std.net.curl/$(I PHOBOS_VERSION) (libcurl/$(I CURL_VERSION))"
      */
-    static string defaultUserAgent() @property
+    @system static string defaultUserAgent() @property
     {
         import std.compiler : version_major, version_minor;
         import std.format : format, sformat;
@@ -2941,7 +2941,7 @@ struct HTTP
      * defaultUserAgent) even if `setUserAgent` was never called.  Pass
      * an empty string to suppress the "User-Agent" field altogether.
      */
-    void setUserAgent(const(char)[] userAgent)
+    @system void setUserAgent(const(char)[] userAgent)
     {
         p.curl.set(CurlOption.useragent, userAgent);
     }
@@ -2981,7 +2981,7 @@ struct HTTP
      * assert(code == CurlError.ok);
      * ---
      */
-    CurlCode getTiming(CurlInfo timing, ref double val)
+    @system CurlCode getTiming(CurlInfo timing, ref double val)
     {
         return p.curl.getTiming(timing, val);
     }
@@ -2989,7 +2989,7 @@ struct HTTP
     /** The headers read from a successful response.
      *
      */
-    @property string[string] responseHeaders()
+    @system @property string[string] responseHeaders()
     {
         return p.headersIn;
     }
@@ -2999,13 +2999,13 @@ struct HTTP
      *
      * See_Also: $(LREF Method)
      */
-    @property void method(Method m)
+    @system @property void method(Method m)
     {
         p.method = m;
     }
 
     /// ditto
-    @property Method method()
+    @system @property Method method()
     {
         return p.method;
     }
@@ -3014,19 +3014,19 @@ struct HTTP
        HTTP status line of last response. One call to perform may
        result in several requests because of redirection.
     */
-    @property StatusLine statusLine()
+    @system @property StatusLine statusLine()
     {
         return p.status;
     }
 
     /// Set the active cookie string e.g. "name1=value1;name2=value2"
-    void setCookie(const(char)[] cookie)
+    @system void setCookie(const(char)[] cookie)
     {
         p.curl.set(CurlOption.cookie, cookie);
     }
 
     /// Set a file path to where a cookie jar should be read/stored.
-    void setCookieJar(const(char)[] path)
+    @system void setCookieJar(const(char)[] path)
     {
         p.curl.set(CurlOption.cookiefile, path);
         if (path.length)
@@ -3034,19 +3034,19 @@ struct HTTP
     }
 
     /// Flush cookie jar to disk.
-    void flushCookieJar()
+    @system void flushCookieJar()
     {
         p.curl.set(CurlOption.cookielist, "FLUSH");
     }
 
     /// Clear session cookies.
-    void clearSessionCookies()
+    @system void clearSessionCookies()
     {
         p.curl.set(CurlOption.cookielist, "SESS");
     }
 
     /// Clear all cookies.
-    void clearAllCookies()
+    @system void clearAllCookies()
     {
         p.curl.set(CurlOption.cookielist, "ALL");
     }
@@ -3060,7 +3060,7 @@ struct HTTP
 
        $(HTTP www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.25, _RFC2616 Section 14.25)
     */
-    void setTimeCondition(HTTP.TimeCond cond, SysTime timestamp)
+    @system void setTimeCondition(HTTP.TimeCond cond, SysTime timestamp)
     {
         p.curl.set(CurlOption.timecondition, cond);
         p.curl.set(CurlOption.timevalue, timestamp.toUnixTime());
@@ -3081,7 +3081,7 @@ struct HTTP
       * http.perform();
       * ----
       */
-    @property void postData(const(void)[] data)
+    @system @property void postData(const(void)[] data)
     {
         setPostData(data, "application/octet-stream");
     }
@@ -3100,7 +3100,7 @@ struct HTTP
       * http.perform();
       * ----
       */
-    @property void postData(const(char)[] data)
+    @system @property void postData(const(char)[] data)
     {
         setPostData(data, "text/plain");
     }
@@ -3125,7 +3125,7 @@ struct HTTP
      * http.perform();
      * -----
      */
-    void setPostData(const(void)[] data, string contentType)
+    @system void setPostData(const(void)[] data, string contentType)
     {
         // cannot use callback when specifying data directly so it is disabled here.
         p.curl.clear(CurlOption.readfunction);
@@ -3174,7 +3174,7 @@ struct HTTP
       * http.perform();
       * ----
       */
-    @property void onReceiveHeader(void delegate(in char[] key,
+    @system @property void onReceiveHeader(void delegate(in char[] key,
                                                  in char[] value) callback)
     {
         p.onReceiveHeader = callback;
@@ -3188,7 +3188,7 @@ struct HTTP
 
        See_Also: $(LREF StatusLine)
      */
-    @property void onReceiveStatusLine(void delegate(StatusLine) callback)
+    @system @property void onReceiveStatusLine(void delegate(StatusLine) callback)
     {
         p.onReceiveStatusLine = callback;
     }
@@ -3198,7 +3198,7 @@ struct HTTP
        e.g. POST/PUT and not using chunked transfer. Is set as the
        "Content-Length" header.  Set to ulong.max to reset to chunked transfer.
     */
-    @property void contentLength(ulong len)
+    @system @property void contentLength(ulong len)
     {
         import std.conv : to;
 
@@ -3232,7 +3232,7 @@ struct HTTP
     /**
        Authentication method as specified in $(LREF AuthMethod).
     */
-    @property void authenticationMethod(AuthMethod authMethod)
+    @system @property void authenticationMethod(AuthMethod authMethod)
     {
         p.curl.set(CurlOption.httpauth, cast(long) authMethod);
     }
@@ -3241,7 +3241,7 @@ struct HTTP
        Set max allowed redirections using the location header.
        uint.max for infinite.
     */
-    @property void maxRedirects(uint maxRedirs)
+    @system @property void maxRedirects(uint maxRedirs)
     {
         if (maxRedirs == uint.max)
         {
@@ -3359,7 +3359,7 @@ struct FTP
 
     private struct Impl
     {
-        ~this()
+        @system ~this()
         {
             if (commands !is null)
                 Curl.curl.slist_free_all(commands);
@@ -3376,7 +3376,7 @@ struct FTP
     /**
        FTP access to the specified url.
     */
-    static FTP opCall(const(char)[] url)
+    @system static FTP opCall(const(char)[] url)
     {
         FTP ftp;
         ftp.initialize();
@@ -3385,7 +3385,7 @@ struct FTP
     }
 
     ///
-    static FTP opCall()
+    @system static FTP opCall()
     {
         FTP ftp;
         ftp.initialize();
@@ -3393,7 +3393,7 @@ struct FTP
     }
 
     ///
-    FTP dup()
+    @system FTP dup()
     {
         FTP copy = FTP();
         copy.initialize();
@@ -3412,7 +3412,7 @@ struct FTP
         return copy;
     }
 
-    private void initialize()
+    @system private void initialize()
     {
         p.curl.initialize();
         p.encoding = "ISO-8859-1";
@@ -3429,13 +3429,13 @@ struct FTP
        Params:
        throwOnError = whether to throw an exception or return a CurlCode on error
     */
-    CurlCode perform(ThrowOnError throwOnError = Yes.throwOnError)
+    @system CurlCode perform(ThrowOnError throwOnError = Yes.throwOnError)
     {
         return p.curl.perform(throwOnError);
     }
 
     /// The URL to specify the location of the resource.
-    @property void url(const(char)[] url)
+    @system @property void url(const(char)[] url)
     {
         import std.algorithm.searching : startsWith;
         import std.uni : toLower;
@@ -3620,7 +3620,7 @@ struct FTP
 
     /** Clear all commands send to ftp server.
     */
-    void clearCommands()
+    @system void clearCommands()
     {
         if (p.commands !is null)
             Curl.curl.slist_free_all(p.commands);
@@ -3642,7 +3642,7 @@ struct FTP
      * upload("my_file.txt", "ftp.digitalmars.com", client);
      * ---
      */
-    void addCommand(const(char)[] command)
+    @system void addCommand(const(char)[] command)
     {
         import std.internal.cstring : tempCString;
         p.commands = Curl.curl.slist_append(p.commands,
@@ -3651,13 +3651,13 @@ struct FTP
     }
 
     /// Connection encoding. Defaults to ISO-8859-1.
-    @property void encoding(string name)
+    @system @property void encoding(string name)
     {
         p.encoding = name;
     }
 
     /// ditto
-    @property string encoding()
+    @system @property string encoding()
     {
         return p.encoding;
     }
@@ -3665,7 +3665,7 @@ struct FTP
     /**
        The content length in bytes of the ftp data.
     */
-    @property void contentLength(ulong len)
+    @system @property void contentLength(ulong len)
     {
         import std.conv : to;
         p.curl.set(CurlOption.infilesize_large, to!curl_off_t(len));
@@ -3708,7 +3708,7 @@ struct FTP
      * assert(code == CurlError.ok);
      * ---
      */
-    CurlCode getTiming(CurlInfo timing, ref double val)
+    @system CurlCode getTiming(CurlInfo timing, ref double val)
     {
         return p.curl.getTiming(timing, val);
     }
@@ -3763,14 +3763,14 @@ struct SMTP
 
     private struct Impl
     {
-        ~this()
+        @system ~this()
         {
             if (curl.handle !is null) // work around RefCounted/emplace bug
                 curl.shutdown();
         }
         Curl curl;
 
-        @property void message(string msg)
+        @system @property void message(string msg)
         {
             import std.algorithm.comparison : min;
 
@@ -3794,7 +3794,7 @@ struct SMTP
     /**
         Sets to the URL of the SMTP server.
     */
-    static SMTP opCall(const(char)[] url)
+    @system static SMTP opCall(const(char)[] url)
     {
         SMTP smtp;
         smtp.initialize();
@@ -3803,7 +3803,7 @@ struct SMTP
     }
 
     ///
-    static SMTP opCall()
+    @system static SMTP opCall()
     {
         SMTP smtp;
         smtp.initialize();
@@ -3836,13 +3836,13 @@ struct SMTP
         Params:
         throwOnError = whether to throw an exception or return a CurlCode on error
     */
-    CurlCode perform(ThrowOnError throwOnError = Yes.throwOnError)
+    @system CurlCode perform(ThrowOnError throwOnError = Yes.throwOnError)
     {
         return p.curl.perform(throwOnError);
     }
 
     /// The URL to specify the location of the resource.
-    @property void url(const(char)[] url)
+    @system @property void url(const(char)[] url)
     {
         import std.algorithm.searching : startsWith;
         import std.exception : enforce;
@@ -3862,7 +3862,7 @@ struct SMTP
         p.curl.set(CurlOption.url, url);
     }
 
-    private void initialize()
+    @system private void initialize()
     {
         p.curl.initialize();
         p.curl.set(CurlOption.upload, 1L);
@@ -4072,7 +4072,7 @@ struct SMTP
         Sets the message body text.
     */
 
-    @property void message(string msg)
+    @system @property void message(string msg)
     {
         p.message = msg;
     }
@@ -4195,14 +4195,14 @@ private struct CurlAPI
     __gshared API _api;
     __gshared void* _handle;
 
-    static ref API instance() @property
+    @system static ref API instance() @property
     {
         import std.concurrency : initOnce;
         initOnce!_handle(loadAPI());
         return _api;
     }
 
-    static void* loadAPI()
+    @system static void* loadAPI()
     {
         import std.exception : enforce;
 
@@ -4340,7 +4340,7 @@ struct Curl
     /**
        Initialize the instance by creating a working curl handle.
     */
-    void initialize()
+    @system void initialize()
     {
         import std.exception : enforce;
         enforce!CurlException(!handle, "Curl instance already initialized");
@@ -4364,7 +4364,7 @@ struct Curl
        across threads are reset thereby making it safe to use the duplicate
        in a new thread.
     */
-    Curl dup()
+    @system Curl dup()
     {
         import std.meta : AliasSeq;
         Curl copy;
@@ -4415,7 +4415,7 @@ struct Curl
         return copy;
     }
 
-    private void _check(CurlCode code)
+    @system private void _check(CurlCode code)
     {
         import std.exception : enforce;
         enforce!CurlTimeoutException(code != CurlError.operation_timedout,
@@ -4425,7 +4425,7 @@ struct Curl
                                 errorString(code));
     }
 
-    private string errorString(CurlCode code)
+    @system private string errorString(CurlCode code)
     {
         import core.stdc.string : strlen;
         import std.format : format;
@@ -4447,7 +4447,7 @@ struct Curl
         Stop and invalidate this curl instance.
         Warning: Do not call this from inside a callback handler e.g. `onReceive`.
     */
-    void shutdown()
+    @system void shutdown()
     {
         throwOnStopped();
         _stopped = true;
@@ -4458,7 +4458,7 @@ struct Curl
     /**
        Pausing and continuing transfers.
     */
-    void pause(bool sendingPaused, bool receivingPaused)
+    @system void pause(bool sendingPaused, bool receivingPaused)
     {
         throwOnStopped();
         _check(curl.easy_pause(this.handle,
@@ -4472,7 +4472,7 @@ struct Curl
        option = A $(REF CurlOption, etc,c,curl) as found in the curl documentation
        value = The string
     */
-    void set(CurlOption option, const(char)[] value)
+    @system void set(CurlOption option, const(char)[] value)
     {
         import std.internal.cstring : tempCString;
         throwOnStopped();
@@ -4485,7 +4485,7 @@ struct Curl
        option = A $(REF CurlOption, etc,c,curl) as found in the curl documentation
        value = The long
     */
-    void set(CurlOption option, long value)
+    @system void set(CurlOption option, long value)
     {
         throwOnStopped();
         _check(curl.easy_setopt(this.handle, option, value));
@@ -4497,7 +4497,7 @@ struct Curl
        option = A $(REF CurlOption, etc,c,curl) as found in the curl documentation
        value = The pointer
     */
-    void set(CurlOption option, void* value)
+    @system void set(CurlOption option, void* value)
     {
         throwOnStopped();
         _check(curl.easy_setopt(this.handle, option, value));
@@ -4508,7 +4508,7 @@ struct Curl
        Params:
        option = A $(REF CurlOption, etc,c,curl) as found in the curl documentation
     */
-    void clear(CurlOption option)
+    @system void clear(CurlOption option)
     {
         throwOnStopped();
         _check(curl.easy_setopt(this.handle, option, null));
@@ -4520,7 +4520,7 @@ struct Curl
        Params:
        option = A $(REF CurlOption, etc,c,curl) as found in the curl documentation
     */
-    void clearIfSupported(CurlOption option)
+    @system void clearIfSupported(CurlOption option)
     {
         throwOnStopped();
         auto rval = curl.easy_setopt(this.handle, option, null);
@@ -4535,7 +4535,7 @@ struct Curl
        Params:
        throwOnError = whether to throw an exception or return a CurlCode on error
     */
-    CurlCode perform(ThrowOnError throwOnError = Yes.throwOnError)
+    @system CurlCode perform(ThrowOnError throwOnError = Yes.throwOnError)
     {
         throwOnStopped();
         CurlCode code = curl.easy_perform(this.handle);
@@ -4550,7 +4550,7 @@ struct Curl
        value is stored at val. The value is usable only if res is equal to
        `etc.c.curl.CurlError.ok`.
     */
-    CurlCode getTiming(CurlInfo timing, ref double val)
+    @system CurlCode getTiming(CurlInfo timing, ref double val)
     {
         CurlCode code;
         code = curl.easy_getinfo(handle, timing, &val);
@@ -4581,7 +4581,7 @@ struct Curl
       * curl.perform();
       * ----
       */
-    @property void onReceive(size_t delegate(InData) callback)
+    @system @property void onReceive(size_t delegate(InData) callback)
     {
         _onReceive = (InData id)
         {
@@ -4612,7 +4612,7 @@ struct Curl
       * curl.perform();
       * ----
       */
-    @property void onReceiveHeader(void delegate(in char[]) callback)
+    @system @property void onReceiveHeader(void delegate(in char[]) callback)
     {
         _onReceiveHeader = (in char[] od)
         {
@@ -4659,7 +4659,7 @@ struct Curl
       * curl.perform();
       * ----
       */
-    @property void onSend(size_t delegate(OutData) callback)
+    @system @property void onSend(size_t delegate(OutData) callback)
     {
         _onSend = (OutData od)
         {
@@ -4695,7 +4695,7 @@ struct Curl
       * curl.perform();
       * ----
       */
-    @property void onSeek(CurlSeek delegate(long, CurlSeekPos) callback)
+    @system @property void onSeek(CurlSeek delegate(long, CurlSeekPos) callback)
     {
         _onSeek = (long ofs, CurlSeekPos sp)
         {
@@ -4729,7 +4729,7 @@ struct Curl
       * curl.perform();
       * ----
       */
-    @property void onSocketOption(int delegate(curl_socket_t,
+    @system @property void onSocketOption(int delegate(curl_socket_t,
                                                CurlSockType) callback)
     {
         _onSocketOption = (curl_socket_t sock, CurlSockType st)
@@ -4770,7 +4770,7 @@ struct Curl
       * curl.perform();
       * ----
       */
-    @property void onProgress(int delegate(size_t dlTotal,
+    @system @property void onProgress(int delegate(size_t dlTotal,
                                            size_t dlNow,
                                            size_t ulTotal,
                                            size_t ulNow) callback)
@@ -4788,7 +4788,7 @@ struct Curl
 
     // Internal C callbacks to register with libcurl
     extern (C) private static
-    size_t _receiveCallback(const char* str,
+    @system size_t _receiveCallback(const char* str,
                             size_t size, size_t nmemb, void* ptr)
     {
         auto b = cast(Curl*) ptr;
@@ -4798,7 +4798,7 @@ struct Curl
     }
 
     extern (C) private static
-    size_t _receiveHeaderCallback(const char* str,
+    @system size_t _receiveHeaderCallback(const char* str,
                                   size_t size, size_t nmemb, void* ptr)
     {
         import std.string : chomp;
@@ -4812,7 +4812,7 @@ struct Curl
     }
 
     extern (C) private static
-    size_t _sendCallback(char *str, size_t size, size_t nmemb, void *ptr)
+    @system size_t _sendCallback(char *str, size_t size, size_t nmemb, void *ptr)
     {
         Curl* b = cast(Curl*) ptr;
         auto a = cast(void[]) str[0 .. size*nmemb];
@@ -4822,7 +4822,7 @@ struct Curl
     }
 
     extern (C) private static
-    int _seekCallback(void *ptr, curl_off_t offset, int origin)
+    @system int _seekCallback(void *ptr, curl_off_t offset, int origin)
     {
         auto b = cast(Curl*) ptr;
         if (b._onSeek == null)
@@ -4834,7 +4834,7 @@ struct Curl
     }
 
     extern (C) private static
-    int _socketOptionCallback(void *ptr,
+    @system int _socketOptionCallback(void *ptr,
                               curl_socket_t curlfd, curlsocktype purpose)
     {
         auto b = cast(Curl*) ptr;
@@ -4846,7 +4846,7 @@ struct Curl
     }
 
     extern (C) private static
-    int _progressCallback(void *ptr,
+    @system int _progressCallback(void *ptr,
                           double dltotal, double dlnow,
                           double ultotal, double ulnow)
     {

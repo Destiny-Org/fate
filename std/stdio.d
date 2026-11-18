@@ -1357,7 +1357,7 @@ Throws: `Exception` if the file is not opened.
     }
     version (Posix)
     {
-        private int lockImpl(int operation, short l_type,
+        @system private int lockImpl(int operation, short l_type,
             ulong start, ulong length)
         {
             import core.sys.posix.fcntl : fcntl, flock, off_t;
@@ -1388,7 +1388,7 @@ $(UL
  $(LI Not all NFS implementations correctly implement file locking.)
 )
  */
-    void lock(LockType lockType = LockType.readWrite,
+    @system void lock(LockType lockType = LockType.readWrite,
         ulong start = 0, ulong length = 0)
     {
         import std.exception : enforce;
@@ -1422,7 +1422,7 @@ If both `start` and `length` are zero, the entire file is locked.
 Returns: `true` if the lock was successful, and `false` if the
 specified file segment was already locked.
  */
-    bool tryLock(LockType lockType = LockType.readWrite,
+    @system bool tryLock(LockType lockType = LockType.readWrite,
         ulong start = 0, ulong length = 0)
     {
         import std.exception : enforce;
@@ -1464,7 +1464,7 @@ specified file segment was already locked.
 /**
 Removes the lock over the specified file segment.
  */
-    void unlock(ulong start = 0, ulong length = 0)
+    @system void unlock(ulong start = 0, ulong length = 0)
     {
         import std.exception : enforce;
 
@@ -4024,7 +4024,7 @@ struct LockingTextReader
     private char _front;
     private bool _hasChar;
 
-    this(File f)
+    @system this(File f)
     {
         import std.exception : enforce;
         enforce(f.isOpen, "LockingTextReader: File must be open");
@@ -4032,12 +4032,12 @@ struct LockingTextReader
         _FLOCK(_f._p.handle);
     }
 
-    this(this)
+    this(this) @trusted // re-locks the FILE this reader already holds open
     {
         _FLOCK(_f._p.handle);
     }
 
-    ~this()
+    @system ~this()
     {
         if (_hasChar)
             ungetc(_front, cast(FILE*)_f._p.handle);
@@ -4046,13 +4046,13 @@ struct LockingTextReader
         if (_f.isOpen) _FUNLOCK(_f._p.handle);
     }
 
-    void opAssign(LockingTextReader r)
+    @system void opAssign(LockingTextReader r)
     {
         import std.algorithm.mutation : swap;
         swap(this, r);
     }
 
-    @property bool empty()
+    @system @property bool empty()
     {
         if (!_hasChar)
         {
@@ -4070,7 +4070,7 @@ struct LockingTextReader
         return false;
     }
 
-    @property char front()
+    @system @property char front()
     {
         if (!_hasChar)
         {
@@ -4088,7 +4088,7 @@ struct LockingTextReader
         return _front;
     }
 
-    void popFront()
+    @system void popFront()
     {
         if (!_hasChar)
             empty;
@@ -5375,7 +5375,11 @@ enum StdFileHandle: string
 }
 
 // Undocumented but public because the std* handles are aliasing it.
-@property ref File makeGlobal(StdFileHandle _iob)()
+// Destiny: @trusted so that `stdout.writeln(...)` works in @safe code (the
+// default). The handles are initialised exactly once (spinlock below), and
+// every File operation locks the FILE. Reassigning `stdin`/`stdout`/`stderr`
+// from several threads at the same time is still a data race.
+@property ref File makeGlobal(StdFileHandle _iob)() @trusted
 {
     __gshared File.Impl impl;
     __gshared File result;
@@ -5954,7 +5958,7 @@ private size_t readlnImpl(FILE* fps, ref char[] buf, dchar terminator, File.Orie
 */
 version (linux)
 {
-    File openNetwork(string host, ushort port)
+    @system File openNetwork(string host, ushort port)
     {
         import core.stdc.string : memcpy;
         import core.sys.posix.arpa.inet : htons;

@@ -783,7 +783,7 @@ public:
      *
      * Throws: ZipException when the archive was invalid or when malware was detected.
      */
-    this(void[] buffer)
+    @system this(void[] buffer)
     {
         this._data = cast(ubyte[]) buffer;
 
@@ -1180,7 +1180,7 @@ public:
      *
      * Throws: ZipException when the entry is invalid or the compression method is not supported.
      */
-    ubyte[] expand(ArchiveMember de)
+    @system ubyte[] expand(ArchiveMember de)
     {
         import std.string : representation;
 

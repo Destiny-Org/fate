@@ -86,12 +86,12 @@ class MmFile
      *  - On POSIX, $(REF ErrnoException, std, exception).
      *  - On Windows, $(REF WindowsException, std, windows, syserror).
      */
-    this(string filename) scope
+    @system this(string filename) scope
     {
         this(filename, Mode.read, 0, null);
     }
 
-    version (linux) this(File file, Mode mode = Mode.read, ulong size = 0,
+    @system version (linux) this(File file, Mode mode = Mode.read, ulong size = 0,
             void* address = null, size_t window = 0) scope
     {
         // Save a copy of the File to make sure the fd stays open.
@@ -99,7 +99,7 @@ class MmFile
         this(file.fileno, mode, size, address, window);
     }
 
-    version (linux) private this(int fildes, Mode mode, ulong size,
+    @system version (linux) private this(int fildes, Mode mode, ulong size,
             void* address, size_t window) scope
     {
         int oflag;
@@ -183,7 +183,7 @@ class MmFile
      *  - On POSIX, $(REF ErrnoException, std, exception).
      *  - On Windows, $(REF WindowsException, std, windows, syserror).
      */
-    this(string filename, Mode mode, ulong size, void* address,
+    @system this(string filename, Mode mode, ulong size, void* address,
             size_t window = 0) scope
     {
         this.filename = filename;
@@ -379,7 +379,7 @@ class MmFile
     /**
      * Flushes pending output and closes the memory mapped file.
      */
-    ~this() scope
+    @system ~this() scope
     {
         debug (MMFILE) printf("MmFile.~this()\n");
         unmap();
@@ -419,7 +419,7 @@ class MmFile
 
     /* Flush any pending output.
      */
-    void flush()
+    @system void flush()
     {
         debug (MMFILE) printf("MmFile.flush()\n");
         version (Windows)
@@ -465,7 +465,7 @@ class MmFile
     /**
      * Returns entire file contents as an array.
      */
-    void[] opSlice()
+    @system void[] opSlice()
     {
         debug (MMFILE) printf("MmFile.opSlice()\n");
         return opSlice(0,size);
@@ -474,7 +474,7 @@ class MmFile
     /**
      * Returns slice of file contents as an array.
      */
-    void[] opSlice(ulong i1, ulong i2)
+    @system void[] opSlice(ulong i1, ulong i2)
     {
         debug (MMFILE) printf("MmFile.opSlice(%lld, %lld)\n", i1, i2);
         ensureMapped(i1,i2);
@@ -486,7 +486,7 @@ class MmFile
     /**
      * Returns byte at index i in file.
      */
-    ubyte opIndex(ulong i)
+    @system ubyte opIndex(ulong i)
     {
         debug (MMFILE) printf("MmFile.opIndex(%lld)\n", i);
         ensureMapped(i);
@@ -497,7 +497,7 @@ class MmFile
     /**
      * Sets and returns byte at index i in file to value.
      */
-    ubyte opIndexAssign(ubyte value, ulong i)
+    @system ubyte opIndexAssign(ubyte value, ulong i)
     {
         debug (MMFILE) printf("MmFile.opIndex(%lld, %d)\n", i, value);
         ensureMapped(i);
@@ -515,7 +515,7 @@ class MmFile
     }
 
     // unmap the current range
-    private void unmap()
+    @system private void unmap()
     {
         debug (MMFILE) printf("MmFile.unmap()\n");
         version (Windows)
@@ -531,7 +531,7 @@ class MmFile
     }
 
     // map range
-    private void map(ulong start, size_t len)
+    @system private void map(ulong start, size_t len)
     {
         debug (MMFILE) printf("MmFile.map(%lld, %d)\n", start, len);
         void* p;
@@ -553,7 +553,7 @@ class MmFile
     }
 
     // ensure a given position is mapped
-    private void ensureMapped(ulong i)
+    @system private void ensureMapped(ulong i)
     {
         debug (MMFILE) printf("MmFile.ensureMapped(%lld)\n", i);
         if (!mapped(i))
@@ -575,7 +575,7 @@ class MmFile
     }
 
     // ensure a given range is mapped
-    private void ensureMapped(ulong i, ulong j)
+    @system private void ensureMapped(ulong i, ulong j)
     {
         debug (MMFILE) printf("MmFile.ensureMapped(%lld, %lld)\n", i, j);
         if (!mapped(i) || !mapped(j-1))

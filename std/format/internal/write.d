@@ -2217,9 +2217,9 @@ if (hasToString!(T, Char))
     static union UF2 { string toString() { return ""; } }
     static class CF2 { override string toString() { return ""; } }
 
-    static interface IK1 { void toString(scope void delegate(scope const(char)[]) sink,
+    static interface IK1 { @system void toString(scope void delegate(scope const(char)[]) sink,
                            FormatSpec!char) const; }
-    static class CIK1 : IK1 { override void toString(scope void delegate(scope const(char)[]) sink,
+    static class CIK1 : IK1 { @system override void toString(scope void delegate(scope const(char)[]) sink,
                               FormatSpec!char) const { sink("CIK1"); } }
     static struct KS1 { void toString(scope void delegate(scope const(char)[]) sink,
                         FormatSpec!char) const { sink("KS1"); } }
@@ -2227,7 +2227,7 @@ if (hasToString!(T, Char))
     static union KU1 { void toString(scope void delegate(scope const(char)[]) sink,
                        FormatSpec!char) const { sink("KU1"); } }
 
-    static class KC1 { void toString(scope void delegate(scope const(char)[]) sink,
+    static class KC1 { @system void toString(scope void delegate(scope const(char)[]) sink,
                        FormatSpec!char) const { sink("KC1"); } }
 
     IF1 cif1 = new CIF1;
@@ -2347,7 +2347,7 @@ if (is(T == class) && !is(T == enum))
     class C1
     {
         mixin(inputRangeCode);
-        void toString(scope void delegate(scope const(char)[]) dg,
+        @system void toString(scope void delegate(scope const(char)[]) dg,
                       scope const ref FormatSpec!char f) const
         {
             dg("[012]");
@@ -2356,12 +2356,12 @@ if (is(T == class) && !is(T == enum))
     class C2
     {
         mixin(inputRangeCode);
-        void toString(scope void delegate(const(char)[]) dg, string f) const { dg("[012]"); }
+        @system void toString(scope void delegate(const(char)[]) dg, string f) const { dg("[012]"); }
     }
     class C3
     {
         mixin(inputRangeCode);
-        void toString(scope void delegate(const(char)[]) dg) const { dg("[012]"); }
+        @system void toString(scope void delegate(const(char)[]) dg) const { dg("[012]"); }
     }
     class C4
     {

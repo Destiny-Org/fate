@@ -242,7 +242,7 @@ const(char)* zlibVersion();
    is automatically made by deflateInit and inflateInit.
  */
 
-int deflateInit(z_streamp strm, int level)
+@system int deflateInit(z_streamp strm, int level)
 {
     return deflateInit_(strm, level, ZLIB_VERSION.ptr, z_stream.sizeof);
 }
@@ -394,7 +394,7 @@ int deflateEnd(z_streamp strm);
 */
 
 
-int inflateInit(z_streamp strm)
+@system int inflateInit(z_streamp strm)
 {
     return inflateInit_(strm, ZLIB_VERSION.ptr, z_stream.sizeof);
 }
@@ -556,7 +556,7 @@ int inflateEnd(z_streamp strm);
     The following functions are needed only in some special applications.
 */
 
-int deflateInit2(z_streamp strm,
+@system int deflateInit2(z_streamp strm,
                  int  level,
                  int  method,
                  int  windowBits,
@@ -838,7 +838,7 @@ int deflateSetHeader(z_streamp strm, gz_headerp head);
    stream state was inconsistent.
 */
 
-int inflateInit2(z_streamp strm, int windowBits)
+@system int inflateInit2(z_streamp strm, int windowBits)
 {
     return inflateInit2_(strm, windowBits, ZLIB_VERSION.ptr, z_stream.sizeof);
 }
@@ -1072,7 +1072,7 @@ int inflateGetHeader(z_streamp strm, gz_headerp head);
 */
 
 
-int inflateBackInit(z_stream* strm, int windowBits, ubyte* window)
+@system int inflateBackInit(z_stream* strm, int windowBits, ubyte* window)
 {
     return inflateBackInit_(strm, windowBits, window, ZLIB_VERSION.ptr, z_stream.sizeof);
 }
