@@ -2,7 +2,7 @@
 /++
     Templates which extract information about types and symbols at compile time.
 
-    In the context of phobos.sys.traits, a "trait" is a template which provides
+    In the context of fate.sys.traits, a "trait" is a template which provides
     information about a type or symbol. Most traits evaluate to
     $(D true) or $(D false), telling the code using it whether the given
     arguments match / have that specific trait (e.g. whether the given type is
@@ -127,9 +127,9 @@
                $(HTTP klickverbot.at, David Nadlinger),
                Kenji Hara,
                Shoichi Kato
-    Source:    $(PHOBOSSRC phobos/sys/traits)
+    Source:    $(PHOBOSSRC fate/sys/traits)
 +/
-module phobos.sys.traits;
+module fate.sys.traits;
 
 /++
     Whether the given type is an "aggregate type" - i.e. a struct, class,
@@ -333,7 +333,7 @@ enum isDynamicArray(T) = is(T == U[], U);
 
 @safe unittest
 {
-    import phobos.sys.meta : Alias, AliasSeq;
+    import fate.sys.meta : Alias, AliasSeq;
 
     static struct AliasThis(T)
     {
@@ -467,7 +467,7 @@ enum isStaticArray(T) = is(T == U[n], U, size_t n);
 
 @safe unittest
 {
-    import phobos.sys.meta : Alias, AliasSeq;
+    import fate.sys.meta : Alias, AliasSeq;
 
     static struct AliasThis(T)
     {
@@ -609,7 +609,7 @@ enum isInteger(T) = is(immutable T == immutable byte) ||
 
 @safe unittest
 {
-    import phobos.sys.meta : Alias, AliasSeq;
+    import fate.sys.meta : Alias, AliasSeq;
 
     static struct AliasThis(T)
     {
@@ -752,7 +752,7 @@ enum isSignedInteger(T) = is(immutable T == immutable byte) ||
 
 @safe unittest
 {
-    import phobos.sys.meta : Alias, AliasSeq;
+    import fate.sys.meta : Alias, AliasSeq;
 
     static struct AliasThis(T)
     {
@@ -906,7 +906,7 @@ enum isUnsignedInteger(T) = is(immutable T == immutable ubyte) ||
 
 @safe unittest
 {
-    import phobos.sys.meta : Alias, AliasSeq;
+    import fate.sys.meta : Alias, AliasSeq;
 
     static struct AliasThis(T)
     {
@@ -1054,7 +1054,7 @@ enum isFloatingPoint(T) = is(immutable T == immutable float) ||
 
 @safe unittest
 {
-    import phobos.sys.meta : Alias, AliasSeq;
+    import fate.sys.meta : Alias, AliasSeq;
 
     static struct AliasThis(T)
     {
@@ -1215,7 +1215,7 @@ enum isNumeric(T) = is(immutable T == immutable byte) ||
 
 @safe unittest
 {
-    import phobos.sys.meta : Alias, AliasSeq;
+    import fate.sys.meta : Alias, AliasSeq;
 
     static struct AliasThis(T)
     {
@@ -1343,7 +1343,7 @@ enum isCharacter(T) = is(immutable T == immutable char) ||
 
 @safe unittest
 {
-    import phobos.sys.meta : Alias, AliasSeq;
+    import fate.sys.meta : Alias, AliasSeq;
 
     static struct AliasThis(T)
     {
@@ -1472,7 +1472,7 @@ enum isPointer(T) = is(T == U*, U);
 
 @safe unittest
 {
-    import phobos.sys.meta : Alias, AliasSeq;
+    import fate.sys.meta : Alias, AliasSeq;
 
     static struct AliasThis(T)
     {
@@ -1513,7 +1513,7 @@ enum isPointer(T) = is(T == U*, U);
 
     This is equivalent to $(D is(T)), but some people may find using a named
     trait to be clearer, and it can be used in conjunction with templates that
-    take a template predicate (such as those in phobos.sys.meta), which can't
+    take a template predicate (such as those in fate.sys.meta), which can't
     be done with naked is expressions.
 
     See_Also:
@@ -2032,13 +2032,13 @@ if (is(typeof({T t;})))
 
     An enum can have multiple members with the same value, so if code needs the
     enum values to be unique (e.g. if it's generating a switch statement from
-    them), then $(REF Unique, phobos, sys, meta) can be used to filter out the
+    them), then $(REF Unique, fate, sys, meta) can be used to filter out the
     duplicate values - e.g. $(D Unique!(isEqual, EnumMembers!E)).
   +/
 template EnumMembers(E)
 if (is(E == enum))
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     alias EnumMembers = AliasSeq!();
     static foreach (member; __traits(allMembers, E))
@@ -2214,7 +2214,7 @@ if (is(E == enum))
     Given how trivial the $(D is) expression for isImplicitlyConvertible is -
     $(D is(To : From)) - this trait is provided primarily so that it can be
     used in conjunction with templates that use a template predicate (such as
-    many of the templates in phobos.sys.meta).
+    many of the templates in fate.sys.meta).
 
     The single-argument overload makes it so that it can be partially
     instantiated with the first argument, which will often be necessary with
@@ -2442,7 +2442,7 @@ template isImplicitlyConvertible(From)
   +/
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq, all, indexOf;
+    import fate.sys.meta : AliasSeq, all, indexOf;
 
     // byte is implicitly convertible to byte, short, int, and long.
     static assert(all!(isImplicitlyConvertible!byte, short, int, long));
@@ -2609,7 +2609,7 @@ template isQualifierConvertible(From)
   +/
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq, all, indexOf;
+    import fate.sys.meta : AliasSeq, all, indexOf;
 
     // byte is qualifier convertible to byte and const byte.
     static assert(all!(isQualifierConvertible!byte, byte, const byte));
@@ -2622,7 +2622,7 @@ template isQualifierConvertible(From)
 
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     alias Types = AliasSeq!(int, const int, shared int, inout int, const shared int,
                             const inout int, inout shared int, const inout shared int, immutable int);
@@ -2658,7 +2658,7 @@ template isQualifierConvertible(From)
 
     All this does is $(D lhs == rhs) but in an eponymous template, so most code
     shouldn't use it. It's intended to be used in conjunction with templates
-    that take a template predicate - such as those in phobos.sys.meta.
+    that take a template predicate - such as those in fate.sys.meta.
 
     The single-argument overload makes it so that it can be partially
     instantiated with the first argument, which will often be necessary with
@@ -2679,7 +2679,7 @@ template isQualifierConvertible(From)
     Alternatively, code such as $(D [EnumMembers!MyEnum].sort().unique()) could
     be used to get a dynamic array of the enum members with no duplicate values
     via CTFE, thus avoiding the need for template predicates or anything from
-    phobos.sys.meta. However, you then have a dynamic array of enum values
+    fate.sys.meta. However, you then have a dynamic array of enum values
     rather than an $(D AliasSeq) of symbols for those enum members, which
     affects what you can do with type introspection. So, which approach is
     better depends on what the code needs to do with the enum members.
@@ -2723,7 +2723,7 @@ template isEqual(alias lhs)
   +/
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq, Unique;
+    import fate.sys.meta : AliasSeq, Unique;
 
     enum E
     {
@@ -2798,7 +2798,7 @@ template isEqual(alias lhs)
 
     All this does is $(D __traits(isSame, lhs, rhs)), so most code shouldn't
     use it. It's intended to be used in conjunction with templates that take a
-    template predicate - such as those in phobos.sys.meta.
+    template predicate - such as those in fate.sys.meta.
 
     The single-argument overload makes it so that it can be partially
     instantiated with the first argument, which will often be necessary with
@@ -2868,7 +2868,7 @@ template isSameSymbol(alias lhs)
 
     // Partial instantiation allows it to be used with templates that expect
     // a predicate that takes only a single argument.
-    import phobos.sys.meta : AliasSeq, indexOf;
+    import fate.sys.meta : AliasSeq, indexOf;
     alias Types = AliasSeq!(i, j, r, int, long, foo);
     static assert(indexOf!(isSameSymbol!j, Types) == 1);
     static assert(indexOf!(isSameSymbol!int, Types) == 3);
@@ -2880,7 +2880,7 @@ template isSameSymbol(alias lhs)
 
     All this does is $(D is(T == U)), so most code shouldn't use it. It's
     intended to be used in conjunction with templates that take a template
-    predicate - such as those in phobos.sys.meta.
+    predicate - such as those in fate.sys.meta.
 
     The single-argument overload makes it so that it can be partially
     instantiated with the first argument, which will often be necessary with
@@ -2916,7 +2916,7 @@ template isSameType(T)
 
     // Partial instantiation allows it to be used with templates that expect
     // a predicate that takes only a single argument.
-    import phobos.sys.meta : AliasSeq, indexOf;
+    import fate.sys.meta : AliasSeq, indexOf;
     alias Types = AliasSeq!(float, string, int, double);
     static assert(indexOf!(isSameType!int, Types) == 2);
 }
@@ -2927,7 +2927,7 @@ template isSameType(T)
 
     This is equivalent to $(D is(T == delegate)), so most code shouldn't use
     it. It's intended to be used in conjunction with templates that take a
-    template predicate - such as those in $(MREF phobos, sys, meta).
+    template predicate - such as those in $(MREF fate, sys, meta).
 
     Note that this does not include implicit conversions or enum types. The
     type itself must be a delegate.
@@ -3057,7 +3057,7 @@ enum isDelegate(T) = is(T == delegate);
 
     This is equivalent to $(D is(T == function)), so most code shouldn't use
     it. It's intended to be used in conjunction with templates that take a
-    template predicate - such as those in $(MREF phobos, sys, meta).
+    template predicate - such as those in $(MREF fate, sys, meta).
 
     Note that this does not include implicit conversions or enum types. The
     type itself must be a function.
@@ -3288,7 +3288,7 @@ enum isFunctionPointer(T) = is(T == U*, U) && is(U == function);
 
     This is equivalent to $(D is(T == return)), so most code shouldn't use
     it. It's intended to be used in conjunction with templates that take a
-    template predicate - such as those in $(MREF phobos, sys, meta).
+    template predicate - such as those in $(MREF fate, sys, meta).
 
     Note that this does not include implicit conversions or enum types. The
     type itself must be a function, function pointer, or delegate.
@@ -3859,7 +3859,7 @@ if (is(T == return))
 template FieldNames(T)
 if (isAggregateType!T)
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     static if (is(T == struct) && __traits(isNested, T))
         private alias Fields = AliasSeq!(T.tupleof[0 .. $ - 1]);
@@ -3874,7 +3874,7 @@ if (isAggregateType!T)
 ///
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     struct S
     {
@@ -3944,7 +3944,7 @@ if (isAggregateType!T)
 
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     {
         static struct S0 {}
@@ -4123,7 +4123,7 @@ if (isAggregateType!T)
 {
     static if (is(T == struct) && __traits(isNested, T))
     {
-        import phobos.sys.meta : AliasSeq;
+        import fate.sys.meta : AliasSeq;
         alias FieldSymbols = AliasSeq!(T.tupleof[0 .. $ - 1]);
     }
     else
@@ -4133,7 +4133,7 @@ if (isAggregateType!T)
 ///
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     struct S
     {
@@ -4218,7 +4218,7 @@ if (isAggregateType!T)
 /// Some examples with nested types.
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     int outside;
 
@@ -4260,7 +4260,7 @@ if (isAggregateType!T)
 
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     {
         static struct S0 {}
@@ -4429,7 +4429,7 @@ if (isAggregateType!T)
 ///
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     struct S
     {
@@ -4491,7 +4491,7 @@ if (isAggregateType!T)
 
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     {
         static struct S0 {}
@@ -4836,7 +4836,7 @@ template hasComplexAssignment(T)
 
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     {
         struct S1 { int i; }
@@ -5298,7 +5298,7 @@ template hasComplexCopying(T)
 
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     {
         struct S1 { int i; }
@@ -5671,7 +5671,7 @@ template hasComplexDestruction(T)
 
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     {
         struct S1 { int i; }
@@ -5851,7 +5851,7 @@ else
 // hasIndirections with types which aren't aggregate types.
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     alias testWithQualifiers = assertWithQualifiers!hasIndirections;
 
@@ -5892,7 +5892,7 @@ else
 // hasIndirections with structs.
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     alias testWithQualifiers = assertWithQualifiers!hasIndirections;
 
@@ -6343,7 +6343,7 @@ else
 // hasIndirections with unions.
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     alias testWithQualifiers = assertWithQualifiers!hasIndirections;
 
@@ -6730,7 +6730,7 @@ else
 // hasIndirections with classes and interfaces
 @safe unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     alias testWithQualifiers = assertWithQualifiers!hasIndirections;
 
@@ -7012,7 +7012,7 @@ else
     but that would involve adding more keywords (and break a lot of existing
     code if $(K_TYPEOF) were actually removed).
 
-    So, phobos.sys.traits provides SymbolType and PropertyType. They're both
+    So, fate.sys.traits provides SymbolType and PropertyType. They're both
     traits that take a symbol and give the type for that symbol. However,
     SymbolType gives the type of the symbol itself, whereas PropertyType gives
     the type of the symbol as if it were used as a getter property in an
@@ -7477,8 +7477,8 @@ if (!is(sym))
 // addition to the overloaded member functions and static functions that it
 // tests). That way, if there are any differences in how free functions and
 // member functions are handled, we'll catch those bugs (be they compiler bugs
-// or bugs in phobos.sys.traits).
-version (PhobosUnittest)
+// or bugs in fate.sys.traits).
+version (FateUnittest)
 {
     private void modFunc1();
     private void modFunc1(string);
@@ -10108,7 +10108,7 @@ template Unshared(T)
     data and violating the type system.
 
     In particular, historically, a lot of D code has used
-    $(REF Unqual, std, traits) (which is equivalent to phobos.sys.traits'
+    $(REF Unqual, std, traits) (which is equivalent to fate.sys.traits'
     Unqualified) when the programmer's intent was to remove $(D const), and
     $(D shared) wasn't actually considered at all. And in such cases, the code
     really should use $(LREF Unconst) instead.
@@ -10218,9 +10218,9 @@ template Unqualified(T)
     Applies $(D const) to the given type.
 
     This is primarily useful in conjunction with templates that take a template
-    predicate (such as many of the templates in phobos.sys.meta), since while in
+    predicate (such as many of the templates in fate.sys.meta), since while in
     most cases, you can simply do $(D const T) or $(D const(T)) to make $(D T)
-    $(D const), with something like $(REF Map, phobos, sys, meta), you need to
+    $(D const), with something like $(REF Map, fate, sys, meta), you need to
     pass a template to be applied.
 
     See_Also:
@@ -10241,7 +10241,7 @@ alias ConstOf(T) = const T;
     // Note that const has no effect on immutable.
     static assert(is(ConstOf!(immutable int) == immutable int));
 
-    import phobos.sys.meta : AliasSeq, Map;
+    import fate.sys.meta : AliasSeq, Map;
 
     alias Types = AliasSeq!(int, long,
                             bool*, ubyte[],
@@ -10257,9 +10257,9 @@ alias ConstOf(T) = const T;
     Applies $(D immutable) to the given type.
 
     This is primarily useful in conjunction with templates that take a template
-    predicate (such as many of the templates in phobos.sys.meta), since while in
+    predicate (such as many of the templates in fate.sys.meta), since while in
     most cases, you can simply do $(D immutable T) or $(D immutable(T)) to make
-    $(D T) $(D immutable), with something like $(REF Map, phobos, sys, meta),
+    $(D T) $(D immutable), with something like $(REF Map, fate, sys, meta),
     you need to pass a template to be applied.
 
     See_Also:
@@ -10284,7 +10284,7 @@ alias ImmutableOf(T) = immutable T;
 
     static assert(is(ImmutableOf!(immutable int) == immutable int));
 
-    import phobos.sys.meta : AliasSeq, Map;
+    import fate.sys.meta : AliasSeq, Map;
 
     alias Types = AliasSeq!(int, long,
                             bool*, ubyte[],
@@ -10300,9 +10300,9 @@ alias ImmutableOf(T) = immutable T;
     Applies $(D inout) to the given type.
 
     This is primarily useful in conjunction with templates that take a template
-    predicate (such as many of the templates in phobos.sys.meta), since while in
+    predicate (such as many of the templates in fate.sys.meta), since while in
     most cases, you can simply do $(D inout T) or $(D inout(T)) to make $(D T)
-    $(D inout), with something like $(REF Map, phobos, sys, meta), you need to
+    $(D inout), with something like $(REF Map, fate, sys, meta), you need to
     pass a template to be applied.
 
     See_Also:
@@ -10323,7 +10323,7 @@ alias InoutOf(T) = inout T;
     // Note that inout has no effect on immutable.
     static assert(is(InoutOf!(immutable int) == immutable int));
 
-    import phobos.sys.meta : AliasSeq, Map;
+    import fate.sys.meta : AliasSeq, Map;
 
     alias Types = AliasSeq!(int, long,
                             bool*, ubyte[],
@@ -10339,9 +10339,9 @@ alias InoutOf(T) = inout T;
     Applies $(D shared) to the given type.
 
     This is primarily useful in conjunction with templates that take a template
-    predicate (such as many of the templates in phobos.sys.meta), since while in
+    predicate (such as many of the templates in fate.sys.meta), since while in
     most cases, you can simply do $(D shared T) or $(D shared(T)) to make $(D T)
-    $(D shared), with something like $(REF Map, phobos, sys, meta), you need to
+    $(D shared), with something like $(REF Map, fate, sys, meta), you need to
     pass a template to be applied.
 
     See_Also:
@@ -10363,7 +10363,7 @@ alias SharedOf(T) = shared T;
     // implicitly shared.
     static assert(is(SharedOf!(immutable int) == immutable int));
 
-    import phobos.sys.meta : AliasSeq, Map;
+    import fate.sys.meta : AliasSeq, Map;
 
     alias Types = AliasSeq!(int, long,
                             bool*, ubyte[],
@@ -10436,7 +10436,7 @@ private struct __InoutWorkaroundStruct {}
 
 @system unittest
 {
-    import phobos.sys.meta : AliasSeq;
+    import fate.sys.meta : AliasSeq;
 
     void needLvalue(T)(ref T);
     static struct S {}

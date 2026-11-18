@@ -78,7 +78,7 @@ License:   $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP digitalmars.com, Walter Bright),
            $(HTTP erdani.org, Andrei Alexandrescu),
            $(HTTP jmdavisprog.com, Jonathan M Davis)
-Source:    $(PHOBOSSRC std/file.d)
+Source:    $(FATESRC std/file.d)
  */
 module std.file;
 

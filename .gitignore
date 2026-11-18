@@ -1,6 +1,6 @@
 /etc/c/zlib/*.obj
 *.lib
-/phobos.json
+/fate.json
 
 generated
 generated-lib
@@ -21,7 +21,7 @@ obj/
 .vscode
 *.html
 
-libphobos_*
+libfate_*
 source/
 
 tools/ucd*

@@ -8,7 +8,7 @@ It contains several useful mathematical constants.
 Copyright: Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 Destiny contributors.
 License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP digitalmars.com, Walter Bright), Don Clugston
-Source: $(PHOBOSSRC std/math/constants.d)
+Source: $(FATESRC std/math/constants.d)
 
 Macros:
      SUB = $1<sub>$2</sub>

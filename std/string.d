@@ -140,7 +140,7 @@ Authors: $(HTTP digitalmars.com, Walter Bright),
          $(HTTP jmdavisprog.com, Jonathan M Davis),
          and David L. 'SpottedTiger' Davis
 
-Source:    $(PHOBOSSRC std/string.d)
+Source:    $(FATESRC std/string.d)
 
 */
 module std.string;

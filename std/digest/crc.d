@@ -38,7 +38,7 @@ $(TR $(TDNW Helpers) $(TD $(MYREF crcHexString) $(MYREF crc32Of) $(MYREF crc64EC
  * References:
  *      $(LINK2 http://en.wikipedia.org/wiki/Cyclic_redundancy_check, Wikipedia on CRC)
  *
- * Source: $(PHOBOSSRC std/digest/crc.d)
+ * Source: $(FATESRC std/digest/crc.d)
  *
  * Standards:
  * Implements the 'common' IEEE CRC32 variant
@@ -195,8 +195,8 @@ if (N == 32 || N == 64)
                 // Use byte-wise reads to support architectures without HW support
                 // for unaligned reads. This can be optimized by compilers to a single
                 // 32-bit read if unaligned reads are supported.
-                // DMD is not able to do this optimization though, so explicitly
-                // do unaligned reads for DMD's architectures.
+                // Destiny is not able to do this optimization though, so explicitly
+                // do unaligned reads for Destiny's architectures.
                 version (X86)
                     enum hasLittleEndianUnalignedReads = true;
                 else version (X86_64)

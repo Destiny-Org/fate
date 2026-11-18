@@ -90,9 +90,9 @@
     Authors: $(HTTP digitalmars.com, Walter Bright),
              $(HTTP klickverbot.at, David Nadlinger)
              $(HTTP jmdavisprog.com, Jonathan M Davis)
-    Source:    $(PHOBOSSRC phobos/sys/meta)
+    Source:    $(PHOBOSSRC fate/sys/meta)
 +/
-module phobos.sys.meta;
+module fate.sys.meta;
 
 // Example for converting types to values from module documentation.
 @safe unittest
@@ -238,7 +238,7 @@ template Filter(alias Pred, Args...)
 ///
 @safe unittest
 {
-    import phobos.sys.traits : isDynamicArray, isPointer, isUnsignedInteger;
+    import fate.sys.traits : isDynamicArray, isPointer, isUnsignedInteger;
 
     alias Types = AliasSeq!(string, int, int[], bool[], ulong, double, ubyte);
 
@@ -366,8 +366,8 @@ if (stepSize != 0)
     Otherwise, it won't work.
 
     See_Also:
-        $(REF isSameSymbol, phobos, sys, traits)
-        $(REF isSameType, phobos, sys, traits)
+        $(REF isSameSymbol, fate, sys, traits)
+        $(REF isSameType, fate, sys, traits)
   +/
 template Unique(alias Cmp, Args...)
 {
@@ -394,7 +394,7 @@ private template AppendIfUnique(alias Cmp, Args...)
 ///
 @safe unittest
 {
-    import phobos.sys.traits : isSameType;
+    import fate.sys.traits : isSameType;
 
     alias Types1 = AliasSeq!(int, long, long, int, int, float, int);
 
@@ -414,7 +414,7 @@ private template AppendIfUnique(alias Cmp, Args...)
 ///
 @safe unittest
 {
-    import phobos.sys.traits : isSameSymbol;
+    import fate.sys.traits : isSameSymbol;
 
     int i;
     string s;
@@ -466,7 +466,7 @@ template Map(alias Fun, Args...)
 ///
 @safe unittest
 {
-    import phobos.sys.traits : Unqualified;
+    import fate.sys.traits : Unqualified;
 
     // empty
     alias Empty = Map!Unqualified;
@@ -557,7 +557,7 @@ else
 ///
 @safe unittest
 {
-    import phobos.sys.traits : isDynamicArray, isInteger;
+    import fate.sys.traits : isDynamicArray, isInteger;
 
     static assert(!all!(isInteger, int, double));
     static assert( all!(isInteger, int, long));
@@ -592,7 +592,7 @@ else
 ///
 @safe unittest
 {
-    import phobos.sys.traits : isDynamicArray, isInteger;
+    import fate.sys.traits : isDynamicArray, isInteger;
 
     static assert(!any!(isInteger, string, double));
     static assert( any!(isInteger, int, double));
@@ -632,7 +632,7 @@ template indexOf(alias Pred, Args...)
 ///
 @safe unittest
 {
-    import phobos.sys.traits : isInteger, isSameSymbol, isSameType;
+    import fate.sys.traits : isInteger, isSameSymbol, isSameType;
 
     alias Types1 = AliasSeq!(string, int, long, char[], ubyte, int);
     alias Types2 = AliasSeq!(float, double, int[], char[], void);
@@ -661,7 +661,7 @@ template indexOf(alias Pred, Args...)
 
 unittest
 {
-    import phobos.sys.traits : isSameType;
+    import fate.sys.traits : isSameType;
 
     static assert(indexOf!(isSameType!int, short, int, long) >= 0);
     static assert(indexOf!(isSameType!string, short, int, long) < 0);
@@ -713,7 +713,7 @@ template And(Preds...)
 ///
 @safe unittest
 {
-    import phobos.sys.traits : isNumeric;
+    import fate.sys.traits : isNumeric;
 
     template isSameSize(size_t size)
     {
@@ -740,7 +740,7 @@ template And(Preds...)
   +/
 @safe unittest
 {
-    import phobos.sys.traits : isImplicitlyConvertible, isInteger, isSameType;
+    import fate.sys.traits : isImplicitlyConvertible, isInteger, isSameType;
 
     alias isOnlyImplicitlyConvertible
         = And!(Not!isSameType, isImplicitlyConvertible);
@@ -780,7 +780,7 @@ template And(Preds...)
     static assert(!Instantiate!(And!testNever, int));
 
     // No short-circuiting.
-    import phobos.sys.traits : isEqual, isFloatingPoint;
+    import fate.sys.traits : isEqual, isFloatingPoint;
     static assert(!Instantiate!(And!isFloatingPoint, int));
     static assert(!__traits(compiles, Instantiate!(And!(isFloatingPoint, isEqual), int)));
 }
@@ -800,7 +800,7 @@ template Not(alias Pred)
 ///
 @safe unittest
 {
-    import phobos.sys.traits : isDynamicArray, isPointer;
+    import fate.sys.traits : isDynamicArray, isPointer;
 
     alias isNotPointer = Not!isPointer;
     static assert( isNotPointer!int);
@@ -816,7 +816,7 @@ template Not(alias Pred)
   +/
 @safe unittest
 {
-    import phobos.sys.traits : isImplicitlyConvertible, isInteger;
+    import fate.sys.traits : isImplicitlyConvertible, isInteger;
 
     alias notImplicitlyConvertible = Not!isImplicitlyConvertible;
 
@@ -857,7 +857,7 @@ template Or(Preds...)
 ///
 @safe unittest
 {
-    import phobos.sys.traits : isFloatingPoint, isSignedInteger;
+    import fate.sys.traits : isFloatingPoint, isSignedInteger;
 
     alias isSignedNumeric = Or!(isFloatingPoint, isSignedInteger);
 
@@ -880,7 +880,7 @@ template Or(Preds...)
   +/
 @safe unittest
 {
-    import phobos.sys.traits : isImplicitlyConvertible, isInteger;
+    import fate.sys.traits : isImplicitlyConvertible, isInteger;
 
     enum isSameSize(T, U) = T.sizeof == U.sizeof;
     alias convertibleOrSameSize = Or!(isImplicitlyConvertible, isSameSize);
@@ -925,7 +925,7 @@ template Or(Preds...)
     static assert(Instantiate!(Or!testAlways, int, Map));
 
     // No short-circuiting.
-    import phobos.sys.traits : isEqual, isInteger;
+    import fate.sys.traits : isEqual, isInteger;
     static assert( Instantiate!(Or!isInteger, int));
     static assert(!__traits(compiles, Instantiate!(Or!(isInteger, isEqual), int)));
 }
@@ -973,7 +973,7 @@ alias Instantiate(alias Template, Args...) = Template!Args;
 ///
 @safe unittest
 {
-    import phobos.sys.traits : ConstOf, isImplicitlyConvertible, isSameType, isInteger;
+    import fate.sys.traits : ConstOf, isImplicitlyConvertible, isSameType, isInteger;
 
     alias Templates = AliasSeq!(isImplicitlyConvertible!int,
                                 isSameType!string,
@@ -1021,7 +1021,7 @@ alias Instantiate(alias Template, Args...) = Template!Args;
   +/
 @safe unittest
 {
-    import phobos.sys.traits : isInteger, isNumeric, isUnsignedInteger;
+    import fate.sys.traits : isInteger, isNumeric, isUnsignedInteger;
 
     alias Results = Map!(ApplyRight!(Instantiate, int),
                          isInteger, isNumeric, isUnsignedInteger);

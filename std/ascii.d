@@ -58,7 +58,7 @@ $(TR $(TD Enums) $(TD
     License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
     Authors:   $(HTTP digitalmars.com, Walter Bright) and
                $(HTTP jmdavisprog.com, Jonathan M Davis)
-    Source:    $(PHOBOSSRC std/ascii.d)
+    Source:    $(FATESRC std/ascii.d)
   +/
 module std.ascii;
 

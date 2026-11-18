@@ -43,7 +43,7 @@ Authors:   $(HTTP digitalmars.com, Walter Bright),
            Alex Rønne Petersen,
            Damian Ziemba,
            Amaury SECHET
-Source: $(PHOBOSSRC std/bitmanip.d)
+Source: $(FATESRC std/bitmanip.d)
 */
 /*
          Copyright The D Language Foundation 2007 - 2012; Copyright (C) 2026 Destiny contributors.

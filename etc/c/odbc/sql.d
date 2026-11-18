@@ -4,7 +4,7 @@
  * Translated from MinGW Windows headers
  *
  * License: $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
- * Source: $(PHOBOSSRC etc/c/odbc/_sql.d)
+ * Source: $(FATESRC etc/c/odbc/_sql.d)
 
 Declarations for interfacing with the ODBC library.
 

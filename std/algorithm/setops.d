@@ -39,7 +39,7 @@ License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 
 Authors: $(HTTP erdani.com, Andrei Alexandrescu)
 
-Source: $(PHOBOSSRC std/algorithm/setops.d)
+Source: $(FATESRC std/algorithm/setops.d)
 
 Macros:
 T2=$(TR $(TDNW $(LREF $1)) $(TD $+))

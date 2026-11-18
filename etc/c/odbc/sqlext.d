@@ -4,7 +4,7 @@
  * Translated from MinGW Windows headers
  *
  * License: $(LINK2 http://www.boost.org/LICENSE_1_0.txt, Boost License 1.0)
- * Source: $(PHOBOSSRC etc/c/odbc/_sqlext.d)
+ * Source: $(FATESRC etc/c/odbc/_sqlext.d)
 
 See_Also: $(LINK2 https://docs.microsoft.com/en-us/sql/odbc/reference/syntax/odbc-api-reference,
             ODBC API Reference on MSDN)

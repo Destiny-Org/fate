@@ -1,6 +1,6 @@
 ## Fate 3 Package Map
 
-`based` modules duplicated in `phobos` will contain a mix of wrapped `based` functions, new fuctions, and public imports of `based` symbols, depending on what ends up being the most effective solution.
+`based` modules duplicated in `fate` will contain a mix of wrapped `based` functions, new fuctions, and public imports of `based` symbols, depending on what ends up being the most effective solution.
 
 Packages/Modules with an asterisk are new.
 
@@ -12,7 +12,7 @@ Packages/Modules with an asterisk are new.
 4.  Which, if any, modules should be removed? This could be either a permanent removal or pending replacement with ground-up rewrites.
 
 ### Closed Questions
-1. `std.digest`: Only non-cryptographic digests will be kept. SHA2/3 will be available in `phobos.sys.hash` using the system provided API.
+1. `std.digest`: Only non-cryptographic digests will be kept. SHA2/3 will be available in `fate.sys.hash` using the system provided API.
 2. Removed modules:
     1. `std.json` (Replaced with [JSONIOPipe](https://github.com/schveiguy/jsoniopipe))
     2. `std.getopt`
@@ -64,7 +64,7 @@ based
   | system
   | time (core.time)
   | traits
-phobos.sys
+fate.sys
   | algorithm
     | comparison
     | iteration
@@ -93,14 +93,14 @@ phobos.sys
   | traits
   | uuid
   | variant
-phobos.data
+fate.data
   | base64
   | csv
   | json*
   | toml*
   | sdl*
   | zip
-phobos.crypto
+fate.crypto
   | digest
     | crc
     | murmurhash
@@ -112,19 +112,19 @@ phobos.crypto
   | random*
   | rsa*
   | symmetric*
-phobos.io
+fate.io
   | console (std.stdio)
   | stream* (iopipe)
   | mmfile
   | path
-phobos.text
+fate.text
   | ascii
   | encoding
   | format
   | string
   | uni
   | utf
-phobos.net
+fate.net
   | http*
   | socket
   | tls*

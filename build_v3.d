@@ -26,8 +26,8 @@ int main(string[] args)
         buildRelease = args[1] == "release";
     }
 
-    string argFilePath = buildNormalizedPath(getcwd(), "phobosbuildargs.txt");
-    auto dFiles = dirEntries(buildNormalizedPath(getcwd(), "phobos"), "*.d", SpanMode.breadth);
+    string argFilePath = buildNormalizedPath(getcwd(), "fatebuildargs.txt");
+    auto dFiles = dirEntries(buildNormalizedPath(getcwd(), "fate"), "*.d", SpanMode.breadth);
     auto argFile = File(argFilePath, "w");
 
     version(Windows)
@@ -63,14 +63,14 @@ int main(string[] args)
         writeln(dFile.name);
     }
 
-    //Add appropriate DMD arguments to the args file.
+    //Add appropriate Destiny arguments to the args file.
     argFile.writeln("-od=./lib");
     if (buildUnittest)
     {
         argFile.writeln("-main");
         argFile.writeln("-unittest");
         argFile.writeln("-debug");
-        argFile.writeln("-version=PhobosUnittest");
+        argFile.writeln("-version=FateUnittest");
 
         version(Windows)
         {
@@ -85,13 +85,13 @@ int main(string[] args)
     {
         argFile.writeln("-release -O");
         argFile.writeln("-lib");
-        argFile.writeln("-of=libphobos3");
+        argFile.writeln("-of=libfate3");
     }
     else
     {
         argFile.writeln("-debug");
         argFile.writeln("-lib");
-        argFile.writeln("-of=libphobos3-debug");
+        argFile.writeln("-of=libfate3-debug");
     }
 
     argFile.flush();

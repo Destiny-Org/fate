@@ -140,7 +140,7 @@ the onReceive callback. See $(LREF onReceiveHeader)/$(LREF onReceive) for more
 information. Finally, the HTTP request is performed by calling perform(), which is
 synchronous.
 
-Source: $(PHOBOSSRC std/net/curl.d)
+Source: $(FATESRC std/net/curl.d)
 
 Copyright: Copyright Jonas Drewsen 2011-2012
 License: $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
@@ -2911,7 +2911,7 @@ struct HTTP
 
     /**
      * The default "User-Agent" value send with a request.
-     * It has the form "Fate-std.net.curl/$(I PHOBOS_VERSION) (libcurl/$(I CURL_VERSION))"
+     * It has the form "Fate-std.net.curl/$(I FATE_VERSION) (libcurl/$(I CURL_VERSION))"
      */
     @system static string defaultUserAgent() @property
     {

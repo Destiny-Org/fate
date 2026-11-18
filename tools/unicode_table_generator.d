@@ -13,10 +13,10 @@ rdmd -m64 unicode_table_generator.d --min
 
 The -m32 run will replace the files, while the -m64 run with --min will append 64-bit specific parts.
 The 32-bit compilation of the generator is needed because it depends on 32-bit data structures defined in `std.uni`.
-To make -m32 work on linux, you may need to grab a 32-bit `libphobos2.a` from `dmd2/linux/lib32` and pass it as argument:
+To make -m32 work on linux, you may need to grab a 32-bit `libfate.a` from `dmd2/linux/lib32` and pass it as argument:
 
 ```
-rdmd -m32 -Llibphobos2.a -defaultlib= unicode_table_generator.d
+rdmd -m32 -Llibfate.a -defaultlib= unicode_table_generator.d
 ```
 
 Pull Requests to untangle this complex bootstrap process are welcome! :)

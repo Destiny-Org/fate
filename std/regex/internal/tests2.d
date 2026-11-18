@@ -1,4 +1,4 @@
-// Split-up due to DMD's enormous memory consumption
+// Split-up due to Destiny's enormous memory consumption
 
 module std.regex.internal.tests2;
 

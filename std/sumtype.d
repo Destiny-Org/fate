@@ -22,7 +22,7 @@ $(H3 List of examples)
 
 License: Boost License 1.0
 Authors: Paul Backus
-Source: $(PHOBOSSRC std/sumtype.d)
+Source: $(FATESRC std/sumtype.d)
 +/
 module std.sumtype;
 

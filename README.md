@@ -17,7 +17,7 @@ Destiny/
 From `destiny_engine/`, build the compiler, druntime and Fate together:
 
 ```
-make -j$(nproc) HOST_DC=dmd
+make -j$(nproc) HOST_DC=destiny
 make -j$(nproc) fate
 ```
 
@@ -40,7 +40,8 @@ make -j$(nproc) unittest
 ## Names inherited from Phobos
 
 Modules keep their `std.*` and `etc.*` names, so `import std.stdio;`
-works as before. The compiled library is still called `libphobos2`.
+works as before. The compiled library is `libfate` (formerly `libphobos2`),
+and the v3 preview package is `fate.sys` (formerly `phobos.sys`).
 
 ## License
 

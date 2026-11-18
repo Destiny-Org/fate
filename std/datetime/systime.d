@@ -27,7 +27,7 @@ $(TR $(TD Conversion) $(TD
 
     License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
     Authors:   $(HTTP jmdavisprog.com, Jonathan M Davis)
-    Source:    $(PHOBOSSRC std/datetime/systime.d)
+    Source:    $(FATESRC std/datetime/systime.d)
 +/
 module std.datetime.systime;
 

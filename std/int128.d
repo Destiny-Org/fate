@@ -5,7 +5,7 @@
     Author:     Walter Bright
     Copyright:  Copyright (c) 2022, D Language Foundation; Copyright (C) 2026 Destiny contributors
     License:    $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0)
-    Source:     $(PHOBOSSRC std/int128.d)
+    Source:     $(FATESRC std/int128.d)
  */
 module std.int128;
 

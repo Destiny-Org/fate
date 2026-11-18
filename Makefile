@@ -96,7 +96,7 @@ endif
 # Configurable stuff that's rarely edited
 INSTALL_DIR = ../install
 DRUNTIME_PATH = $(DMD_DIR)/druntime
-ZIPFILE = phobos.zip
+ZIPFILE = fate.zip
 ROOT_OF_THEM_ALL = generated
 ROOT = $(ROOT_OF_THEM_ALL)/$(OS)/$(BUILD)/$(MODEL)
 TOOLS_DIR=../tools
@@ -187,21 +187,21 @@ VERSION=$(DMD_DIR)/VERSION
 
 # Set LIB, the ultimate target
 ifeq (,$(findstring win,$(OS)))
-	LIB:=$(ROOT)/libphobos2.a
-	# 2.064.2 => libphobos2.so.0.64.2
-	# 2.065 => libphobos2.so.0.65.0
+	LIB:=$(ROOT)/libfate.a
+	# 2.064.2 => libfate.so.0.64.2
+	# 2.065 => libfate.so.0.65.0
 	# MAJOR version is 0 for now, which means the ABI is still unstable
 	MAJOR:=0
 	MINOR:=$(shell awk -F. '{ print int($$2) }' $(VERSION))
 	PATCH:=$(shell awk -F. '{ print int($$3) }' $(VERSION))
 	# SONAME doesn't use patch level (ABI compatible)
-	SONAME:=libphobos2.so.$(MAJOR).$(MINOR)
+	SONAME:=libfate.so.$(MAJOR).$(MINOR)
 	LIBSO:=$(ROOT)/$(SONAME).$(PATCH)
 else
 	ifeq ($(MODEL),32)
-		LIB:=phobos32mscoff.lib
+		LIB:=fate32mscoff.lib
 	else
-		LIB:=phobos$(MODEL).lib
+		LIB:=fate$(MODEL).lib
 	endif
 endif
 
@@ -348,7 +348,7 @@ endif
 
 .PHONY: lib dll
 lib: $(LIB)
-dll: $(ROOT)/libphobos2.so
+dll: $(ROOT)/libfate.so
 
 ifeq ($(USE_IMPORTC),1)
 # the druntime dependency makes sure DMD has been built
@@ -363,7 +363,7 @@ endif
 $(LIB): $(C_OBJS) $(ALL_D_FILES) $(DRUNTIME)
 	$(DMD) $(DFLAGS) -lib -of$@ $(DRUNTIME) $(D_FILES) $(C_OBJS)
 
-$(ROOT)/libphobos2.so: $(ROOT)/$(SONAME)
+$(ROOT)/libfate.so: $(ROOT)/$(SONAME)
 	ln -sf $(notdir $(LIBSO)) $@
 
 $(ROOT)/$(SONAME): $(LIBSO)
@@ -375,12 +375,12 @@ $(LIBSO): $(C_OBJS) $(ALL_D_FILES) $(DRUNTIMESO)
 
 ifeq (osx,$(OS))
 # Build fat library that combines the 32 bit and the 64 bit libraries
-libphobos2.a: $(ROOT_OF_THEM_ALL)/osx/release/libphobos2.a
-$(ROOT_OF_THEM_ALL)/osx/release/libphobos2.a:
+libfate.a: $(ROOT_OF_THEM_ALL)/osx/release/libfate.a
+$(ROOT_OF_THEM_ALL)/osx/release/libfate.a:
 	$(MAKE) OS=$(OS) MODEL=32 BUILD=release
 	$(MAKE) OS=$(OS) MODEL=64 BUILD=release
-	lipo $(ROOT_OF_THEM_ALL)/osx/release/32/libphobos2.a \
-		$(ROOT_OF_THEM_ALL)/osx/release/64/libphobos2.a \
+	lipo $(ROOT_OF_THEM_ALL)/osx/release/32/libfate.a \
+		$(ROOT_OF_THEM_ALL)/osx/release/64/libfate.a \
 		-create -output $@
 endif
 
@@ -417,7 +417,7 @@ $(ROOT)/unittest/test_runner$(DOTEXE): $(DRUNTIME_PATH)/src/test_runner.d $(UT_D
 
 else
 
-UT_LIBSO:=$(ROOT)/unittest/libphobos2-ut.so
+UT_LIBSO:=$(ROOT)/unittest/libfate-ut.so
 
 $(UT_D_OBJS): $(DRUNTIMESO)
 
@@ -433,11 +433,11 @@ endif
 # macro that returns the module name given the src path
 moduleName=$(subst /,.,$(1))
 
-# target for batch unittests (using shared phobos library and test_runner)
+# target for batch unittests (using shared fate library and test_runner)
 unittest/%.run : $(ROOT)/unittest/test_runner$(DOTEXE)
 	$(QUIET)$(TIMELIMIT)$(RUN) $< $(call moduleName,$*)
 
-# Target for quickly running a single unittest (using static phobos library).
+# Target for quickly running a single unittest (using static fate library).
 # For example: "make std/algorithm/mutation.test"
 # The mktemp business is needed so .o files don't clash in concurrent unittesting.
 %.test : %.d $(LIB)
@@ -456,7 +456,7 @@ unittest/%.run : $(ROOT)/unittest/test_runner$(DOTEXE)
 # It has to be recursive as %.debug depends on $(LIB) and we don't want to
 # force the user to call make with BUILD=debug.
 # Therefore we call %.debug_with_debugger and pass BUILD=debug from %.debug
-# This forces all of phobos to have debug symbols, which we need as we don't
+# This forces all of fate to have debug symbols, which we need as we don't
 # know where debugging is leading us.
 %.debug_with_debugger : %.d $(LIB)
 	$(DMD) $(DFLAGS) -main $(UDFLAGS) $(LIB) $(NODEFAULTLIB) $(LINKDL) $<
@@ -496,20 +496,20 @@ install2 : all
 ifeq (1,$(SHARED))
 	cp -P $(LIBSO) $(INSTALL_DIR)/$(OS)/$(lib_dir)/
 	cp -P $(ROOT)/$(SONAME) $(INSTALL_DIR)/$(OS)/$(lib_dir)/
-	cp -P $(ROOT)/libphobos2.so $(INSTALL_DIR)/$(OS)/$(lib_dir)/
+	cp -P $(ROOT)/libfate.so $(INSTALL_DIR)/$(OS)/$(lib_dir)/
 endif
-	mkdir -p $(INSTALL_DIR)/src/phobos/etc
-	mkdir -p $(INSTALL_DIR)/src/phobos/std
-	cp -r std/* $(INSTALL_DIR)/src/phobos/std/
-	cp -r etc/* $(INSTALL_DIR)/src/phobos/etc/
-	cp LICENSE_1_0.txt $(INSTALL_DIR)/phobos-LICENSE.txt
+	mkdir -p $(INSTALL_DIR)/src/fate/etc
+	mkdir -p $(INSTALL_DIR)/src/fate/std
+	cp -r std/* $(INSTALL_DIR)/src/fate/std/
+	cp -r etc/* $(INSTALL_DIR)/src/fate/etc/
+	cp LICENSE_1_0.txt $(INSTALL_DIR)/fate-LICENSE.txt
 
 ifeq (1,$(CUSTOM_DRUNTIME))
 # We consider a custom-set DRUNTIME a sign they build druntime themselves
 else
 # This rule additionally produces $(DRUNTIMESO). Add a fake dependency
 # to always invoke druntime's make. Use FORCE instead of .PHONY to
-# avoid rebuilding phobos when $(DRUNTIME) didn't change.
+# avoid rebuilding fate when $(DRUNTIME) didn't change.
 $(DRUNTIME): FORCE
 	$(MAKE) -C $(DRUNTIME_PATH) MODEL=$(MODEL) DMD=$(abspath $(DMD)) OS=$(OS) BUILD=$(BUILD)
 
@@ -521,7 +521,7 @@ FORCE:
 
 endif
 
-JSON = phobos.json
+JSON = fate.json
 json : $(JSON)
 $(JSON) : $(ALL_D_FILES)
 	$(DMD) $(DFLAGS) -o- -Xf$@ $^
@@ -546,7 +546,7 @@ $(DOC_OUTPUT_DIR)/. :
 	mkdir -p $@
 
 # For each module, define a rule e.g.:
-# ../web/phobos/std_conv.html : std/conv.d $(STDDOC) ; ...
+# ../web/fate/std_conv.html : std/conv.d $(STDDOC) ; ...
 $(foreach p,$(SRC_DOCUMENTABLES),$(eval \
 $(DOC_OUTPUT_DIR)/$(call D2HTML,$p) : $p $(STDDOC) ;\
   $(DDOC) project.ddoc $(STDDOC) -Df$$@ $$<))
@@ -677,8 +677,8 @@ publictests: $(addsuffix .publictests,$(D_MODULES))
 #   make std/format.betterc
 ################################################################################
 
-betterc-phobos-tests: $(addsuffix .betterc,$(D_MODULES))
-betterc: betterc-phobos-tests
+betterc-fate-tests: $(addsuffix .betterc,$(D_MODULES))
+betterc: betterc-fate-tests
 
 %.betterc: %.d | $(BETTERCTESTS_DIR)/.directory
 	@# Due to the FORCE rule on druntime, make will always try to rebuild Fate (even as an order-only dependency)

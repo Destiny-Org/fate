@@ -1,6 +1,6 @@
 // Written in the Destiny programming language.
 /**
-Source: $(PHOBOSSRC std/experimental/allocator/building_blocks/segregator.d)
+Source: $(FATESRC std/experimental/allocator/building_blocks/segregator.d)
 */
 module std.experimental.allocator.building_blocks.segregator;
 

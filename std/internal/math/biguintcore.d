@@ -2584,7 +2584,7 @@ void schoolbookDivMod(BigDigit [] quotient, BigDigit [] u, in BigDigit [] v)
             uint ulo = u[j + v.length - 2];
             version (D_InlineAsm_X86)
             {
-                // Note: On DMD, this is only ~10% faster than the non-asm code.
+                // Note: On Destiny, this is only ~10% faster than the non-asm code.
                 uint *p = &u[j + v.length - 1];
                 asm pure nothrow @trusted
                 {

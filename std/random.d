@@ -80,7 +80,7 @@ distributions, which skew a generator's output statistical
 distribution in various ways. So far the uniform distribution for
 integers and real numbers have been implemented.
 
-Source:    $(PHOBOSSRC std/random.d)
+Source:    $(FATESRC std/random.d)
 
 Macros:
 

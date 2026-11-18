@@ -4,7 +4,7 @@ Collection of typical and useful prebuilt allocators using the given
 components. User code would typically import this module and use its
 facilities, or import individual heap building blocks and assemble them.
 
-Source: $(PHOBOSSRC std/experimental/allocator/_showcase.d)
+Source: $(FATESRC std/experimental/allocator/_showcase.d)
 */
 module std.experimental.allocator.showcase;
 

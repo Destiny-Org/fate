@@ -46,7 +46,7 @@ $(LI $(TT std.stdio), this module, unifies the various $(TT stdio.h) implementat
 a high level package for D programs.)
 )
 
-Source: $(PHOBOSSRC std/stdio.d)
+Source: $(FATESRC std/stdio.d)
 Copyright: Copyright The D Language Foundation 2007-; Copyright (C) 2026 Destiny contributors.
 License:   $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP digitalmars.com, Walter Bright),

@@ -78,7 +78,7 @@ Copyright:
 License:
    $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Source:
-    $(PHOBOSSRC std/process.d)
+    $(FATESRC std/process.d)
 Macros:
     OBJECTREF=$(REF1 $0, object)
 
@@ -714,7 +714,7 @@ scope(exit) wait(pid);
 // ensures that the process is waited for at the end of the scope.
 ...
 
-// Run DMD on the file "myprog.d", specifying a few compiler switches:
+// Run Destiny on the file "myprog.d", specifying a few compiler switches:
 auto dmdPid = spawnProcess(["dmd", "-O", "-release", "-inline", "myprog.d" ]);
 if (wait(dmdPid) != 0)
     writeln("Compilation failed!");
@@ -741,7 +741,7 @@ former must be opened for reading, while the latter two must be opened for
 writing.  The default is for the child process to inherit the standard
 streams of its parent.
 ---
-// Run DMD on the file myprog.d, logging any error messages to a
+// Run Destiny on the file myprog.d, logging any error messages to a
 // file named errors.log.
 auto logFile = File("errors.log", "w");
 auto pid = spawnProcess(["dmd", "myprog.d"],
@@ -3985,7 +3985,7 @@ string escapeWindowsArgument(scope const(char)[] arg) @trusted pure nothrow
 {
     // Rationale for leaving this function as public:
     // this algorithm of escaping paths is also used in other software,
-    // e.g. DMD's response files.
+    // e.g. Destiny's response files.
     import std.exception : assumeUnique;
     auto buf = escapeWindowsArgumentImpl!charAllocator(arg);
     return assumeUnique(buf);
@@ -4292,7 +4292,7 @@ version (unittest_burnin)
                 {
                     version (Windows)
                     {
-                        // As long as DMD's system() uses CreateProcessA,
+                        // As long as Destiny's system() uses CreateProcessA,
                         // we can't reliably pass Unicode
                         c = uniform(0, 128);
                     }
@@ -4353,7 +4353,7 @@ License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP digitalmars.com, Walter Bright),
            $(HTTP erdani.org, Andrei Alexandrescu),
            $(HTTP thecybershadow.net, Vladimir Panteleev)
-Source:    $(PHOBOSSRC std/_process.d)
+Source:    $(FATESRC std/_process.d)
 */
 /*
          Copyright The D Language Foundation 2007 - 2009; Copyright (C) 2026 Destiny contributors.

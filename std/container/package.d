@@ -512,7 +512,7 @@ $(TR
 )
 )
 
-Source: $(PHOBOSSRC std/container/package.d)
+Source: $(FATESRC std/container/package.d)
 
 Copyright: Red-black tree code copyright (C) 2008- by Steven Schveighoffer. Other code
 copyright 2010- Andrei Alexandrescu. All rights reserved by the respective holders.

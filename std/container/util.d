@@ -3,7 +3,7 @@ This module contains some common utilities used by containers.
 
 This module is a submodule of $(MREF std, container).
 
-Source: $(PHOBOSSRC std/container/util.d)
+Source: $(FATESRC std/container/util.d)
 
 Copyright: 2010- Andrei Alexandrescu. All rights reserved by the respective holders.
 

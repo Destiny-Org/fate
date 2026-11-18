@@ -18,7 +18,7 @@
  * Authors:   $(HTTP digitalmars.com, Walter Bright),
  *            Matthew Wilson
  * References: $(LINK https://en.wikipedia.org/wiki/Memory-mapped_file)
- * Source:    $(PHOBOSSRC std/mmfile.d)
+ * Source:    $(FATESRC std/mmfile.d)
  *
  * $(SCRIPT inhibitQuickIndex = 1;)
  */

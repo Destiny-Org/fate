@@ -1,6 +1,6 @@
 // Written in the Destiny programming language.
 /**
-Source: $(PHOBOSSRC std/logger/nulllogger.d)
+Source: $(FATESRC std/logger/nulllogger.d)
 */
 module std.logger.nulllogger;
 

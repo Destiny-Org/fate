@@ -2,7 +2,7 @@
  * Copyright: 2014 by Digital Mars
  * License: $(LINK2 http://boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors: Walter Bright
- * Source: $(PHOBOSSRC std/internal/scopebuffer.d)
+ * Source: $(FATESRC std/internal/scopebuffer.d)
  */
 
 module std.internal.scopebuffer;
@@ -283,7 +283,7 @@ if (isAssignable!T &&
          * inlining results in poorer register allocation.
          */
         version (DigitalMars)
-            /* With dmd, a fake loop will prevent inlining.
+            /* With destiny, a fake loop will prevent inlining.
              * Using a hack until a language enhancement is implemented.
              */
             while (1) { break; }

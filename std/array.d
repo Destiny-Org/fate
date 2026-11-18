@@ -77,7 +77,7 @@ License:   $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP erdani.org, Andrei Alexandrescu) and
            $(HTTP jmdavisprog.com, Jonathan M Davis)
 
-Source: $(PHOBOSSRC std/array.d)
+Source: $(FATESRC std/array.d)
 */
 module std.array;
 

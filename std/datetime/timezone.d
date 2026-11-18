@@ -24,7 +24,7 @@ $(TR $(TD Utilities) $(TD
 
     License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
     Authors:   $(HTTP jmdavisprog.com, Jonathan M Davis)
-    Source:    $(PHOBOSSRC std/datetime/timezone.d)
+    Source:    $(FATESRC std/datetime/timezone.d)
 +/
 module std.datetime.timezone;
 

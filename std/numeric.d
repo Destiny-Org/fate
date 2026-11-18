@@ -10,7 +10,7 @@ Copyright: Copyright Andrei Alexandrescu 2008 - 2009.
 License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP erdani.org, Andrei Alexandrescu),
                    Don Clugston, Robert Jacques, Ilya Yaroshenko
-Source:    $(PHOBOSSRC std/numeric.d)
+Source:    $(FATESRC std/numeric.d)
 */
 /*
          Copyright Andrei Alexandrescu 2008 - 2009.
@@ -3558,7 +3558,7 @@ private:
 
         // This loop is unrolled and the two iterations are interleaved
         // relative to the textbook FFT to increase ILP.  This gives roughly 5%
-        // speedups on DMD.
+        // speedups on Destiny.
         for (size_t k = 0; k < halfLen; k += 2)
         {
             immutable cosTwiddle1 = cosFromLookup(k);

@@ -9,7 +9,7 @@
 
    Authors: Bernhard Seckinger
 
-   Source: $(PHOBOSSRC std/format/internal/floats.d)
+   Source: $(FATESRC std/format/internal/floats.d)
  */
 
 module std.format.internal.floats;

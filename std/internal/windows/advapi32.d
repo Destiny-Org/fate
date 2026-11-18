@@ -6,7 +6,7 @@
  *
  * License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors:   Kenji Hara
- * Source:    $(PHOBOSSRC std/internal/windows/advapi32.d)
+ * Source:    $(FATESRC std/internal/windows/advapi32.d)
  */
 module std.internal.windows.advapi32;
 

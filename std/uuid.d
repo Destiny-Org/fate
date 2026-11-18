@@ -85,7 +85,7 @@ $(TR $(TDNW UUID namespaces)
  * Copyright: Copyright Johannes Pfau 2011 - .
  * License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors:   Johannes Pfau
- * Source:    $(PHOBOSSRC std/uuid.d)
+ * Source:    $(FATESRC std/uuid.d)
  *
  * Macros:
  * MYREF2 = <a href="#$2">$(TT $1)</a>&nbsp;

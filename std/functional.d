@@ -59,7 +59,7 @@ $(TR $(TH Function Name) $(TH Description)
 Copyright: Copyright Andrei Alexandrescu 2008 - 2009.
 License:   $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP erdani.org, Andrei Alexandrescu)
-Source:    $(PHOBOSSRC std/functional.d)
+Source:    $(FATESRC std/functional.d)
 */
 /*
          Copyright Andrei Alexandrescu 2008 - 2009.
@@ -1969,7 +1969,7 @@ private template buildDelegate(F)
         int delegate() pure nothrow dg_pure_nothrow = toDelegate(&func_pure_nothrow);
         int delegate() @safe pure nothrow dg_pure_nothrow_safe = toDelegate(&func_pure_nothrow_safe);
 
-        //static assert(is(typeof(dg_ref) == ref int delegate())); // [BUG@DMD]
+        //static assert(is(typeof(dg_ref) == ref int delegate())); // [BUG@Destiny]
 
         assert(dg_ref() == refvar);
         assert(dg_pure() == 1);

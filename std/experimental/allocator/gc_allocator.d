@@ -2,7 +2,7 @@
 /**
 Allocators that draw from the D runtime's garbage-collected heap.
 
-Source: $(PHOBOSSRC std/experimental/allocator/_gc_allocator.d)
+Source: $(FATESRC std/experimental/allocator/_gc_allocator.d)
 */
 module std.experimental.allocator.gc_allocator;
 import std.experimental.allocator.common;

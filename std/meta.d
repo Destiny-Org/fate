@@ -72,7 +72,7 @@
  * Authors:
  *     $(HTTP digitalmars.com, Walter Bright),
  *     $(HTTP klickverbot.at, David Nadlinger)
- * Source:    $(PHOBOSSRC std/meta.d)
+ * Source:    $(FATESRC std/meta.d)
  */
 
 module std.meta;
@@ -871,7 +871,7 @@ version (StdUnittest)
 
         static assert( Instantiate!(templateOr!(testAlways, testError), T));
         static assert( Instantiate!(templateOr!(testNever, testAlways, testError), T));
-        // DMD @@BUG@@: Assertion fails for int, seems like a error gagging
+        // Destiny @@BUG@@: Assertion fails for int, seems like a error gagging
         // problem. The bug goes away when removing some of the other template
         // instantiations in the module.
         // static assert(!is(typeof(Instantiate!(templateOr!(testNever, testError), T))));

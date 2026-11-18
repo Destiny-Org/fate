@@ -47,7 +47,7 @@ $(TR $(TDNW Implementation helpers) $(TD $(MYREF digestLength) $(MYREF WrapperDi
  * Authors:
  * Johannes Pfau
  *
- * Source:    $(PHOBOSSRC std/digest/package.d)
+ * Source:    $(FATESRC std/digest/package.d)
  *
  * CTFE:
  * Digests do not work in CTFE

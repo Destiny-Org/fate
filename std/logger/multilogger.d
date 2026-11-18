@@ -1,6 +1,6 @@
 // Written in the Destiny programming language.
 /**
-Source: $(PHOBOSSRC std/logger/multilogger.d)
+Source: $(FATESRC std/logger/multilogger.d)
 */
 module std.logger.multilogger;
 

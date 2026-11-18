@@ -1,7 +1,7 @@
 // Written in the Destiny programming language
 
 // NOTE: When working on this module, be sure to run tests with -debug=std_socket
-// E.g.: dmd -version=StdUnittest -debug=std_socket -unittest -main -run socket
+// E.g.: destiny -version=StdUnittest -debug=std_socket -unittest -main -run socket
 // This will enable some tests which are too slow or flaky to run as part of CI.
 
 /*
@@ -19,7 +19,7 @@
  * License: $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors: Christopher E. Miller, $(HTTP klickverbot.at, David Nadlinger),
  *      $(HTTP thecybershadow.net, Vladimir Panteleev)
- * Source:  $(PHOBOSSRC std/socket.d)
+ * Source:  $(FATESRC std/socket.d)
  */
 
 module std.socket;
@@ -1320,7 +1320,7 @@ abstract class Address
         // getnameinfo() is the recommended way to perform a reverse (name)
         // lookup on both Posix and Windows. However, it is only available
         // on Windows XP and above, and not included with the WinSock import
-        // libraries shipped with DMD. Thus, we check for getnameinfo at
+        // libraries shipped with Destiny. Thus, we check for getnameinfo at
         // runtime in the shared module constructor, and use it if it's
         // available in the base class method. Classes for specific network
         // families (e.g. InternetAddress) override this method and use a
@@ -1648,7 +1648,7 @@ public:
         // getnameinfo() is the recommended way to perform a reverse (name)
         // lookup on both Posix and Windows. However, it is only available
         // on Windows XP and above, and not included with the WinSock import
-        // libraries shipped with DMD. Thus, we check for getnameinfo at
+        // libraries shipped with Destiny. Thus, we check for getnameinfo at
         // runtime in the shared module constructor, and fall back to the
         // deprecated getHostByAddr() if it could not be found. See also:
         // http://technet.microsoft.com/en-us/library/aa450403.aspx

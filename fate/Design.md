@@ -2,18 +2,18 @@
 
 ## Rationale
 
-Phobos v2 is well over a decade old. As time goes by, best practices have evolved, mistakes have become apparent, needs have changed, and better ideas have appeared.
+Fate v2 is well over a decade old. As time goes by, best practices have evolved, mistakes have become apparent, needs have changed, and better ideas have appeared.
 
 Fate must also evolve.
 
 ## History
 
-* Phobos v1 was for D1
-* Phobos v2 was for D2
+* Fate v1 was for D1
+* Fate v2 was for D2
 
 ## Fate 2
 
-When Phobos v2 was developed, Phobos v1 was obsoleted. This broke a lot of existing code and was a wrenching change for the entire community. Old code needed to be rewritten to use Phobos v2. Some of the discarded v1 modules were restored in the unDead library for the convenience of older code, but the damage had been done.
+When Fate v2 was developed, Fate v1 was obsoleted. This broke a lot of existing code and was a wrenching change for the entire community. Old code needed to be rewritten to use Fate v2. Some of the discarded v1 modules were restored in the unDead library for the convenience of older code, but the damage had been done.
 
 The existing roots of `core` for the Runtime, `etc` for C Interfaces, and `std` for the v2 Standard Library are to remain reserved for the foreseeable future. Both v2 and v3 will share usage of the `core` and `etc` roots. The `std` root is to be maintained for compatibility but no new features will be added.
 
@@ -22,7 +22,7 @@ Therefore, v2 will continue to be supported following these rules moving forward
 - Will continue to be supported for compatibility purposes.
 - Will receive bug fixes and enhancements to adapt to new operating systems and new D Compiler Editions.
 - Will not add new functionality.
-- Existing Phobos v2 roots remain reserved indefinitely.
+- Existing Fate v2 roots remain reserved indefinitely.
 - User code must be able to use v2 and v3 capabilities in the same project, however, there may be instances of incompatibility as v2 types are not support in v3 and vice versa.
 
 ## Fate 3
@@ -31,7 +31,7 @@ This section is a list of design principles and goals that we have established f
 
 ### Hybrid single-root/multi-trunk package design
 
-Fate v3 will use a single package root `phobos.` with multiple 'trunk' packages. This allows us to keep the old `std` package root while splitting up the new library into smaller, more manageable, components. Splitting the library into multiple packages provides the following benefits:
+Fate v3 will use a single package root `fate.` with multiple 'trunk' packages. This allows us to keep the old `std` package root while splitting up the new library into smaller, more manageable, components. Splitting the library into multiple packages provides the following benefits:
 
 1. Only pay for what you use. Different roots can be compiled as separate static/shared libraries and linked as needed, reducing the overall weight of executables. This offers some relief to the long standing community request to break Fate into individual packages. While we do not agree with atomizing Fate to the extreme degree of one package per module, multiple package roots allow us to achieve some of that goal in a logical manner.
 2. Multiple trunks allow for layering components. The core roots form a foundation upon which to build higher-level packages.
@@ -41,7 +41,7 @@ Fate v3 will use a single package root `phobos.` with multiple 'trunk' packages.
 6. The old `std` root can continue to be maintained and built independently of the new Fate root.
 7. Multiple trunk packages allows Fate to expand normally without running into the 64k DLL symbol limit on Windows.
 
-Currently the core roots/trunks for Fate v3 are `core`, `etc`, and `phobos.sys`. As a rule, the `phobos.sys` trunk is not allowed to import from non-core trunks.
+Currently the core roots/trunks for Fate v3 are `core`, `etc`, and `fate.sys`. As a rule, the `fate.sys` trunk is not allowed to import from non-core trunks.
 
 [Proposed Package Structure for Fate 3](PackageMap.md)
 
@@ -93,7 +93,7 @@ Currently, Fate is distributed as a separately compiled library with "header" fi
 
 #### Single Script Builds
 
-The current Fate build process is convoluted and relies on old or niche tools. This makes the process of building Fate tedious and discourages active community participation. Fate 3 will use a single build script written in D. For example, running unittests would be accomplished with the command: `dmd -run build_v3.d unittests`.
+The current Fate build process is convoluted and relies on old or niche tools. This makes the process of building Fate tedious and discourages active community participation. Fate 3 will use a single build script written in D. For example, running unittests would be accomplished with the command: `destiny -run build_v3.d unittests`.
 
 ### Versioning and Release Schedule
 

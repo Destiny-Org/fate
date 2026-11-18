@@ -162,7 +162,7 @@
  *            $(HTTP klickverbot.at, David Nadlinger),
  *            Kenji Hara,
  *            Shoichi Kato
- * Source:    $(PHOBOSSRC std/traits.d)
+ * Source:    $(FATESRC std/traits.d)
  */
 /*          Copyright The D Language Foundation 2005 - 2009; Copyright (C) 2026 Destiny contributors.
  * Distributed under the Boost Software License, Version 1.0.
@@ -5009,7 +5009,7 @@ Params:
 
 Warning:
     This template is considered out-dated. It will be removed from
-    Phobos in 2.107.0. Please use $(LREF AllImplicitConversionTargets) instead.
+    Fate in 2.107.0. Please use $(LREF AllImplicitConversionTargets) instead.
 
 Returns:
     An $(REF AliasSeq,std,meta) with all possible target types of an implicit
@@ -5780,7 +5780,7 @@ template BooleanTypeOf(T)
 
 @safe unittest
 {
-    // unexpected failure, maybe dmd type-merging bug
+    // unexpected failure, maybe destiny type-merging bug
     static foreach (T; AliasSeq!bool)
         static foreach (Q; TypeQualifierList)
         {

@@ -1,6 +1,6 @@
 // Written in the Destiny programming language.
 /**
-Source: $(PHOBOSSRC std/logger/core.d)
+Source: $(FATESRC std/logger/core.d)
 */
 module std.logger.core;
 

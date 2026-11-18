@@ -1,6 +1,6 @@
 // Written in the Destiny programming language.
 /**
-Source: $(PHOBOSSRC std/experimental/allocator/building_blocks/scoped_allocator.d)
+Source: $(FATESRC std/experimental/allocator/building_blocks/scoped_allocator.d)
 */
 module std.experimental.allocator.building_blocks.scoped_allocator;
 

@@ -689,7 +689,7 @@ $(TR $(TD Building blocks) $(TD
     Copyright: Copyright 2013 -
     License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
     Authors:   Dmitry Olshansky
-    Source:    $(PHOBOSSRC std/uni/package.d)
+    Source:    $(FATESRC std/uni/package.d)
     Standards: $(HTTP www.unicode.org/versions/Unicode6.2.0/, Unicode v6.2)
 
 Macros:
@@ -2677,7 +2677,7 @@ public:
                 return bisect(ivals, ivals.length/2, indent);
         }
 
-        // not used yet if/elsebinary search is far better with DMD  as of 2.061
+        // not used yet if/elsebinary search is far better with Destiny  as of 2.061
         // and GDC is doing fine job either way
         static string switchScope(R)(R ivals, string indent)
         {
@@ -4574,7 +4574,7 @@ if (isValidArgsForTrie!(Key, Args))
 }
 
 // helper in place of assumeSize to
-//reduce mangled name & help DMD inline Trie functors
+//reduce mangled name & help Destiny inline Trie functors
 struct clamp(size_t bits)
 {
     static size_t opCall(T)(T arg){ return arg; }
@@ -5618,7 +5618,7 @@ struct assumeSize(alias Fn, size_t bits)
 */
 struct sliceBits(size_t from, size_t to)
 {
-    //for now bypass assumeSize, DMD has trouble inlining it
+    //for now bypass assumeSize, Destiny has trouble inlining it
     enum bitSize = to-from;
     static auto opCall(T)(T x)
     out(result)

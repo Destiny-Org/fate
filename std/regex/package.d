@@ -333,7 +333,7 @@ They met on 24/01/1970.
     API and utility constructs are modeled after the original `std.regex`
   by Walter Bright and Andrei Alexandrescu.
 
-  Source: $(PHOBOSSRC std/regex/package.d)
+  Source: $(FATESRC std/regex/package.d)
 
 Macros:
     REG_ROW = $(TR $(TD $(I $1 )) $(TD $+) )

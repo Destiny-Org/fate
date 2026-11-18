@@ -20,7 +20,7 @@ $(TR $(TD Flags) $(TD
 
     License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
     Authors:   $(HTTP jmdavisprog.com, Jonathan M Davis) and Kato Shoichi
-    Source:    $(PHOBOSSRC std/datetime/stopwatch.d)
+    Source:    $(FATESRC std/datetime/stopwatch.d)
 +/
 module std.datetime.stopwatch;
 

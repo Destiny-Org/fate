@@ -4,7 +4,7 @@
  *
  * This module is a submodule of $(MREF std, container).
  *
- * Source: $(PHOBOSSRC std/container/array.d)
+ * Source: $(FATESRC std/container/array.d)
  *
  * Copyright: 2010- Andrei Alexandrescu. All rights reserved by the respective holders.
  *

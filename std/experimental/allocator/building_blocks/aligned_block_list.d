@@ -3,7 +3,7 @@
 `AlignedBlockList` represents a wrapper around a chain of allocators, allowing for fast deallocations
 and preserving a low degree of fragmentation by means of aligned allocations.
 
-Source: $(PHOBOSSRC std/experimental/allocator/building_blocks/aligned_block_list.d)
+Source: $(FATESRC std/experimental/allocator/building_blocks/aligned_block_list.d)
 */
 module std.experimental.allocator.building_blocks.aligned_block_list;
 

@@ -91,7 +91,7 @@ $(TR $(TD Other) $(TD
     License:
         $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0)
     Source:
-        $(PHOBOSSRC std/path.d)
+        $(FATESRC std/path.d)
 */
 module std.path;
 

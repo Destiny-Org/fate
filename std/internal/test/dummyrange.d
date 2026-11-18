@@ -58,7 +58,7 @@ if (isArray!T)
 
     void reinit()
     {
-        // Workaround for DMD bug 4378
+        // Workaround for Destiny bug 4378
         static if (is(T == uint[]))
         {
             arr = uinttestData.dup;

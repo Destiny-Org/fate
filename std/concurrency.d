@@ -68,7 +68,7 @@
  * Copyright: Copyright Sean Kelly 2009 - 2014.
  * License:   <a href="http://www.boost.org/LICENSE_1_0.txt">Boost License 1.0</a>.
  * Authors:   Sean Kelly, Alex Rønne Petersen, Martin Nowak
- * Source:    $(PHOBOSSRC std/concurrency.d)
+ * Source:    $(FATESRC std/concurrency.d)
  */
 /*          Copyright Sean Kelly 2009 - 2014.
  * Distributed under the Boost Software License, Version 1.0.
@@ -2952,7 +2952,7 @@ else @system unittest
     if (false) receive(&foo);
     if (false) receiveTimeout(Duration.init, &foo);
 
-    // Wrapped in __traits(compiles) to skip codegen which crashes dmd's backend
+    // Wrapped in __traits(compiles) to skip codegen which crashes destiny's backend
     static assert(__traits(compiles, receiveOnly!noreturn()                 ));
     static assert(__traits(compiles, send(Tid.init, noreturn.init)          ));
     static assert(__traits(compiles, prioritySend(Tid.init, noreturn.init)  ));

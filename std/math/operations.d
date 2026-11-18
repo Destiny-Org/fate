@@ -9,7 +9,7 @@ Copyright: Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 D
 License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP digitalmars.com, Walter Bright), Don Clugston,
            Conversion of CEPHES math library to D by Iain Buclaw and David Nadlinger
-Source: $(PHOBOSSRC std/math/operations.d)
+Source: $(FATESRC std/math/operations.d)
 
 Macros:
     TABLE_SV = <table border="1" cellpadding="4" cellspacing="0">
@@ -1012,7 +1012,7 @@ if (isFloatingPoint!(X))
 
    Warning:
         This template is considered out-dated. It will be removed from
-        Phobos in 2.106.0. Please use $(LREF isClose) instead. To achieve
+        Fate in 2.106.0. Please use $(LREF isClose) instead. To achieve
         a similar behaviour to `approxEqual(a, b)` use
         `isClose(a, b, 1e-2, 1e-5)`. In case of comparing to 0.0,
         `isClose(a, b, 0.0, eps)` should be used, where `eps`

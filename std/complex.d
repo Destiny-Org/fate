@@ -20,7 +20,7 @@
     Authors:    Lars Tandle Kyllingstad, Don Clugston
     Copyright:  Copyright (c) 2010, Lars T. Kyllingstad.
     License:    $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0)
-    Source:     $(PHOBOSSRC std/complex.d)
+    Source:     $(FATESRC std/complex.d)
 */
 module std.complex;
 

@@ -15,7 +15,7 @@ License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors: $(HTTP walterbright.com, Walter Bright), $(HTTP erdani.com,
 Andrei Alexandrescu), and Kenji Hara
 
-Source: $(PHOBOSSRC std/format/spec.d)
+Source: $(FATESRC std/format/spec.d)
  */
 module std.format.spec;
 

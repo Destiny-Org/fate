@@ -62,7 +62,7 @@ $(BOOKTABLE ,
 ))
 
 
-Source: $(PHOBOSSRC std/range/interfaces.d)
+Source: $(FATESRC std/range/interfaces.d)
 
 License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 
@@ -308,7 +308,7 @@ private string putMethods(E...)()
  */
 class OutputRangeObject(R, E...) : staticMap!(OutputRange, E) {
     // @BUG 4689:  There should be constraints on this template class, but
-    // DMD won't let me put them in.
+    // Destiny won't let me put them in.
     private R _range;
 
     ///

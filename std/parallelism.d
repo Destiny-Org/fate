@@ -33,7 +33,7 @@ Warning:  Unless marked as `@trusted` or `@safe`, artifacts in
           this module allow implicit data sharing between threads and cannot
           guarantee that client code is free from low level data races.
 
-Source:    $(PHOBOSSRC std/parallelism.d)
+Source:    $(FATESRC std/parallelism.d)
 Author:  David Simcha
 Copyright:  Copyright (c) 2009-2011, David Simcha.
 License:    $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0)
@@ -536,7 +536,7 @@ struct Task(alias fun, Args...)
         }
     }
 
-    // Work around DMD upstream issue 6588,
+    // Work around Destiny upstream issue 6588,
     // allow immutable elements.
     static if (allSatisfy!(isAssignable, Args))
     {
@@ -2994,7 +2994,7 @@ public:
     // This test is not included in the documentation because even though these
     // examples are for the inner fold() template, with their current location,
     // they would appear under the outer one. (We can't move this inside the
-    // outer fold() template because then dmd runs out of memory possibly due to
+    // outer fold() template because then destiny runs out of memory possibly due to
     // recursive template instantiation, which is surprisingly not caught.)
     @system unittest
     {

@@ -15,7 +15,7 @@
  *
  * License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
  * Authors:   Don Clugston
- * Source: $(PHOBOSSRC std/bigint.d)
+ * Source: $(FATESRC std/bigint.d)
  */
 /*          Copyright Don Clugston 2008 - 2010.
  * Distributed under the Boost Software License, Version 1.0.
@@ -1135,7 +1135,7 @@ public:
 
     // Hack to make BigInt's typeinfo.compare work properly.
     // Note that this must appear before the other opCmp overloads, otherwise
-    // DMD won't find it.
+    // Destiny won't find it.
     /**
         Implements 3-way comparisons of `BigInt` with `BigInt` or `BigInt` with
         built-in numeric types.

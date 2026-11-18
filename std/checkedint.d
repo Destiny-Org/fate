@@ -193,7 +193,7 @@ in a `Hook`, otherwise the built-in hashing is used.)
 )
 )
 
-Source: $(PHOBOSSRC std/checkedint.d)
+Source: $(FATESRC std/checkedint.d)
 */
 module std.checkedint;
 import std.traits : isFloatingPoint, isIntegral, isNumeric, isUnsigned, Unqual;

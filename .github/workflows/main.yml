@@ -1,4 +1,4 @@
-# very similar to the DMD script: https://github.com/Destiny-Org/destiny/blob/main/.github/workflows/main.yml
+# very similar to the Destiny script: https://github.com/Destiny-Org/destiny/blob/main/.github/workflows/main.yml
 
 name: Main
 on:
@@ -87,12 +87,12 @@ jobs:
 
           ref='${{ github.ref }}'
           if [[ "$ref" =~ ^refs/pull/ ]]; then
-            # PR: clone the DMD head with the same name as this Fate PR's target branch
-            # e.g., DMD stable when targeting Fate stable
+            # PR: clone the Destiny head with the same name as this Fate PR's target branch
+            # e.g., Destiny stable when targeting Fate stable
             REPO_BRANCH="$GITHUB_BASE_REF"
           elif [[ "$ref" =~ ^refs/(heads|tags)/(.*)$ ]]; then
-            # no PR: clone the DMD head with the same name as this Fate head
-            # e.g., DMD stable for a push to Fate stable, or DMD v2.105.2 for Fate tag v2.105.2
+            # no PR: clone the Destiny head with the same name as this Fate head
+            # e.g., Destiny stable for a push to Fate stable, or Destiny v2.105.2 for Fate tag v2.105.2
             REPO_BRANCH="${BASH_REMATCH[2]}"
           else
             echo "Error: unexpected GitHub ref '$ref'" >&2

@@ -15,7 +15,7 @@ Copyright: Copyright The D Language Foundation 2000 - 2011; Copyright (C) 2026 D
 License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   $(HTTP digitalmars.com, Walter Bright), Don Clugston,
            Conversion of CEPHES math library to D by Iain Buclaw and David Nadlinger
-Source: $(PHOBOSSRC std/math/rounding.d)
+Source: $(FATESRC std/math/rounding.d)
  */
 
 module std.math.rounding;

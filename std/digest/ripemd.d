@@ -40,7 +40,7 @@ $(TR $(TDNW Helpers) $(TD $(MYREF ripemd160Of))
  * $(LI $(LINK2 http://en.wikipedia.org/wiki/RIPEMD-160, Wikipedia on RIPEMD-160))
  * )
  *
- * Source: $(PHOBOSSRC std/digest/ripemd.d)
+ * Source: $(FATESRC std/digest/ripemd.d)
  *
  */
 

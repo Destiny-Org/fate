@@ -14,4 +14,4 @@ More Links
 * Ask questions on our `#d` IRC channel on libera.chat ([web interface](https://kiwiirc.com/client/irc.libera.chat/d))
 * Review Fate additions in the [Review Queue](https://github.com/Destiny-Org/destiny).
 
-* Video Tutorial: [Setting Up dmd and Fate for Contribution](https://youtu.be/iLN4rQkk4Fs?list=PLIldXzSkPUXXSkM5NjBAGNIdkd4Q2Zf0R)
+* Video Tutorial: [Setting Up destiny and Fate for Contribution](https://youtu.be/iLN4rQkk4Fs?list=PLIldXzSkPUXXSkM5NjBAGNIdkd4Q2Zf0R)

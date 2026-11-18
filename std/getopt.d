@@ -18,7 +18,7 @@ Credits:   This module and its documentation are inspired by Perl's
            D's `getopt` is simpler than its Perl counterpart because $(D
            getopt) infers the expected parameter types from the static types of
            the passed-in pointers.
-Source:    $(PHOBOSSRC std/getopt.d)
+Source:    $(FATESRC std/getopt.d)
 */
 /*
          Copyright Andrei Alexandrescu 2008 - 2015.

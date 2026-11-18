@@ -230,7 +230,7 @@ License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 
 Authors: $(HTTP erdani.com, Andrei Alexandrescu)
 
-Source: $(PHOBOSSRC std/experimental/allocator)
+Source: $(FATESRC std/experimental/allocator)
 
 */
 

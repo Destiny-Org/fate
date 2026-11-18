@@ -218,7 +218,7 @@ sort, std, algorithm, sorting) function also conveniently
 returns a $(LREF SortedRange). $(LREF SortedRange) objects provide some additional
 range operations that take advantage of the fact that the range is sorted.
 
-Source: $(PHOBOSSRC std/range/package.d)
+Source: $(FATESRC std/range/package.d)
 
 License: $(HTTP boost.org/LICENSE_1_0.txt, Boost License 1.0).
 
@@ -9140,7 +9140,7 @@ if (isInputRange!Source)
     auto oddsByPairs = odds.chunks(2);
     assert(equal!`equal(a, b)`(oddsByPairs.take(2),         [[ 1,  3], [ 5,  7]]));
 
-    //Requires phobos#991 for Sequence to have slice to end
+    //Requires fate#991 for Sequence to have slice to end
     static assert(hasSlicing!(typeof(odds)));
     assert(equal!`equal(a, b)`(oddsByPairs[3 .. 5],         [[13, 15], [17, 19]]));
     assert(equal!`equal(a, b)`(oddsByPairs[3 .. $].take(2), [[13, 15], [17, 19]]));
@@ -14481,7 +14481,7 @@ pure @safe unittest
 }
 
 /**
-This simplifies a commonly used idiom in phobos for accepting any kind of string
+This simplifies a commonly used idiom in fate for accepting any kind of string
 parameter. The type `R` can for example be a simple string, chained string using
 $(REF chain, std,range), $(REF chainPath, std,path) or any other input range of
 characters.

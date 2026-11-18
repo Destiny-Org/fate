@@ -8,7 +8,7 @@
    Authors: $(HTTP walterbright.com, Walter Bright), $(HTTP erdani.com,
    Andrei Alexandrescu), and Kenji Hara
 
-   Source: $(PHOBOSSRC std/format/internal/read.d)
+   Source: $(FATESRC std/format/internal/read.d)
  */
 module std.format.internal.read;
 

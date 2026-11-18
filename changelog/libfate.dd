@@ -1,0 +1,15 @@
+The library is now `libfate`, and the v3 preview package is `fate.sys`
+
+$(UL
+$(LI The compiled library is `libfate.a` and `libfate.so` (`fate64.lib` /
+`fate32mscoff.lib` on Windows) instead of `libphobos2`. The compiler links
+with it by default. Link with `-lfate` instead of `-lphobos2`.)
+$(LI The v3 preview package moved from `phobos.sys` (folder `phobos/sys`) to
+`fate.sys` (folder `fate/sys`): write `import fate.sys.traits;` instead of
+`import phobos.sys.traits;`. Its unittest version is `FateUnittest`, and the
+v3 library is `libfate3`.)
+$(LI The documentation macro `PHOBOSSRC` is now `FATESRC`, and installs put
+the sources in `src/fate`.)
+)
+
+The `std.*` and `etc.*` modules keep their names.

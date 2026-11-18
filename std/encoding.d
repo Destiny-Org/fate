@@ -98,7 +98,7 @@ EncodingScheme) subclasses for any other encoding.
 Copyright: Copyright Janice Caron 2008 - 2009.
 License:   $(HTTP www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
 Authors:   Janice Caron
-Source:    $(PHOBOSSRC std/encoding.d)
+Source:    $(FATESRC std/encoding.d)
 */
 /*
          Copyright Janice Caron 2008 - 2009.
