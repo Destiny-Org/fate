@@ -32,3 +32,5 @@ tools/ucd*
 *.obj
 *.exe
 unittest
+# documentation is kept locally, not on GitHub
+docs/

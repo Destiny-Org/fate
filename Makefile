@@ -43,7 +43,12 @@ GIT_HOME=https://x-access-token:$(DESTINY_REPO_TOKEN)@github.com/Destiny-Org
 else
 GIT_HOME=https://github.com/Destiny-Org
 endif
-DMD_DIR=../destiny_engine
+# The Destiny engine checkout: `../destiny_engine` locally, `../destiny` in
+# the Destiny repository's CI (checked out under the repository name).
+# Override with `make DMD_DIR=<path>`.
+ifeq ($(origin DMD_DIR),undefined)
+DMD_DIR:=$(if $(wildcard ../destiny_engine/compiler/src/osmodel.mak),../destiny_engine,../destiny)
+endif
 
 include $(DMD_DIR)/compiler/src/osmodel.mak
 

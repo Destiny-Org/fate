@@ -15,27 +15,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Linux
+          # Built with a released Destiny compiler (Destiny-Org/host-compilers),
+          # which exists for Linux x86_64 only; other platforms return once
+          # Destiny is packaged for them.
           - job_name: Ubuntu 22.04 x64
             os: ubuntu-22.04
           - job_name: Ubuntu 22.04 x86
             os: ubuntu-22.04
             model: 32
-          # macOS
-          - job_name: macOS x64
-            os: macos-14
-            timeout-minutes: 60
-          # Windows
-          - job_name: Windows x64
-            os: windows-2022
-          - job_name: Windows x86
-            os: windows-2022
-            model: 32
-          # FreeBSD (VM on Ubuntu)
-          - job_name: FreeBSD 14.4 x64
-            os: ubuntu-latest
-            vm_os: freebsd
-            vm_os_version: '14.4'
     name: ${{ matrix.job_name }}
     runs-on: ${{ matrix.os }}
     container: ${{ matrix.container_image }}
@@ -46,7 +33,7 @@ jobs:
       # for ci/run.sh:
       OS_NAME: ${{ matrix.vm_os || (startsWith(matrix.os, 'ubuntu') && 'linux' || (startsWith(matrix.os, 'macos') && 'osx' || (startsWith(matrix.os, 'windows') && 'windows' || ''))) }}
       MODEL: ${{ matrix.model || '64' }}
-      HOST_DC: dmd-2.113.1
+      HOST_DC: destiny-2.115.0-master
       # N is set dynamically below
       FULL_BUILD: false
       # work around upstream issue 23517
@@ -123,7 +110,7 @@ jobs:
       - name: 'Windows: Install host compiler'
         if: runner.os == 'Windows'
         shell: bash
-        run: bash ../destiny_engine/ci/host_compiler.sh dmd-2.113.1
+        run: bash ../destiny_engine/ci/host_compiler.sh destiny-2.115.0-master
 
       - name: Build
         run: cd ../destiny_engine && ci/run.sh build
