@@ -94,7 +94,7 @@ struct MmapAllocator
         }
 
         /// Ditto
-        pure nothrow @nogc
+        pure nothrow @nogc @system // frees the memory with VirtualFree
         bool deallocate(void[] b) shared const
         {
             const lastErrorSave = GetLastError(); // For purity ensure last-error does not visibly change.

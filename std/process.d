@@ -1591,7 +1591,7 @@ version (Posix) @system unittest
 // inherited without modification, as this is what is expected by
 // CreateProcess().
 version (Windows)
-private LPVOID createEnv(const string[string] childEnv,
+@system private LPVOID createEnv(const string[string] childEnv,
                          bool mergeWithParentEnv)
 {
     if (mergeWithParentEnv && childEnv.length == 0) return null;

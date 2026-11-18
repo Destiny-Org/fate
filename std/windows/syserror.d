@@ -14,6 +14,8 @@
  *          http://www.boost.org/LICENSE_1_0.txt)
  */
 module std.windows.syserror;
+
+@system: // Destiny: Windows API bindings and raw-pointer code (D's default)
 import std.traits : isSomeString;
 
 version (StdDdoc)

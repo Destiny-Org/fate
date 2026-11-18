@@ -1,5 +1,7 @@
 module std.internal.windows.bcrypt;
 
+@system: // Destiny: Windows API bindings and raw-pointer code (D's default)
+
 version (Windows):
 
 import core.sys.windows.bcrypt : BCryptGenRandom, BCRYPT_USE_SYSTEM_PREFERRED_RNG;

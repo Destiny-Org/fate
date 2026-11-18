@@ -36,6 +36,8 @@
  *
  * ////////////////////////////////////////////////////////////////////////// */
 module std.windows.registry;
+
+@system: // Destiny: Windows API bindings and raw-pointer code (D's default)
 version (Windows):
 
 import core.sys.windows.winbase, core.sys.windows.windef, core.sys.windows.winreg;

@@ -1713,7 +1713,7 @@ else
         import core.time : MonoTime;
 
         updateResult(cast(ulong) cast(void*) Thread.getThis());
-        updateResult(cast(ulong) getpid());
+        updateResult(cast(ulong) (() @trusted => getpid())()); // the process id
         updateResult(cast(ulong) MonoTime.currTime.ticks);
         result = (result ^ (result >>> 47)) * m;
         return result ^ (result >>> 47);

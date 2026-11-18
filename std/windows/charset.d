@@ -14,6 +14,8 @@
  */
 module std.windows.charset;
 
+@system: // Destiny: Windows API bindings and raw-pointer code (D's default)
+
 version (StdDdoc)
 {
     /******************************************

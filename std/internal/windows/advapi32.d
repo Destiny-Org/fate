@@ -10,6 +10,8 @@
  */
 module std.internal.windows.advapi32;
 
+@system: // Destiny: Windows API bindings and raw-pointer code (D's default)
+
 version (Windows):
 
 import core.sys.windows.winbase, core.sys.windows.winnt, core.sys.windows.winreg;

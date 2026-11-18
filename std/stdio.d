@@ -786,7 +786,7 @@ Throws: `ErrnoException` in case of error.
     void windowsHandleOpen(HANDLE handle, scope const(char)[] stdioOpenmode);
 
     version (Windows)
-    void windowsHandleOpen(HANDLE handle, scope const(char)[] stdioOpenmode)
+    void windowsHandleOpen(HANDLE handle, scope const(char)[] stdioOpenmode) @trusted // opens this File from a Windows handle
     {
         import core.stdc.stdint : intptr_t;
         import std.exception : errnoEnforce;
@@ -1031,8 +1031,9 @@ Throws: `ErrnoException` if the file is not opened or the call to `fread` fails.
         version (Windows)
         {
             immutable fileno_t fd = .fileno(_p.handle);
-            immutable mode = ._setmode(fd, _O_BINARY);
-            scope(exit) ._setmode(fd, mode);
+            // switch this file to binary mode for the read, and back
+            immutable mode = (() @trusted => ._setmode(fd, _O_BINARY))();
+            scope(exit) (() @trusted => ._setmode(fd, mode))();
         }
         immutable freadResult = trustedFread(_p.handle, buffer);
         assert(freadResult <= buffer.length); // fread return guarantee
@@ -2257,7 +2258,7 @@ Returns the underlying operating system `HANDLE` (Windows only).
     @property HANDLE windowsHandle();
 
     version (Windows)
-    @property HANDLE windowsHandle()
+    @property HANDLE windowsHandle() @trusted // the handle of this file's descriptor
     {
         return cast(HANDLE)_get_osfhandle(fileno);
     }
