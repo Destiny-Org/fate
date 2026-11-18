@@ -2408,8 +2408,26 @@ if (is(T == class) || is(T == interface) || isAssociativeArray!T)
     bool opEquals()(auto ref const(typeof(this)) rhs) const
     {
         // Must forward explicitly because 'stripped' is part of a union.
-        // The necessary 'toHash' is forwarded to the class via alias this.
         return stripped == rhs.stripped;
+    }
+
+    static if (is(T == class) || is(T == interface))
+    {
+        // Hash the referenced object, as `hashOf` does for any class
+        // reference. Forwarding through `alias this` is not enough: for a
+        // const or immutable class the object's non-const `toHash` is not
+        // callable, so the wrapper would be hashed bit by bit instead.
+        size_t toHash() const
+        {
+            // the object's own toHash when it can be called on a const
+            // object (keeps its attributes, e.g. @safe); hashOf otherwise
+            // read through `get` (@trusted): `original` overlaps `stripped`
+            auto obj = get;
+            static if (__traits(compiles, (const T x) { size_t h = x.toHash(); }))
+                return obj is null ? 0 : obj.toHash();
+            else
+                return hashOf(obj);
+        }
     }
 
     bool opEquals(const(U) rhs) const

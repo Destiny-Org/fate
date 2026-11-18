@@ -2233,6 +2233,18 @@ private struct ChunkByGroup(alias eq, Range, bool eqEquivalenceAssured)
         emplace(&temp);
     }
 
+    // Same hash as the generated one. Reading the overlapped `mothership`
+    // is not @safe, so only that read is @trusted: it hashes the
+    // RefCounted's bits (the address of the shared state), nothing more.
+    size_t toHash() const
+    {
+        size_t h = hashOf(groupNum);
+        static if (eqEquivalenceAssured)
+            h = hashOf(start, h);
+        h = hashOf(current, h);
+        return () @trusted { return hashOf(mothership, h); }();
+    }
+
     @property bool empty() { return groupNum == size_t.max; }
     @property auto ref front() { return current.front; }
 

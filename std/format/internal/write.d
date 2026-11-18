@@ -2783,7 +2783,7 @@ if ((is(T == struct) || is(T == union)) && (hasToString!(T, Char) || !is(Builtin
         }
 
         Foo f;
-        assert(format("%b", f) == "Hello");
+        assert(() @trusted { return format("%b", f); } () == "Hello");
 
         struct Foo2
         {
@@ -2794,7 +2794,7 @@ if ((is(T == struct) || is(T == union)) && (hasToString!(T, Char) || !is(Builtin
         }
 
         Foo2 f2;
-        assert(format("%b", f2) == "Hello");
+        assert(() @trusted { return format("%b", f2); } () == "Hello");
     }
 }
 
