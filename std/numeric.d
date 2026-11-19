@@ -590,7 +590,7 @@ public:
     /// ditto
     // Define an opBinary `CustomFloat op CustomFloat` so that those below
     // do not match equally, which is disallowed by the spec:
-    // https://github.com/Destiny-Org/destiny/blob/main/spec/operatoroverloading.dd
+    // https://github.com/Destiny-Org/destiny/blob/main/spec/operatoroverloading.ddd
     real opBinary(string op,T)(T b) const
     if (__traits(compiles, mixin(`get!real`~op~`b.get!real`)))
     {

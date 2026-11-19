@@ -320,7 +320,36 @@ struct FreeTree(ParentAllocator)
 
     // Forwarding methods
     mixin(forwardToMember("parent",
-        "allocateAll", "expand", "owns", "reallocate"));
+        "allocateAll", "expand", "owns"));
+
+    /**
+    Reallocates `b` to `s` bytes through the parent, keeping the block at
+    least `goodAllocSize(s)` bytes: `deallocate` stores a tree node in every
+    freed block, so a block sized by the parent alone (smaller than a node)
+    would be overrun when it is freed.
+    */
+    static if (__traits(hasMember, ParentAllocator, "reallocate"))
+    bool reallocate(ref void[] b, size_t s)
+    {
+        if (!b.ptr)
+        {
+            if (s == 0) return true;
+            b = allocate(s);
+            return b.ptr !is null;
+        }
+        if (s == 0)
+        {
+            deallocate(b);
+            b = null;
+            return true;
+        }
+        // the whole block, as allocate made it
+        void[] whole = b.ptr[0 .. goodAllocSize(b.length)];
+        if (!parent.reallocate(whole, goodAllocSize(s)))
+            return false;
+        b = whole.ptr[0 .. s];
+        return true;
+    }
 
     /** Places `b` into the free tree. */
     bool deallocate(void[] b)
@@ -415,6 +444,19 @@ version (StdUnittest)
 {
     import std.experimental.allocator.gc_allocator;
     testAllocator!(() => FreeTree!GCAllocator());
+}
+
+// reallocate keeps a block big enough for the node deallocate stores in it
+@system unittest
+{
+    import core.memory : GC;
+    import std.experimental.allocator.gc_allocator : GCAllocator;
+    FreeTree!GCAllocator a;
+    auto b = a.allocate(100);
+    assert(a.reallocate(b, 2));
+    assert(b.length == 2);
+    assert(GC.sizeOf(b.ptr) >= a.goodAllocSize(2));
+    a.deallocate(b);
 }
 
 // upstream issue 16506

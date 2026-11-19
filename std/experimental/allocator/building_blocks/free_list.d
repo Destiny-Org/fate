@@ -457,6 +457,10 @@ struct FreeList(ParentAllocator,
 
     // Destruction should only deallocate the node
     destroy(fl);
+
+    // buf2 was kept on purpose; free it without touching the stats the
+    // wrapper's destructor checks
+    Mallocator.instance.deallocate(buf2);
 }
 
 @system unittest
@@ -1278,7 +1282,8 @@ else @system unittest
     import std.experimental.allocator.mallocator : Mallocator;
     shared SharedFreeList!(Mallocator, chooseAtRuntime, chooseAtRuntime, chooseAtRuntime) a;
     scope(exit) assert((() nothrow @nogc => a.deallocateAll())());
-    a.allocate(64);
+    auto b = a.allocate(64);
+    scope (exit) a.deallocate(b); // runs first: deallocateAll empties the list
 }
 
 @system unittest
@@ -1286,7 +1291,8 @@ else @system unittest
     import std.experimental.allocator.mallocator : Mallocator;
     shared SharedFreeList!(Mallocator, 30, 40) a;
     scope(exit) assert((() nothrow @nogc => a.deallocateAll())());
-    a.allocate(64);
+    auto b = a.allocate(64);
+    scope (exit) a.deallocate(b); // runs first: deallocateAll empties the list
 }
 
 @system unittest
@@ -1294,7 +1300,8 @@ else @system unittest
     import std.experimental.allocator.mallocator : Mallocator;
     shared SharedFreeList!(Mallocator, 30, 40, chooseAtRuntime) a;
     scope(exit) assert((() nothrow @nogc => a.deallocateAll())());
-    a.allocate(64);
+    auto b = a.allocate(64);
+    scope (exit) a.deallocate(b); // runs first: deallocateAll empties the list
 }
 
 @system unittest
@@ -1304,7 +1311,8 @@ else @system unittest
     shared SharedFreeList!(Mallocator, 0, chooseAtRuntime) a;
     scope(exit) assert((() nothrow @nogc => a.deallocateAll())());
     a.max = 64;
-    a.allocate(64);
+    auto b = a.allocate(64);
+    scope (exit) a.deallocate(b); // runs first: deallocateAll empties the list
 }
 
 @system unittest
@@ -1314,5 +1322,6 @@ else @system unittest
     shared SharedFreeList!(Mallocator, chooseAtRuntime, 64) a;
     scope(exit) assert((() nothrow @nogc => a.deallocateAll())());
     a.min = 32;
-    a.allocate(64);
+    auto b = a.allocate(64);
+    scope (exit) a.deallocate(b); // runs first: deallocateAll empties the list
 }

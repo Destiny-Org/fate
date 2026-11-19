@@ -507,7 +507,9 @@ endif
 	mkdir -p $(INSTALL_DIR)/src/fate/std
 	cp -r std/* $(INSTALL_DIR)/src/fate/std/
 	cp -r etc/* $(INSTALL_DIR)/src/fate/etc/
-	cp LICENSE_1_0.txt $(INSTALL_DIR)/fate-LICENSE.txt
+	cp LICENSE $(INSTALL_DIR)/fate-LICENSE
+	cp NOTICE $(INSTALL_DIR)/fate-NOTICE
+	cp LICENSE_1_0.txt $(INSTALL_DIR)/fate-LICENSE-BOOST.txt
 
 ifeq (1,$(CUSTOM_DRUNTIME))
 # We consider a custom-set DRUNTIME a sign they build druntime themselves
@@ -535,14 +537,14 @@ $(JSON) : $(ALL_D_FILES)
 # HTML documentation
 # set DOC_OUTPUT_DIR (and optionally STDDOC) when building the docs
 ###########################################################
-SRC_DOCUMENTABLES = index.dd $(addsuffix .d,$(STD_MODULES) $(EXTRA_DOCUMENTABLES))
+SRC_DOCUMENTABLES = index.ddd $(addsuffix .d,$(STD_MODULES) $(EXTRA_DOCUMENTABLES))
 # Set DDOC, the documentation generator
 DDOC=$(DMD) -conf= $(MODEL_FLAG) -w -c -o- -version=StdDdoc \
 	-I$(DRUNTIME_PATH)/import $(DMDEXTRAFLAGS)
 
 # D file to html, e.g. std/conv.d -> std_conv.html
 # But "package.d" is special cased: std/range/package.d -> std_range.html
-D2HTML=$(foreach p,$1,$(if $(subst package.d,,$(notdir $p)),$(subst /,_,$(subst .d,.html,$(subst .dd,.html,$p))),$(subst /,_,$(subst /package.d,.html,$p))))
+D2HTML=$(foreach p,$1,$(if $(subst package.d,,$(notdir $p)),$(subst /,_,$(subst .d,.html,$(subst .ddd,.html,$p))),$(subst /,_,$(subst /package.d,.html,$p))))
 
 HTMLS=$(addprefix $(DOC_OUTPUT_DIR)/, \
 	$(call D2HTML, $(SRC_DOCUMENTABLES)))
@@ -570,10 +572,10 @@ $(TOOLS_DIR)/tests_extractor.d: | $(TOOLS_DIR)
 
 #################### test for undesired white spaces ##########################
 CWS_TOCHECK = Makefile
-CWS_TOCHECK += $(ALL_D_FILES) index.dd
+CWS_TOCHECK += $(ALL_D_FILES) index.ddd
 
 checkwhitespace: $(LIB) $(TOOLS_DIR)/checkwhitespace.d
-	$(DMD) $(DFLAGS) $(NODEFAULTLIB) $(LIB) -run $(TOOLS_DIR)/checkwhitespace.d $(CWS_TOCHECK)
+	$(DMD) $(DFLAGS) -revert=safedefault $(NODEFAULTLIB) $(LIB) -run $(TOOLS_DIR)/checkwhitespace.d $(CWS_TOCHECK)
 
 #############################
 # Submission to Fate are required to conform to the DStyle
@@ -636,7 +638,7 @@ style_lint_shellcmds:
 	grep -nrE "[[:alnum:]](==|!=|<=|<<|>>|>>>|^^)[[:alnum:]]|[[:alnum:]] (==|!=|<=|<<|>>|>>>|^^)[[:alnum:]]|[[:alnum:]](==|!=|<=|<<|>>|>>>|^^) [[:alnum:]]" $$(find etc std -name '*.d'); test $$? -eq 1
 
 	@echo "Validate changelog files (Do _not_ use REF in the title!)"
-	@for file in $$(find changelog -name '*.dd') ; do  \
+	@for file in $$(find changelog -name '*.ddd') ; do  \
 		cat $$file | head -n1 | grep -nqE '\$$\((REF|LINK2|HTTP|MREF)' && \
 		{ echo "$$file: The title line can't contain links - it's already a link" && exit 1; } ;\
 		cat $$file | head -n2 | tail -n1 | grep -q '^$$' || \
@@ -656,8 +658,10 @@ style_lint: style_lint_shellcmds dscanner
 ################################################################################
 
 $(TESTS_EXTRACTOR): $(TOOLS_DIR)/tests_extractor.d | $(LIB) $(DSCANNER_DIR)
-	# libdparse comes from the Destiny-Org/d-scanner checkout
-	$(DMD) $(DFLAGS) $(LIB) $(NODEFAULTLIB) $(LINKDL) -i -I$(DSCANNER_DIR)/libdparse/src $< -of$@
+	# libdparse comes from the Destiny-Org/d-scanner checkout; the tools are
+	# written for D's @system default, like build.d (-revert=safedefault)
+	# (-i skips std.*; libdparse brings its own std.experimental.lexer)
+	$(DMD) $(DFLAGS) -revert=safedefault $(LIB) $(NODEFAULTLIB) $(LINKDL) -i=dparse -i=std.experimental.lexer -I$(DSCANNER_DIR)/libdparse/src $< -of$@
 
 test_extractor: $(TESTS_EXTRACTOR)
 

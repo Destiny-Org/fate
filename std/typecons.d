@@ -8170,8 +8170,10 @@ assert(refCountedStore.isInitialized)).
 // `initialize` method accessed here
 pure @safe nothrow @nogc unittest
 {
-    auto rc1 = SafeRefCounted!(int, RefCountedAutoInitialize.no)(5);
-    rc1._refCounted.initialize();
+    // start uninitialized: initializing a store that already exists would
+    // replace it and leak the old one
+    SafeRefCounted!(int, RefCountedAutoInitialize.no) rc1;
+    rc1._refCounted.initialize(5);
 }
 
 pure @system unittest

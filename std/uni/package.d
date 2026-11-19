@@ -1870,6 +1870,7 @@ alias sharSwitchLowerBound = sharMethod!switchUniformLowerBound;
     {
         int[] arr;
         ReallocPolicy.append(arr, 3);
+        scope (exit) ReallocPolicy.destroy(arr); // malloc'ed by the policy
 
         import std.algorithm.comparison : equal;
         assert(equal(arr, [3]));
@@ -1893,6 +1894,7 @@ alias sharSwitchLowerBound = sharMethod!switchUniformLowerBound;
     {
         int[] arr;
         ReallocPolicy.append(arr, [1,2,3]);
+        scope (exit) ReallocPolicy.destroy(arr); // malloc'ed by the policy
 
         import std.algorithm.comparison : equal;
         assert(equal(arr, [1,2,3]));

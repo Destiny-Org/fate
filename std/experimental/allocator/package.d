@@ -624,7 +624,8 @@ nothrow:
         bytesUsed = (cast(CAllocatorImpl!(SCAlloc))(_allocator._alloc)).impl.bytesUsed;
         assert(bytesUsed == stateSize!(CAllocatorImpl!(SCAlloc)),
                "RCIAllocator leaks memory; leaked " ~ to!string(bytesUsed) ~ " bytes");
-        _allocator.allocate(1);
+        auto block = _allocator.allocate(1);
+        scope (exit) _allocator.deallocate(block);
         bytesUsed = (cast(CAllocatorImpl!(SCAlloc))(_allocator._alloc)).impl.bytesUsed;
         assert(bytesUsed == stateSize!(CAllocatorImpl!(SCAlloc)) + 1,
                "RCIAllocator leaks memory; leaked " ~ to!string(bytesUsed) ~ " bytes");
@@ -1104,6 +1105,7 @@ allocator can be cast to `shared`.
     testAllocatorObject(theAllocator);
 
     shared SharedFreeList!(Mallocator, chooseAtRuntime, chooseAtRuntime) sharedFL;
+    scope (exit) sharedFL.minimize(); // a shared free list keeps freed blocks until minimized
     RCISharedAllocator sharedFLObj = sharedAllocatorObject(sharedFL);
     alias SharedAllocT = CSharedAllocatorImpl!(
             shared SharedFreeList!(
@@ -1372,7 +1374,8 @@ nothrow @safe @nogc unittest
     import std.experimental.allocator.mallocator : Mallocator;
     static struct Pure { this(int) pure nothrow @nogc @safe {} }
 
-    cast(void) Mallocator.instance.make!Pure(0);
+    auto p = Mallocator.instance.make!Pure(0);
+    () @trusted { Mallocator.instance.dispose(p); }();
 
     static int g = 0;
     static struct Impure { this(int) nothrow @nogc @safe {
@@ -1617,6 +1620,7 @@ T[] makeArray(T, Allocator)(auto ref Allocator alloc, size_t length)
         assert(a.length == 5);
         static immutable cheatsheet = [0, 0, 0, 0, 0];
         assert(a == cheatsheet);
+        () @trusted { alloc.dispose(a); }();
     }
 
     void test2(A)(auto ref A alloc)
@@ -1627,6 +1631,7 @@ T[] makeArray(T, Allocator)(auto ref Allocator alloc, size_t length)
         int[] arrInt = () @trusted { return (cast(int*) arr.ptr)[0 .. 5]; }();
         static immutable res = [42, 42, 42, 42, 42];
         assert(arrInt == res);
+        () @trusted { alloc.dispose(arr); }();
     }
 
     import std.experimental.allocator.gc_allocator : GCAllocator;
@@ -2032,7 +2037,8 @@ if (isInputRange!R && !isInfinite!R)
             j++;
         }
     }
-    makeArray!NoCopy(Mallocator.instance, NoCopyRange()); // rvalue elements are forwarded/moved
+    auto made = makeArray!NoCopy(Mallocator.instance, NoCopyRange()); // rvalue elements are forwarded/moved
+    () @trusted { Mallocator.instance.dispose(made); }();
 }
 
 // test failure with an impure, failing struct
@@ -2085,6 +2091,7 @@ if (isInputRange!R && !isInfinite!R)
     }
 
     auto arr2 = makeArray!NoCopy(Mallocator.instance, NoCopyRange());
+    scope (exit) Mallocator.instance.dispose(arr2);
     assert(i == j && i == 101); // all 101 rvalue elements forwarded/moved
 }
 
@@ -2772,7 +2779,8 @@ RCIAllocator allocatorObject(A)(A* pa)
     // CAllocatorImpl object; which is it's own wrapper
     assert((cast(CAllocatorImpl!(SCAlloc))(_allocator._alloc)).impl.bytesUsed
             == stateSize!(CAllocatorImpl!(SCAlloc)));
-    _allocator.allocate(1);
+    auto block = _allocator.allocate(1);
+    scope (exit) _allocator.deallocate(block);
     assert((cast(CAllocatorImpl!(SCAlloc))(_allocator._alloc)).impl.bytesUsed
             == stateSize!(CAllocatorImpl!(SCAlloc)) + 1);
 }
@@ -3860,11 +3868,13 @@ unittest
     auto a = allocatorObject(Mallocator.instance);
     auto b = a.allocate(100);
     assert(b.length == 100);
+    a.deallocate(b);
 
     FreeList!(GCAllocator, 0, 8) fl;
     auto sa = allocatorObject(fl);
     b = a.allocate(101);
     assert(b.length == 101);
+    a.deallocate(b);
 
     FallbackAllocator!(InSituRegion!(10240, 64), GCAllocator) fb;
     // Doesn't work yet...

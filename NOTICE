@@ -1,0 +1,16 @@
+Fate, the Destiny standard library
+Copyright 2026 Destiny-Org and the Destiny contributors
+
+Licensed under the Mozilla Public License 2.0 (see LICENSE). New code and
+changes made for Destiny are under the MPL 2.0: anyone who distributes a
+modified version of these files must publish those files under the MPL 2.0.
+
+Fate is based on Phobos, the D standard library (Copyright the D Language
+Foundation and contributors). Those original files remain under the Boost
+Software License 1.0, whose text is in LICENSE_1_0.txt; their copyright
+notices are kept in each file.
+
+"Destiny" and the Destiny name, as applied to this programming language and
+its tools, are trademarks of Destiny-Org. The license does not grant
+permission to use them (MPL-2.0 section 2.3); a modified version must use a
+different name.

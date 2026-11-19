@@ -45,4 +45,6 @@ and the v3 preview package is `fate.sys` (formerly `phobos.sys`).
 
 ## License
 
-Boost Software License 1.0; see [LICENSE_1_0.txt](LICENSE_1_0.txt).
+Mozilla Public License 2.0; see [LICENSE](LICENSE) and [NOTICE](NOTICE). The original
+Phobos files stay under the Boost Software License 1.0
+([LICENSE_1_0.txt](LICENSE_1_0.txt)).

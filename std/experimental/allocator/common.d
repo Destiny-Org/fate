@@ -556,6 +556,15 @@ version (StdUnittest)
 
         auto a = make();
 
+        // give each test block back, for allocators that take blocks back
+        // (regions and the like release everything when they go away)
+        static void release(Al)(ref Al al, void[] b)
+        {
+            static if (__traits(compiles, al.deallocate(b)))
+                if (b !is null)
+                    al.deallocate(b);
+        }
+
         // Test alignment
         static assert(A.alignment.isPowerOf2);
 
@@ -569,8 +578,10 @@ version (StdUnittest)
         assert(a.allocate(0) is null);
 
         auto b1 = a.allocate(1);
+        scope (exit) release(a, b1);
         assert(b1.length == 1);
         auto b2 = a.allocate(2);
+        scope (exit) release(a, b2);
         assert(b2.length == 2);
         assert(b2.ptr + b2.length <= b1.ptr || b1.ptr + b1.length <= b2.ptr);
 
@@ -578,6 +589,7 @@ version (StdUnittest)
         static if (__traits(hasMember, A, "allocateZeroed"))
         {{
             auto b3 = a.allocateZeroed(8);
+            scope (exit) release(a, b3);
             if (b3 !is null)
             {
                 assert(b3.length == 8);
@@ -609,13 +621,16 @@ version (StdUnittest)
         static if (__traits(hasMember, A, "allocateAll"))
         {{
              auto aa = make();
-             if (aa.allocateAll().ptr)
+             auto all = aa.allocateAll();
+             scope (exit) release(aa, all);
+             if (all.ptr)
              {
                  // Can't get any more memory
                  assert(!aa.allocate(1).ptr);
              }
              auto ab = make();
-             const b4 = ab.allocateAll();
+             auto b4 = ab.allocateAll();
+             scope (exit) release(ab, b4);
              assert(b4.length);
              // Can't get any more memory
              assert(!ab.allocate(1).ptr);
@@ -638,6 +653,7 @@ version (StdUnittest)
          }}
 
         void[] b6 = null;
+        scope (exit) release(a, b6);
         assert(a.reallocate(b6, 0));
         assert(b6.length == 0);
         assert(a.reallocate(b6, 1));
@@ -713,9 +729,13 @@ version (StdUnittest)
         // Test allocate
         assert(a.allocate(0) is null);
 
+        // give each test block back (deallocate is a no-op returning false
+        // for allocators that cannot take blocks back)
         auto b1 = a.allocate(1);
+        scope (exit) a.deallocate(b1);
         assert(b1.length == 1);
         auto b2 = a.allocate(2);
+        scope (exit) a.deallocate(b2);
         assert(b2.length == 2);
         assert(b2.ptr + b2.length <= b1.ptr || b1.ptr + b1.length <= b2.ptr);
 
@@ -723,6 +743,7 @@ version (StdUnittest)
         {
             // If not implemented it will return null, so those should pass
             auto b3 = a.alignedAllocate(1, 256);
+            scope (exit) a.deallocate(b3);
             assert(b3.length <= 1);
             assert(b3.ptr.alignedAt(256));
             if (a.alignedReallocate(b3, 1, 256))
@@ -743,11 +764,12 @@ version (StdUnittest)
                 assert(!a.allocate(1).ptr);
                 a.deallocate(aa);
             }
-            const b4 = a.allocateAll();
+            auto b4 = a.allocateAll();
             if (b4.ptr)
             {
                 // Can't get any more memory
                 assert(!a.allocate(1).ptr);
+                a.deallocate(b4);
             }
         }
 
@@ -762,6 +784,7 @@ version (StdUnittest)
         }
 
         void[] b6 = null;
+        scope (exit) a.deallocate(b6);
         assert(a.reallocate(b6, 0));
         assert(b6.length == 0);
         assert(a.reallocate(b6, 1));

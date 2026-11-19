@@ -411,6 +411,7 @@ struct AffixAllocator(Allocator, Prefix, Suffix = void)
     // One word before and after each allocation.
     alias A = AffixAllocator!(Mallocator, size_t, size_t);
     auto b = A.instance.allocate(11);
+    scope (exit) A.instance.deallocate(b);
     A.instance.prefix(b) = 0xCAFE_BABE;
     A.instance.suffix(b) = 0xDEAD_BEEF;
     assert(A.instance.prefix(b) == 0xCAFE_BABE
@@ -473,6 +474,7 @@ version (StdUnittest)
     auto b = A.instance.allocate(10);
     A.instance.prefix(b) = 10;
     assert(A.instance.prefix(b) == 10);
+    A.instance.deallocate(b);
 
     import std.experimental.allocator.building_blocks.null_allocator
         : NullAllocator;
@@ -556,6 +558,7 @@ version (StdUnittest)
 
     SharedAllocT a = SharedAllocT(processAllocator);
     auto buf = a.allocate(10);
+    scope (exit) a.deallocate(buf);
     static assert(is(typeof(a.allocate) == shared));
     assert(buf.length == 10);
 }

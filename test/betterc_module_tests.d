@@ -19,7 +19,8 @@ void testModule(string modname)()
     }
 }
 
-extern(C) int main()
+// @system: it runs each module's unit tests, and some are @system
+extern(C) int main() @system
 {
     static foreach (modname; bettercModules)
     {

@@ -141,7 +141,9 @@ private mixin template BitmappedBlockImpl(bool isShared, bool multiBlock)
                 _control[] = 0;
             }
 
-            _payload = cast(typeof(_payload)) payload;
+            // only the bytes the blocks cover: allocateAll returns the whole
+            // payload, and deallocate counts blocks from a block's length
+            _payload = cast(typeof(_payload)) payload[0 .. localBlocks * blockSize];
             break;
         }
 
@@ -2056,8 +2058,10 @@ version (StdUnittest)
         int iter = 0;
 
         ubyte[] payload = cast(ubyte[]) Mallocator.instance.allocate(blocks * 16);
+        scope (exit) Mallocator.instance.deallocate(payload);
         auto a = Allocator(payload);
         void[][] buf = cast(void[][]) Mallocator.instance.allocate((void[]).sizeof * blocks);
+        scope (exit) Mallocator.instance.deallocate(buf);
 
         auto rnd = Random();
         while (iter < blocks)

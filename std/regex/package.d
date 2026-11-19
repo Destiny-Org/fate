@@ -107,7 +107,7 @@ They met on 24/01/1970.
   }
   ---
   )
-  See_Also: $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/statement.dd, `IfCondition`).
+  See_Also: $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/statement.ddd, `IfCondition`).
 
   $(SECTION Syntax and general information)
   The general usage guideline is to keep regex complexity on the side of simplicity,

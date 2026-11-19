@@ -667,6 +667,7 @@ struct BorrowedRegion(uint minAlign = platformAlignment,
     import std.typecons : Ternary;
 
     ubyte[] buf = cast(ubyte[]) AlignedMallocator.instance.alignedAllocate(64, 64);
+    scope (exit) AlignedMallocator.instance.deallocate(buf); // a borrowed region does not own its buffer
     auto reg = BorrowedRegion!(64, Yes.growDownwards)(buf);
     assert(reg.alignedAllocate(10, 32).length == 10);
     assert(!reg.available);

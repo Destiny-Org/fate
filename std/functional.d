@@ -2027,7 +2027,7 @@ private template buildDelegate(F)
 /**
  * Passes the fields of a struct as arguments to a function.
  *
- * Can be used with a $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/expression.dd,
+ * Can be used with a $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/expression.ddd,
  * function literal) to give temporary names to the fields of a struct or
  * tuple.
  *
@@ -2190,7 +2190,7 @@ template bind(alias fun)
  * Params:
  *   expr = expression to evaluate
  * See_also:
- *   $(LINK https://github.com/Destiny-Org/destiny/blob/main/spec/function.dd)
+ *   $(LINK https://github.com/Destiny-Org/destiny/blob/main/spec/function.ddd)
  */
 enum ctEval(alias expr) = expr;
 

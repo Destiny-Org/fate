@@ -29,4 +29,4 @@ and of course you can link to other $(LINK2 https://github.com/Destiny-Org/desti
 ```
 
 The title can't contain links (it's already one).
-For more infos, see the [Ddoc spec](https://github.com/Destiny-Org/destiny/blob/main/spec/ddoc.dd).
+For more infos, see the [Ddoc spec](https://github.com/Destiny-Org/destiny/blob/main/spec/ddoc.ddd).

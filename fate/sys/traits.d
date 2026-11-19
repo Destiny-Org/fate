@@ -1517,7 +1517,7 @@ enum isPointer(T) = is(T == U*, U);
     be done with naked is expressions.
 
     See_Also:
-        $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/expression.dd, Spec on the related is expression)
+        $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/expression.ddd, Spec on the related is expression)
   +/
 enum isType(T) = true;
 
@@ -2221,7 +2221,7 @@ if (is(E == enum))
     template predicates.
 
     See_Also:
-        $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/type.dd, Spec on implicit conversions)
+        $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/type.ddd, Spec on implicit conversions)
         $(DDSUBLINK spec/const3, implicit_qualifier_conversions, Spec for implicit qualifier conversions)
         $(LREF isQualifierConvertible)
   +/
@@ -2627,7 +2627,7 @@ template isQualifierConvertible(From)
     alias Types = AliasSeq!(int, const int, shared int, inout int, const shared int,
                             const inout int, inout shared int, const inout shared int, immutable int);
 
-    // https://github.com/Destiny-Org/destiny/blob/main/spec/const3.dd
+    // https://github.com/Destiny-Org/destiny/blob/main/spec/const3.ddd
     enum _ = 0;
     static immutable bool[Types.length][Types.length] conversions = [
     //   m   c   s   i   cs  ci  is  cis im

@@ -383,6 +383,9 @@ version (StdUnittest)
     alias a = FallbackAllocator!(Mallocator, Mallocator).instance;
 
     auto b = a.allocate(42);
+    // the primary has no `owns`, so the fallback has no deallocate; the
+    // block is the primary's
+    scope (exit) Mallocator.instance.deallocate(b);
     assert(b.length == 42);
     assert((() nothrow @nogc => a.reallocate(b, 100))());
     assert(b.length == 100);

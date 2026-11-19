@@ -956,7 +956,8 @@ private template fqnType(T,
         // Function types + function attributes
         static assert(fqn!(typeof(func)) == format("const(%s[string])(ref %s, scope lazy string) ref @safe",
                     inner_name, inner_name));
-        static assert(fqn!(typeof(retfunc)) == format("const(%s[string])(return %s) ref @safe", inner_name, inner_name));
+        static assert(fqn!(typeof(retfunc)) ==
+            format("const(%s[string])(return %s) ref @safe", inner_name, inner_name));
         static assert(fqn!(typeof(inoutFunc)) == format("inout(%s(inout(%s)) @safe)", inner_name, inner_name));
         static assert(fqn!(typeof(deleg)) == format("const(%s delegate(double, string) nothrow @safe)", inner_name));
         static assert(fqn!(typeof(inoutDeleg)) == "inout(int) delegate(inout(int)) inout");
@@ -5184,7 +5185,7 @@ enum bool isQualifierConvertible(From, To) =
     alias Ts = AliasSeq!(int, const int, shared int, inout int, const shared int,
         const inout int, inout shared int, const inout shared int, immutable int);
 
-    // https://github.com/Destiny-Org/destiny/blob/main/spec/const3.dd
+    // https://github.com/Destiny-Org/destiny/blob/main/spec/const3.ddd
     enum _ = 0;
     static immutable bool[Ts.length][Ts.length] conversions = [
     //   m   c   s   i   cs  ci  is  cis im
@@ -6232,7 +6233,7 @@ enum bool isBoolean(T) = __traits(isUnsigned, T) && is(T : bool);
  * Returns:
  *      `true` if `T` is an integral type
  * Note:
- *      this is not the same as $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/traits.dd, `__traits(isIntegral)`)
+ *      this is not the same as $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/traits.ddd, `__traits(isIntegral)`)
  */
 template isIntegral(T)
 {

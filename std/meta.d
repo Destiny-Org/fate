@@ -883,7 +883,7 @@ version (StdUnittest)
  *
  * Params:
  *     iter = the entity to convert into an `AliasSeq`. It must be able to be able to be iterated over using
- *            a $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/statement.dd, foreach-statement).
+ *            a $(LINK2 https://github.com/Destiny-Org/destiny/blob/main/spec/statement.ddd, foreach-statement).
  *
  * Returns:
  *     An `AliasSeq` containing the values produced by iterating over `iter`.

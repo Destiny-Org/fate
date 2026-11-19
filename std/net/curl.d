@@ -2403,10 +2403,11 @@ struct HTTP
     {
         @system ~this()
         {
-            if (headersOut !is null)
-                Curl.curl.slist_free_all(headersOut);
             if (curl.handle !is null) // work around RefCounted/emplace bug
                 curl.shutdown();
+            // libcurl reads the header list until the handle is gone
+            if (headersOut !is null)
+                Curl.curl.slist_free_all(headersOut);
         }
         Curl curl;
         curl_slist* headersOut;
@@ -2563,8 +2564,13 @@ struct HTTP
             cur = cur.next;
         }
         copy.p.headersOut = newlist;
+        // swap the handle initialize() made for a duplicate of ours (shut
+        // it down first, or it leaks), then point the duplicate at the
+        // copy's own header list instead of ours
+        auto handle = p.curl.dup();
+        copy.p.curl.shutdown();
+        copy.p.curl = handle;
         copy.p.curl.set(CurlOption.httpheader, copy.p.headersOut);
-        copy.p.curl = p.curl.dup();
         copy.dataTimeout = _defaultDataTimeout;
         copy.onReceiveHeader = null;
         return copy;
@@ -3361,10 +3367,11 @@ struct FTP
     {
         @system ~this()
         {
-            if (commands !is null)
-                Curl.curl.slist_free_all(commands);
             if (curl.handle !is null) // work around RefCounted/emplace bug
                 curl.shutdown();
+            // libcurl reads the command list until the handle is gone
+            if (commands !is null)
+                Curl.curl.slist_free_all(commands);
         }
         curl_slist* commands;
         Curl curl;
@@ -3395,10 +3402,14 @@ struct FTP
     ///
     @system FTP dup()
     {
-        FTP copy = FTP();
+        FTP copy;
         copy.initialize();
         copy.p.encoding = p.encoding;
-        copy.p.curl = p.curl.dup();
+        // swap the handle initialize() made for a duplicate of ours (shut
+        // it down first, or it leaks)
+        auto handle = p.curl.dup();
+        copy.p.curl.shutdown();
+        copy.p.curl = handle;
         curl_slist* cur = p.commands;
         curl_slist* newlist = null;
         while (cur)
@@ -3737,6 +3748,16 @@ struct FTP
     }
 }
 
+@system unittest
+{
+    // dup made the copy initialize twice, so it always threw, and it leaked
+    // the handle it replaced
+    auto ftp = FTP();
+    auto copy = ftp.dup();
+    assert(copy.handle.handle !is null);
+    assert(copy.handle.handle !is ftp.handle.handle);
+}
+
 /**
   * Basic SMTP protocol support.
   *
@@ -3767,8 +3788,13 @@ struct SMTP
         {
             if (curl.handle !is null) // work around RefCounted/emplace bug
                 curl.shutdown();
+            // libcurl reads the recipient list until the transfer is over,
+            // so it is freed only once the handle is gone
+            if (recipients !is null)
+                Curl.curl.slist_free_all(recipients);
         }
         Curl curl;
+        curl_slist* recipients; // the list set as CurlOption.mail_rcpt
 
         @system @property void message(string msg)
         {
@@ -4066,6 +4092,10 @@ struct SMTP
                                   recipient.tempCString().buffPtr);
         }
         p.curl.set(CurlOption.mail_rcpt, recipients_list);
+        // the handle now uses the new list; the old one can go
+        if (p.recipients !is null)
+            Curl.curl.slist_free_all(p.recipients);
+        p.recipients = recipients_list;
     }
 
     /**
@@ -5171,6 +5201,9 @@ static:
 
         static if ( is(Conn : HTTP) )
         {
+            // the duplicate handle reads this header list; it goes to the
+            // worker with the handle (connDup must not free it)
+            auto optionList = connDup.p.headersOut;
             connDup.p.headersOut = null;
             connDup.method = conn.method == HTTP.Method.undefined ?
                 HTTP.Method.get : conn.method;
@@ -5193,13 +5226,19 @@ static:
             }
             tid.send(cast(ulong) connDup.handle.handle);
             tid.send(connDup.method);
+            tid.send(cast(ulong) optionList);
         }
         else
         {
             enforce!CurlException(postData is null,
                                     "Cannot put ftp data using byLineAsync()");
+            // the duplicate handle reads this command list; it goes to the
+            // worker with the handle (connDup must not free it)
+            auto optionList = connDup.p.commands;
+            connDup.p.commands = null;
             tid.send(cast(ulong) connDup.handle.handle);
             tid.send(HTTP.Method.undefined);
+            tid.send(cast(ulong) optionList);
         }
         connDup.p.curl.handle = null; // make sure handle is not freed
     }
@@ -5211,7 +5250,7 @@ static:
     private static void spawn(Conn, Unit, Terminator = void)()
     {
         import std.concurrency : Tid, prioritySend, receiveOnly, send, thisTid;
-        import etc.c.curl : CURL, CurlError;
+        import etc.c.curl : CURL, CurlError, curl_slist;
         Tid fromTid = receiveOnly!Tid();
 
         // Get buffer to read into
@@ -5243,10 +5282,21 @@ static:
         // no move semantic available in std.concurrency ie. must use casting.
         auto connDup = cast(CURL*) receiveOnly!ulong();
         auto client = Conn();
+        // adopt the sent handle in place of the one Conn() made
+        client.p.curl.shutdown();
+        client.p.curl._stopped = false;
         client.p.curl.handle = connDup;
 
         // receive a method for both ftp and http but just use it for http
         auto method = receiveOnly!(HTTP.Method)();
+
+        // the handle's header (http) or command (ftp) list; client frees it
+        // after the handle, when it goes away
+        auto optionList = cast(curl_slist*) receiveOnly!ulong();
+        static if ( is(Conn == HTTP) )
+            client.p.headersOut = optionList;
+        else
+            client.p.commands = optionList;
 
         client.onReceive = (ubyte[] data)
         {

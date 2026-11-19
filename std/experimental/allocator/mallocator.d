@@ -111,6 +111,9 @@ struct Mallocator
         Object p = null;
         p = A.instance.make!Object();
         assert(p !is null);
+        // Object has nothing to destroy; give the memory back (dispose would
+        // call a destructor that is not @nogc pure)
+        A.instance.deallocate((cast(void*) p)[0 .. __traits(classInstanceSize, Object)]);
     }
 
     test!Mallocator();
