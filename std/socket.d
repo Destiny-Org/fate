@@ -1292,7 +1292,7 @@ abstract class Address
     abstract @property const(sockaddr)* name() const pure nothrow @nogc; /// ditto
 
     /// Returns actual size of underlying `sockaddr` structure.
-    abstract @property socklen_t nameLen() const pure nothrow @nogc;
+    abstract @property socklen_t nameLen() const scope pure nothrow @nogc; // Destiny: scope, it only returns a length
 
     // Socket.remoteAddress, Socket.localAddress, and Socket.receiveFrom
     // use setNameLen to set the actual size of the address as returned by
@@ -1464,7 +1464,7 @@ public:
     }
 
 
-    override @property socklen_t nameLen() const
+    override @property socklen_t nameLen() const scope
     {
         return cast(socklen_t) sa.sizeof;
     }
@@ -1508,7 +1508,7 @@ public:
     }
 
 
-    override @property socklen_t nameLen() const
+    override @property socklen_t nameLen() const scope
     {
         return cast(socklen_t) len;
     }
@@ -1544,7 +1544,7 @@ public:
     }
 
 
-    override @property socklen_t nameLen() const
+    override @property socklen_t nameLen() const scope
     {
         return cast(socklen_t) sin.sizeof;
     }
@@ -1802,7 +1802,7 @@ public:
     }
 
 
-    override @property socklen_t nameLen() const
+    override @property socklen_t nameLen() const scope
     {
         return cast(socklen_t) sin6.sizeof;
     }
@@ -2012,7 +2012,7 @@ version (StdDdoc)
 
         override @property sockaddr* name() { return null; }
         override @property const(sockaddr)* name() const { return null; }
-        override @property socklen_t nameLen() const { return 0; }
+        override @property socklen_t nameLen() const scope { return 0; }
     }
 }
 else version (CRuntime_WASI)
@@ -2060,7 +2060,7 @@ static if (is(sockaddr_un))
             return cast(const(sockaddr)*)&sun;
         }
 
-        override @property socklen_t nameLen() @trusted const
+        override @property socklen_t nameLen() @trusted const scope
         {
             return _nameLen;
         }

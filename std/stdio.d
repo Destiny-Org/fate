@@ -3358,22 +3358,23 @@ is empty, throws an `Exception`. In case of an I/O error throws
     public:
         // Don't use this, but `File.lockingBinaryWriter()` instead.
         // Must be public for RefCounted and emplace() in druntime.
-        this(scope ref File f)
+        this(ref File f) // Destiny: not scope, the writer keeps (a counted copy of) f
         {
             import std.exception : enforce;
             file_ = f;
             enforce(f._p && f._p.handle);
             name = f._name;
             FILE* fps = f._p.handle;
+            // Destiny: fps was checked non-null above; locking it is memory safe
             static if (locking)
-                _FLOCK(fps);
+                () @trusted { _FLOCK(fps); }();
 
-            version (Windows)
+            version (Windows) () @trusted
             {
                 .fflush(fps); // before changing translation mode
                 fd = .fileno(fps);
                 oldMode = ._setmode(fd, _O_BINARY);
-            }
+            }();
         }
 
         ~this()
@@ -3383,13 +3384,13 @@ is empty, throws an `Exception`. In case of an I/O error throws
 
             FILE* fps = file_._p.handle;
 
-            version (Windows)
+            version (Windows) () @trusted
             {
                 .fflush(fps); // before restoring translation mode
                 ._setmode(fd, oldMode);
-            }
+            }();
 
-            _FUNLOCK(fps);
+            () @trusted { _FUNLOCK(fps); }(); // fps checked non-null above
         }
 
         void rawWrite(T)(in T[] buffer)
@@ -3419,7 +3420,7 @@ is empty, throws an `Exception`. In case of an I/O error throws
             {
                 if (auto p = file_._p)
                 {
-                    if (p.handle) _FLOCK(p.handle);
+                    if (p.handle) () @trusted { _FLOCK(p.handle); }();
                 }
             }
         }
@@ -3428,7 +3429,8 @@ is empty, throws an `Exception`. In case of an I/O error throws
         if (!hasIndirections!T &&
             !isInputRange!T)
         {
-            rawWrite((&value)[0 .. 1]);
+            // a one-element view of value; rawWrite only reads it
+            rawWrite((() @trusted => (&value)[0 .. 1])());
         }
 
         void put(T)(scope const(T)[] array)
@@ -5319,6 +5321,17 @@ void toFile(T)(T data, string fileName)
 if (is(typeof(copy(data, stdout.lockingBinaryWriter))))
 {
     copy(data, File(fileName, "wb").lockingBinaryWriter);
+}
+
+// Destiny: toFile is usable from @safe code
+@safe unittest
+{
+    static import std.file;
+
+    auto deleteme = testFilename();
+    scope(exit) std.file.remove(deleteme);
+    "safe".toFile(deleteme);
+    assert(std.file.readText(deleteme) == "safe");
 }
 
 @system unittest

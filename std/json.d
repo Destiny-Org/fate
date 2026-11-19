@@ -159,7 +159,7 @@ struct JSONValue
     /**
       Returns the JSONType of the value stored in this structure.
     */
-    @property JSONType type() const pure nothrow @safe @nogc
+    @property JSONType type() const scope pure nothrow @safe @nogc // Destiny: scope
     {
         return type_tag;
     }
@@ -207,7 +207,7 @@ struct JSONValue
      * Throws: `JSONException` for read access if `type` is not
      * `JSONType.integer`.
      */
-    @property long integer() const pure @safe
+    @property long integer() const scope pure @safe
     {
         enforce!JSONException(type == JSONType.integer,
                                 "JSONValue is not an integer");
@@ -225,7 +225,7 @@ struct JSONValue
      * Throws: `JSONException` for read access if `type` is not
      * `JSONType.uinteger`.
      */
-    @property ulong uinteger() const pure @safe
+    @property ulong uinteger() const scope pure @safe
     {
         enforce!JSONException(type == JSONType.uinteger,
                                 "JSONValue is not an unsigned integer");
@@ -244,7 +244,7 @@ struct JSONValue
      * Throws: `JSONException` for read access if `type` is not
      * `JSONType.float_`.
      */
-    @property double floating() const pure @safe
+    @property double floating() const scope pure @safe
     {
         enforce!JSONException(type == JSONType.float_,
                                 "JSONValue is not a floating type");
@@ -262,7 +262,7 @@ struct JSONValue
      * Throws: `JSONException` for read access if `this.type` is not
      * `JSONType.true_` or `JSONType.false_`.
      */
-    @property bool boolean() const pure @safe
+    @property bool boolean() const scope pure @safe
     {
         if (type == JSONType.true_) return true;
         if (type == JSONType.false_) return false;
